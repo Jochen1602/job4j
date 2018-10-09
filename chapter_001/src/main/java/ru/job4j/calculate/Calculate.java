@@ -5,7 +5,7 @@ package ru.job4j.calculate;
 *@since  09.10.2018
 ***/
 
-public class Calculate{
+public class Calculate {
 /**
 * Method echo.
 * @param name Your name.
