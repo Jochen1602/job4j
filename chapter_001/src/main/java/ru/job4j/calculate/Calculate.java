@@ -1,6 +1,6 @@
 package ru.job4j.calculate;
 /***
-*Class Calculate решение задачи 001 урок 1
+*Class Calculate СЂРµС€РµРЅРёРµ Р·Р°РґР°С‡Рё 001 СѓСЂРѕРє 1
 *@author antontokarev
 *@since  09.10.2018
 ***/
@@ -8,7 +8,7 @@ package ru.job4j.calculate;
 public class Calculate{
 
 /***
-*Њетод, выводЯщий в консоль Hello world
+*РњРµС‚РѕРґ, РІС‹РІРѕРґСЏС‰РёР№ РІ РєРѕРЅСЃРѕР»СЊ Hello world
 *@param arg - arg
 ***/
 public static void main(String[] args) {
