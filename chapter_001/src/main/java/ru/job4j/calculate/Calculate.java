@@ -8,7 +8,7 @@ package ru.job4j.calculate;
 public class Calculate{
 
 /***
-*ћетод, вывод€щий в консоль Hello world
+*Метод, выводящий в консоль Hello world
 *@param arg - arg
 ***/
 public static void main(String[] args) {
