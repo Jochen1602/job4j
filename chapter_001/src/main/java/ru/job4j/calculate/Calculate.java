@@ -2,7 +2,7 @@ package ru.job4j.calculate;
 /***
 *Class Calculate решение задачи 001 урок 1
 *@author antontokarev
-*@since 09.10.2018
+*@since  09.10.2018
 ***/
 
 public class Calculate{
