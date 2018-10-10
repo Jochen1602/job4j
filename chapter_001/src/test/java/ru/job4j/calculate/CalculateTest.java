@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 */
 public class CalculateTest {
 /**
-* Test echo.
+* Test of calculator (3.1. Элементарный калькулятор.).
 */
 @Test
 public void whenTakeNameThenTreeEchoPlusName() {
