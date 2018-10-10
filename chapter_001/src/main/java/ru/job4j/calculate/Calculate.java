@@ -1,9 +1,10 @@
 package ru.job4j.calculate;
+
 /***
-*Class Calculate решение задачи 3.1. Элементарный калькулятор.
-*@author antontokarev
-*@since 09.10.2018
-***/
+ *Class Calculate решение задачи 3.1. Элементарный калькулятор.
+ *@author antontokarev
+ *@since 09.10.2018
+ ***/
 
 public class Calculate {
     private double result;
