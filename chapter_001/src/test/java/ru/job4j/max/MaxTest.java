@@ -16,4 +16,11 @@ public class MaxTest {
         int result = max.max(1, 2);
         assertThat(result, is(2));
     }
+
+    @Test
+    public void whenNumbersAreTwoThreeAndOneMaxIsThree() {
+        Max max = new Max();
+        int result = max.max(2, 3, 1);
+        assertThat(result, is(3));
+    }
 }
