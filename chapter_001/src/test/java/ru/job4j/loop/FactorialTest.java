@@ -18,4 +18,10 @@ public class FactorialTest {
         int result = factorial.calc(5);
         assertThat(result, is(120));
     }
+    @Test
+    public void TheFactorialOf0Is1() {
+        Factorial factorial = new Factorial();
+        int result = factorial.calc(0);
+        assertThat(result, is(1));
+    }
 }
