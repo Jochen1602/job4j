@@ -1,15 +1,15 @@
 package ru.job4j.loop;
 
-/**
- *Class Max тестирование задачи 5.1. Подсчет суммы чётных чисел в диапазоне
- *@author antontokarev
- *@since 12.10.2018
- */
-
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+
+/**
+ *Class CounterTest тестирование задачи 5.1. Подсчет суммы чётных чисел в диапазоне
+ *@author antontokarev
+ *@since 12.10.2018
+ */
 
 public class CounterTest {
     @Test
