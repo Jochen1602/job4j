@@ -2,6 +2,7 @@ package ru.job4j.loop;
 
 import org.junit.Test;
 
+import java.util.StringJoiner;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -13,17 +14,50 @@ import static org.junit.Assert.assertThat;
 
 public class PaintTest {
     @Test
-    public void whenPiramidHasHeight3() {
+    public void whenPyramid4Left() {
         Paint paint = new Paint();
-        String ln = System.lineSeparator();
-        String result = paint.pyramid(3);
-        assertThat(result, is(String.format("  ^  %s ^^^ %s^^^^^%s", ln, ln, ln)));
+        String rst = paint.leftTrl(4);
+        assertThat(rst,
+                is(
+                        new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
+                                .add("   ^")
+                                .add("  ^^")
+                                .add(" ^^^")
+                                .add("^^^^")
+                                .toString()
+                )
+        );
     }
+
     @Test
-    public void whenPiramidHasHeight4() {
+    public void whenPyramid4Right() {
         Paint paint = new Paint();
-        String ln = System.lineSeparator();
-        String result = paint.pyramid(4);
-        assertThat(result, is(String.format("   ^   %s  ^^^  %s ^^^^^ %s^^^^^^^%s", ln, ln, ln, ln)));
+        String rst = paint.rightTrl(4);
+        assertThat(rst,
+                is(
+                        new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
+                                .add("^   ")
+                                .add("^^  ")
+                                .add("^^^ ")
+                                .add("^^^^")
+                                .toString()
+                )
+        );
+    }
+
+    @Test
+    public void whenPyramid4Height() {
+        Paint paint = new Paint();
+        String rst = paint.pyramid(4);
+        assertThat(rst,
+                is(
+                        new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
+                                .add("   ^   ")
+                                .add("  ^^^  ")
+                                .add(" ^^^^^ ")
+                                .add("^^^^^^^")
+                                .toString()
+                )
+        );
     }
 }
