@@ -18,10 +18,12 @@ public class ArrayChar {
      */
     public boolean startWith(String prefix) {
         char[] value = prefix.toCharArray();
-        for (int i = 0; i < value.length; i++) {
-            if(value[i] != data[i])
-                return false;
-        }
-        return true;
+        boolean result = true;
+        for (int i = 0; i < value.length; i++)
+            if(value[i] != data[i]) {
+                result = false;
+                break;
+            }
+        return result;
     }
 }
