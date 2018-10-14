@@ -10,10 +10,12 @@ public class Check {
      * @return true если все одинаковые, false в противном случае.
      */
     public boolean mono(boolean[] data) {
-        //IDEA предложила заменить мой for на foreach
+        boolean result = true;
         for (boolean aData : data)
-            if (data[0] != aData)
-                return false;
-        return true;
+            if (data[0] != aData) {
+                result = false;
+                break;
+            }
+        return result;
     }
 }
