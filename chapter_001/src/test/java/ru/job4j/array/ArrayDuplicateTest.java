@@ -17,8 +17,17 @@ public class ArrayDuplicateTest {
         String[] expect = new String[] {"Bob", "Alf", "Georg"};
         String[] result = arrayDuplicate.remove(input);
         assertThat(result, is(expect));
-    }    @Test
+    }
+    @Test
+    public void whenRemoveDuplicatesThenArrayWithDuplicate2() {
+        ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
+        String[] input = new String[] {"Bob", "Alf", "Alf", "Georg", "Bob", "Alf", "Bob", "Georg"};
+        String[] expect = new String[] {"Bob", "Alf", "Georg"};
+        String[] result = arrayDuplicate.remove(input);
+        assertThat(result, is(expect));
+    }
 
+    @Test
     public void whenRemoveDuplicatesThenArrayWithoutDuplicate() {
         ArrayDuplicate arrayDuplicate = new ArrayDuplicate();
         String[] input = new String[] {"Bob", "Alf", "Georg", "Bobby", "Alfred"};

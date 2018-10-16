@@ -12,22 +12,17 @@ public class ArrayDuplicate {
      * @return массив без дубликатов.
      */
     public String[] remove(String[] array) {
-        int num = 0;
+        int k = array.length;
         String buf;
-        for (int j = 1; j < array.length; j++) {
+        for (int j = 1; j < k; j++) {
             for (int i = 0; i < j; i++) {
                 if (array[i].equals(array[j])) {
-                    num++;
                     buf = array[j];
-                    for (int k = j; k < array.length - 1; k++)
-                        array[k] = array[k + 1];
-                    array[array.length - 1] = buf;
-                    i = 0;
+                    array[j--] = array[k - 1];
+                    array[k-- - 1] = buf;
                 }
-                if (num + j + 1 >= array.length)
-                    break;
             }
         }
-        return Arrays.copyOf(array, array.length - num);
+        return Arrays.copyOf(array, k);
     }
 }
