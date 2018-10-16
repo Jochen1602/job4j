@@ -94,7 +94,7 @@ public class Logic {
         return result;
     }
     //ставит 1 там, где мувабл клетки
-    private int[][] convert() {
+    public int[][] convert() {
         int[][] table = new int[this.size][this.size];
         for (int row = 0; row != table.length; row++) {
             for (int cell = 0; cell != table.length; cell++) {
