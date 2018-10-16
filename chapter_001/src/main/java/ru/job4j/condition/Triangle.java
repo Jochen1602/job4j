@@ -1,11 +1,10 @@
 package ru.job4j.condition;
 
 /**
- *Class Max решение задачи 4.3. Вычисление площади треугольника.
+ *Class Triangle решение задачи 4.3. Вычисление площади треугольника.
  *@author antontokarev
  *@since 11.10.2018
  */
-
 public class Triangle {
     private Point a;
     private Point b;
@@ -52,16 +51,12 @@ public class Triangle {
      */
     public double area() {
         double result = -1;
-
         double ab = this.a.distanceTo(this.b);
         double bc = this.b.distanceTo(this.c);
         double ca = this.c.distanceTo(this.a);
-
         double p = this.period(ab, bc, ca);
-
-        if (this.exist(ab, bc, ca)) {
+        if (this.exist(ab, bc, ca))
             result = Math.sqrt(p * (p - ab) * (p - bc) * (p - ca));
-        }
         return result;
     }
 }

@@ -4,7 +4,6 @@ package ru.job4j.array;
  *@author antontokarev
  *@since 16.10.2018
  */
-
 public class MassivesAddition {
     int[] result (int[] first, int[] second) {
         int[] res = new int[first.length + second.length];
@@ -19,14 +18,10 @@ public class MassivesAddition {
             }
         k++;
         }
-        //к этому моменту мы полностью отработали только один массив
-        //проверим где ещё что-то осталось и внесём всем скопом
         while (i < first.length)
             res[k++] = first[i++];
-
         while (j < second.length)
             res[k++] = second[j++];
-
         return res;
     }
 }

@@ -4,7 +4,6 @@ package ru.job4j.loop;
  *@author antontokarev
  *@since 12.10.2018
  */
-
 public class Factorial {
     private int result = 1;
 

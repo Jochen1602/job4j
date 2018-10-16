@@ -6,7 +6,6 @@ import java.util.function.BiPredicate;
  *@author antontokarev
  *@since 12.10.2018
  */
-
 public class Paint {
     /**построение правой пирамиды.
      * @param height - высота пирамиды.

@@ -1,11 +1,10 @@
 package ru.job4j.loop;
 
 /**
- *Class Max решение задачи 5.1. Подсчет суммы чётных чисел в диапазоне.
+ *Class Counter решение задачи 5.1. Подсчет суммы чётных чисел в диапазоне.
  *@author antontokarev
  *@since 12.10.2018
  */
-
 public class Counter {
 
     private int sum;
