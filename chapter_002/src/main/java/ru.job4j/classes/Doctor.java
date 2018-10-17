@@ -5,5 +5,5 @@ package ru.job4j.classes;
  *@since 16.10.2018
  */
 public class Doctor extends Professions {
-    public void heal (Patient patient) { }
+    public Diagnose heal(Patient patient) { return new Diagnose();}
 }
