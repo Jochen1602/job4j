@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 public class BoardTest {
     @Test
-    public void WhenTheBoardIs3On4() {
+    public void whenTheBoardIs3On4() {
         Board board = new Board();
         String result = board.paint(3, 4);
         String ln = System.lineSeparator();

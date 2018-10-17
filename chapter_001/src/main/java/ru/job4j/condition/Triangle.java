@@ -55,8 +55,9 @@ public class Triangle {
         double bc = this.b.distanceTo(this.c);
         double ca = this.c.distanceTo(this.a);
         double p = this.period(ab, bc, ca);
-        if (this.exist(ab, bc, ca))
+        if (this.exist(ab, bc, ca)) {
             result = Math.sqrt(p * (p - ab) * (p - bc) * (p - ca));
+        }
         return result;
     }
 }

@@ -77,10 +77,12 @@ public class Logic {
                         x = row;
                         y = cell;
                     }
-                    if (row == x)
+                    if (row == x) {
                         i++;
-                    if (cell == y)
+                    }
+                    if (cell == y) {
                         j++;
+                    }
                 }
             }
         }

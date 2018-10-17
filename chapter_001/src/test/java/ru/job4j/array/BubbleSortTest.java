@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
  */
 public class BubbleSortTest {
     @Test
-    public void MassiveOf97215TurnsTo12579() {
+    public void massiveOf97215TurnsTo12579() {
         BubbleSort bubbleSort = new BubbleSort();
         int[] input = new int[] {9, 7, 2, 1, 5};
         int[] result = bubbleSort.sort(input);
@@ -19,7 +19,7 @@ public class BubbleSortTest {
     }
 
     @Test
-    public void MassiveOf865321TurnsTo123568() {
+    public void massiveOf865321TurnsTo123568() {
         BubbleSort bubbleSort = new BubbleSort();
         int[] input = new int[] {8, 6, 5, 3, 2, 1};
         int[] result = bubbleSort.sort(input);

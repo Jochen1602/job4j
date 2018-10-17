@@ -5,7 +5,7 @@ package ru.job4j.array;
  *@since 16.10.2018
  */
 public class MassivesAddition {
-    int[] result (int[] first, int[] second) {
+    int[] result(int[] first, int[] second) {
         int[] res = new int[first.length + second.length];
         int i = 0, j = 0, k = 0;
         while (i < first.length && j < second.length) {
@@ -13,15 +13,17 @@ public class MassivesAddition {
                 res[k] = first[i];
                 i++;
             } else {
-                res[i+j] = second[j];
+                res[i + j] = second[j];
                 j++;
             }
         k++;
         }
-        while (i < first.length)
+        while (i < first.length) {
             res[k++] = first[i++];
-        while (j < second.length)
+        }
+        while (j < second.length) {
             res[k++] = second[j++];
+        }
         return res;
     }
 }

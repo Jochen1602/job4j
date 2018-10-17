@@ -13,13 +13,13 @@ import static org.junit.Assert.assertThat;
 
 public class FactorialTest {
     @Test
-    public void TheFactorialOf5Is120() {
+    public void theFactorialOf5Is120() {
         Factorial factorial = new Factorial();
         int result = factorial.calc(5);
         assertThat(result, is(120));
     }
     @Test
-    public void TheFactorialOf0Is1() {
+    public void theFactorialOf0Is1() {
         Factorial factorial = new Factorial();
         int result = factorial.calc(0);
         assertThat(result, is(1));

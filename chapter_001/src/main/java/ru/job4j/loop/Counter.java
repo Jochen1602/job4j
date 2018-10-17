@@ -15,8 +15,9 @@ public class Counter {
      * @return сумма чётных чисел в диапазоне.
      */
     public int add(int start, int finish) {
-        for (int i = start; i <= finish; i++)
+        for (int i = start; i <= finish; i++) {
             sum += (i % 2 == 0) ? i : 0;
+        }
         return sum;
     }
 }
