@@ -24,7 +24,7 @@ public class Puzzle extends Application {
     private static final String JOB4J = "Spiel!";
     private final int size = 5;
     private final Logic logic = new Logic(size);
-    //строим экран игры
+
     private Rectangle buildRectangle(int x, int y, int size) {
         Rectangle rect = new Rectangle();
         rect.setX(x * size);
@@ -35,7 +35,7 @@ public class Puzzle extends Application {
         rect.setStroke(Color.GRAY);
         return rect;
     }
-    //
+
     private Rectangle buildFigure(int x, int y, int size, String image) {
         Rectangle rect = new Rectangle();
         rect.setX(x);
@@ -114,7 +114,7 @@ public class Puzzle extends Application {
         stage.show();
         this.refresh(border);
     }
-    //
+
     private void refresh(final BorderPane border) {
         Group grid = this.buildGrid();
         this.logic.clean();
@@ -122,7 +122,7 @@ public class Puzzle extends Application {
         this.generate(true, 6, grid);
         this.generate(false, 5, grid);
     }
-    //заполнение поля рандомными полями - блоки и чекеры
+
     public void generate(boolean block, int total,  Group grid) {
         int count = total;
         final Random random = new Random();
@@ -138,7 +138,7 @@ public class Puzzle extends Application {
             }
         }
     }
-    //
+
     public void add(Figure figure, Group grid) {
         this.logic.add(figure);
         Cell position = figure.position();
