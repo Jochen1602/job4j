@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /**class Tracker Решение задачи 2. Реализовать класс Tracker.
@@ -36,6 +37,7 @@ public class Tracker {
     public void replace(String id, Item item) {
         for (int i = 0; i < this.position; i++) {
             if (this.items[i].getId().equals(id)) {
+                item.setId(id);
                 this.items[i] = item;
             }
         }
@@ -50,6 +52,7 @@ public class Tracker {
             if (this.items[i].getId().equals(id)) {
                 System.arraycopy(this.items, i + 1, this.items, i, this.position - i);
                 this.items[position] = null;
+                position--;
                 break;
             }
         }
@@ -60,18 +63,7 @@ public class Tracker {
      * @return массив из всех заявок
      */
     public Item[] findAll() {
-
-        int counter = 0;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i] != null) {
-                counter++;
-            }
-        }
-        Item[] all = new Item[counter];
-        for (int i = 0; i < counter; i++) {
-                all[i] = this.items[i];
-        }
-        return all;
+        return Arrays.copyOf(this.items, position);
     }
 
     /**
@@ -81,19 +73,14 @@ public class Tracker {
      */
     public Item[] findByName(String key) {
         int counter = 0;
+        Item[] found = new Item[100];
         for (int i = 0; i < this.position; i++) {
             if (this.items[i].getName().equals(key)) {
+                found[counter] = this.items[i];
                 counter++;
             }
         }
-        Item[] found = new Item[counter];
-        int j = 0;
-        for (int i = 0; i < this.position; i++) {
-            if (this.items[i].getName().equals(key)) {
-                found[j++] = this.items[i];
-            }
-        }
-        return found;
+        return Arrays.copyOf(found, counter);
     }
 
     /**
