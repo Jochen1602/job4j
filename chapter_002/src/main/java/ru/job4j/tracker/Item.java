@@ -15,22 +15,6 @@ public class Item {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public void setCreated(long created) {
-        this.created = created;
-    }
-
-    public void setComments(String[] comments) {
-        this.comments = comments;
-    }
-
     public String getId() {
         return id;
     }
@@ -55,5 +39,10 @@ public class Item {
         this.name = name;
         this.desc = desc;
         this.created = created;
+    }
+
+    public Item(String name, String desc) {
+        this.name = name;
+        this.desc = desc;
     }
 }
