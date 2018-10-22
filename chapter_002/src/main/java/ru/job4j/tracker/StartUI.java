@@ -104,28 +104,28 @@ public class StartUI {
         String desc = this.input.ask("Введите новое описание заявки :");
         Item item = new Item(name, desc);
         this.tracker.replace(id, item);
-        System.out.println("----------- Заявка с Id : " +id + " изменена ----------");
+        System.out.println("----------- Заявка с Id : " + id + " изменена ----------");
     }
 
     private void delItem() {
         System.out.println("---------------- Удаление заявки ------------------");
         String id = this.input.ask("Введите ID заявки, которую хотите удалить :");
         this.tracker.delete(id);
-        System.out.println("------------ Заявка с Id : " +id + " удалена -----------");
+        System.out.println("------------ Заявка с Id : " + id + " удалена -----------");
     }
 
     private void findItemId() {
         System.out.println("---------------- Поиск заявки по ID ------------------");
         String id = this.input.ask("Введите ID заявки, которую хотите найти :");
         Item i = this.tracker.findById(id);
-        System.out.println("-------------- Заявка с Id : " +id + " -------------");
+        System.out.println("-------------- Заявка с Id : " + id + " -------------");
         System.out.println(i.getId() + " " + i.getName() + " " + i.getDesc() + " " + i.getCreated() + " " + i.getComments());
     }
 
     private void findItemName() {
         System.out.println("-------------- Поиск заявки по имени -----------------");
         String name = this.input.ask("Введите имя заявки, которую хотите найти :");
-        System.out.println("-------------- Заявка с именем : " +name + " -------------");
+        System.out.println("-------------- Заявка с именем : " + name + " -------------");
         for (Item i : tracker.findByName(name)) {
             System.out.println(i.getId() + " " + i.getName() + " " + i.getDesc() + " " + i.getCreated() + " " + i.getComments());
         }
