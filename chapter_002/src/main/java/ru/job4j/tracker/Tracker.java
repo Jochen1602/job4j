@@ -34,28 +34,34 @@ public class Tracker {
      * @param id номер заявки для редактирования
      * @param item информация по заявке, что необходимо записать
      */
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
+        boolean result = false;
         for (int i = 0; i < this.position; i++) {
             if (this.items[i].getId().equals(id)) {
                 item.setId(id);
                 this.items[i] = item;
+                result = true;
             }
         }
+        return result;
     }
 
     /**
      * Метод, реализующий удаление заявок
      * @param id номер заявки, что необходимо удалить
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean result = false;
         for (int i = 0; i < this.position; i++) {
             if (this.items[i].getId().equals(id)) {
                 System.arraycopy(this.items, i + 1, this.items, i, this.position - i);
                 this.items[position] = null;
                 position--;
+                result = true;
                 break;
             }
         }
+        return result;
     }
 
     /**
