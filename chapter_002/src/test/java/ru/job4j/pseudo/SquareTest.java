@@ -33,8 +33,8 @@ public class SquareTest {
                 triangle.draw(),
                 is(
                         new StringBuilder()
-                                .append("  ^  ")
-                                .append(" ^^^ ")
+                                .append("  ^  ").append(System.lineSeparator())
+                                .append(" ^^^ ").append(System.lineSeparator())
                                 .append("^^^^^")
                                 .toString()
                 )

@@ -7,8 +7,8 @@ package ru.job4j.pseudo;
 public class Triangle implements Shape {
     public String draw() {
         StringBuilder pic = new StringBuilder();
-        pic.append("  ^  ");
-        pic.append(" ^^^ ");
+        pic.append("  ^  ").append(System.lineSeparator());
+        pic.append(" ^^^ ").append(System.lineSeparator());
         pic.append("^^^^^");
         return pic.toString();
     }
