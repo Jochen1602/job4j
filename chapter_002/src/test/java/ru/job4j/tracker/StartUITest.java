@@ -1,6 +1,9 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+
+import java.util.StringJoiner;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -41,5 +44,34 @@ public class StartUITest {
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findByName("tt nam 2").length, is(1));
+    }
+
+    @Test
+    public void whenUserAdd3ItemsThenShowAllOfThem() {
+        Tracker tracker = new Tracker();
+        Item item1 = tracker.add(new Item("test name 1", "desc 1"));
+        Item item2 = tracker.add(new Item("test name 22", "desc 22"));
+        Item item3 = tracker.add(new Item("test name 333", "desc 333"));
+        Input input = new StubInput(new String[]{"1", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(tracker.findAll(), is(new String[] {new StringBuilder().
+                append("id=").append(item1.getId()).
+                append(", name=").append("test name 1").
+                append(", desc=").append("desc 1").
+                append(", created=").append(item1.getCreated()).
+                append(", comments=").append(item1.getComments()).toString(),
+                new StringBuilder().
+                append("id=").append(item2.getId()).
+                append(", name=").append("test name 22").
+                append(", desc=").append("desc 22").
+                append(", created=").append(item2.getCreated()).
+                append(", comments=").append(item2.getComments()).toString(),
+                new StringBuilder().
+                append("id=").append(item3.getId()).
+                append(", name=").append("test name 333").
+                append(", desc=").append("desc 333").
+                append(", created=").append(item3.getCreated()).
+                append(", comments=").append(item3.getComments()).toString()}
+        ));
     }
 }
