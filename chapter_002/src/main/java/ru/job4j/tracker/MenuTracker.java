@@ -52,7 +52,7 @@ public class MenuTracker {
     public static class AddItem implements UserAction {
         @Override
         public int key() {
-            return 0;
+            return ADD;
         }
 
         @Override
