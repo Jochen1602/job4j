@@ -99,6 +99,7 @@ public class Tracker {
         for (int i = 0; i < position; i++) {
             if (this.items[i].getId().equals(id)) {
                 result = this.items[i];
+                break;
             }
         }
         return result;
@@ -112,7 +113,7 @@ public class Tracker {
     private String generateId() {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        int num = (int) (100000.0 * Math.random());
+        int num = (int) (10.0 * Math.random());
         return simpleDateFormat.format(date) + String.valueOf(num);
     }
 }

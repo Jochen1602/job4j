@@ -1,34 +1,38 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StartUI {
     /**
      * Константа меню для добавления новой заявки.
      */
-    private static final String ADD = "0";
+    static final String ADD = "0";
     /**
      * Константа меню для отображения всех заявок.
      */
-    private static final String SHOW = "1";
+    static final String SHOW = "1";
     /**
      * Константа меню для редактирования заявки.
      */
-    private static final String EDIT = "2";
+    static final String EDIT = "2";
     /**
      * Константа меню для удаления заявки.
      */
-    private static final String DEL = "3";
+    static final String DEL = "3";
     /**
      * Константа меню для поиска заявки по ID.
      */
-    private static final String FINDID = "4";
+    static final String FINDID = "4";
     /**
      * Константа меню для поиска заявки по имени.
      */
-    private static final String FINDNAME = "5";
+    static final String FINDNAME = "5";
     /**
      * Константа для выхода из цикла.
      */
-    private static final String EXIT = "6";
+    static final String EXIT = "6";
+
     /**
      * Получение данных от пользователя.
      */
@@ -53,29 +57,17 @@ public class StartUI {
      * Основой цикл программы.
      */
     public void init() {
-        boolean exit = false;
-        while (!exit) {
-            this.showMenu();
-            String answer = this.input.ask("Введите пункт меню : ");
-            if (ADD.equals(answer)) {
-                this.createItem();
-            } else if (SHOW.equals(answer)) {
-                this.showItems();
-            } else if (EDIT.equals(answer)) {
-                this.editItem();
-            } else if (DEL.equals(answer)) {
-                this.delItem();
-            } else if (FINDID.equals(answer)) {
-                this.findItemId();
-            } else if (FINDNAME.equals(answer)) {
-                this.findItemName();
-            } else if (EXIT.equals(answer)) {
-                exit = true;
-            } else {
-                System.out.println("Incorrect data.");
-                this.showMenu();
-            }
+        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        List<Integer> range = new ArrayList<>();
+        menu.fillActions();
+        for (int i = 0; i < menu.getActionsLength(); i++) {
+            range.add(i);
         }
+        do {
+            menu.show();
+            int key = Integer.valueOf(input.ask("Select: "));
+            menu.select(key);
+        } while (!"y".equals(this.input.ask("Exit?(y): ")));
     }
 
     /**
