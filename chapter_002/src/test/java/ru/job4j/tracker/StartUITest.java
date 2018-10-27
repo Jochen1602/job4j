@@ -1,7 +1,11 @@
 package ru.job4j.tracker;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.StringJoiner;
 
 import static org.hamcrest.core.Is.is;
@@ -46,6 +50,20 @@ public class StartUITest {
         assertThat(tracker.findByName("tt nam 2").length, is(1));
     }
 
+    private final PrintStream stdout = System.out;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    @Before
+    public void loadOutput() {
+        System.out.println("execute before method");
+        System.setOut(new PrintStream(this.out));
+    }
+
+    @After
+    public void backOutput() {
+        System.setOut(this.stdout);
+        System.out.println("execute after method");
+    }
     @Test
     public void whenUserAdd3ItemsThenShowAllOfThem() {
         Tracker tracker = new Tracker();
@@ -54,24 +72,34 @@ public class StartUITest {
         Item item3 = tracker.add(new Item("test name 333", "desc 333"));
         Input input = new StubInput(new String[]{"1", "y"});
         new StartUI(input, tracker).init();
-        assertThat(tracker.findAll(), is(new String[] {new StringBuilder().
-                append("id=").append(item1.getId()).
-                append(", name=").append("test name 1").
-                append(", desc=").append("desc 1").
-                append(", created=").append(item1.getCreated()).
-                append(", comments=").append(item1.getComments()).toString(),
-                new StringBuilder().
-                append("id=").append(item2.getId()).
-                append(", name=").append("test name 22").
-                append(", desc=").append("desc 22").
-                append(", created=").append(item2.getCreated()).
-                append(", comments=").append(item2.getComments()).toString(),
-                new StringBuilder().
-                append("id=").append(item3.getId()).
-                append(", name=").append("test name 333").
-                append(", desc=").append("desc 333").
-                append(", created=").append(item3.getCreated()).
-                append(", comments=").append(item3.getComments()).toString()}
-        ));
+        tracker.findAll();
+        assertThat(new String(this.out.toByteArray()),
+                is(
+                        new StringBuilder()
+                                .append("0. Add new item. Добавить новую заявку.").append(System.lineSeparator())
+                                .append("1. Show all items. Отобразить все заявки.").append(System.lineSeparator())
+                                .append("2. Edit the item. Редактировать заявку по ID.").append(System.lineSeparator())
+                                .append("3. Delete the item. Удалить заявку по ID.").append(System.lineSeparator())
+                                .append("4. Find the item by ID. Найти заявку по ID.").append(System.lineSeparator())
+                                .append("5. Find the item by name. Найти заявки по имени.").append(System.lineSeparator())
+                                .append("------------ All items --------------").append(System.lineSeparator())
+                                .append("ID: ")
+                                .append(item1.getId())
+                                .append(", Name: ")
+                                .append("test name 1")
+                                .append(System.lineSeparator())
+                                .append("ID: ")
+                                .append(item2.getId())
+                                .append(", Name: ")
+                                .append("test name 22")
+                                .append(System.lineSeparator())
+                                .append("ID: ")
+                                .append(item3.getId())
+                                .append(", Name: ")
+                                .append("test name 333")
+                                .append(System.lineSeparator())
+                                .toString()
+                )
+        );
     }
 }

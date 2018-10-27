@@ -8,6 +8,9 @@ public class MenuTracker {
     private Tracker tracker;
     private List<UserAction> actions = new ArrayList<>();
 
+    /**
+     * Метод, заполняющий меню пунктами, соответствующими внутренним классам
+     */
     public void fillActions() {
         this.actions.add(new AddItem());
         this.actions.add(new ShowItems());
@@ -17,18 +20,26 @@ public class MenuTracker {
         this.actions.add(new FindItemsByName());
     }
 
+    /**
+     * Конструктор
+     * @param input каким образом реализован интерфейс ввода данных.
+     * @param tracker наше хранилище заявок.
+     */
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
 
+    /**
+     * Сколько у нас пунктов меню.
+     * @return количество пунктов меню.
+     */
     public int getActionsLength() {
         return this.actions.size();
     }
 
     /**
      * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
-     *
      * @param key ключ операции
      */
     public void select(int key) {
@@ -41,7 +52,7 @@ public class MenuTracker {
     public void show() {
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                System.out.println(action.key() + ". " + action.info());
             }
         }
     }
@@ -52,24 +63,24 @@ public class MenuTracker {
     public static class AddItem implements UserAction {
         @Override
         public int key() {
-            return ADD;
+            return 0;
         }
 
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Adding new item --------------");
-            String name = input.ask("Please, provide item name:");
-            String desc = input.ask("Please, provide item description:");
+            String name = input.ask("Please, enter item name:");
+            String desc = input.ask("Please, enter item description:");
             Item item = new Item(name, desc);
             tracker.add(item);
-            System.out.println("------------ New Item with Id : " + item.getId());
-            System.out.println("------------ New Item with Name : " + item.getName());
-            System.out.println("------------ New Item with Description : " + item.getDesc());
+            System.out.println("------------ New Item with Id: " + item.getId());
+            System.out.println("------------ New Item with Name: " + item.getName());
+            System.out.println("------------ New Item with Description: " + item.getDesc());
         }
 
         @Override
         public String info() {
-            return "Add new Item.";
+            return "Add new item. Добавить новую заявку.";
         }
     }
 
@@ -87,14 +98,16 @@ public class MenuTracker {
             System.out.println("------------ All items --------------");
             for (Item i : tracker.findAll()) {
                 if (i != null) {
-                    String.format("%s. %s", i.getId(), i.getName());
+                    System.out.println("ID: " + i.getId() + ", Name: " + i.getName());
+                } else {
+                    System.out.println("Tracker is empty. Kurwa.");
                 }
             }
         }
 
         @Override
         public String info() {
-            return "Show all items.";
+            return "Show all items. Отобразить все заявки.";
         }
     }
 
@@ -121,7 +134,7 @@ public class MenuTracker {
 
         @Override
         public String info() {
-            return "Edit the item.";
+            return "Edit the item. Редактировать заявку по ID.";
         }
     }
 
@@ -139,13 +152,17 @@ public class MenuTracker {
             System.out.println("------------ Delete the item --------------");
             String id = input.ask("Enter the ID: ");
             if (tracker.findById(id) != null) {
-                tracker.delete(id);
+                if (tracker.delete(id)) {
+                    System.out.println("Done.");
+                }
+            } else {
+                System.out.println("No tasks with that ID.");
             }
         }
 
         @Override
         public String info() {
-            return "Delete the item.";
+            return "Delete the item. Удалить заявку по ID.";
         }
     }
 
@@ -164,15 +181,15 @@ public class MenuTracker {
             String id = input.ask("Enter the ID: ");
             Item i = tracker.findById(id);
             if (i != null) {
-                String.format("%s. %s", i.getId(), i.getName());
+                System.out.println("ID: " + i.getId() + ", Name: " + i.getName());
             } else {
-                System.out.println("No such tasks.");
+                System.out.println("No tasks with that ID.");
             }
         }
 
         @Override
         public String info() {
-            return "Find the item by ID.";
+            return "Find the item by ID. Найти заявку по ID.";
         }
     }
     /**
@@ -191,7 +208,7 @@ public class MenuTracker {
             Item[] item = tracker.findByName(name);
             if (item.length != 0) {
                 for (Item i : item) {
-                    String.format("%s. %s", i.getId(), i.getName());
+                    System.out.println("ID: " + i.getId() + ", Name: " + i.getName());
                 }
             } else {
                 System.out.println("No such tasks.");
@@ -200,7 +217,7 @@ public class MenuTracker {
 
         @Override
         public String info() {
-            return "Find the item by name.";
+            return "Find the item by name. Найти заявки по имени.";
         }
     }
 }

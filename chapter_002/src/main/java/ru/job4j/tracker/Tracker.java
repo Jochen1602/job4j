@@ -20,7 +20,7 @@ public class Tracker {
     private int position = 0;
 
     /**
-     * Метод реализаущий добавление заявки в хранилище
+     * Метод реализующий добавление заявки в хранилище
      * @param item новая заявка
      */
     public Item add(Item item) {
