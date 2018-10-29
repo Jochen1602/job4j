@@ -97,6 +97,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             if (tracker.findAll().length == 0) {
                 System.out.println("Tracker is empty.");
+                return;
             }
             System.out.println("------------ All items --------------");
             for (Item i : tracker.findAll()) {

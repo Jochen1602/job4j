@@ -44,7 +44,7 @@ public class StartUI {
      * @param args параметры запуска.
      */
     public static void main(String[] args) {
-        Input input = new ValidateInput();
+        Input input = new ValidateInput(new ConsoleInput());
         new StartUI(input, new Tracker()).init();
     }
 }

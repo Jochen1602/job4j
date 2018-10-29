@@ -52,7 +52,7 @@ public class StubInput implements Input {
         if (exist) {
             return key;
         } else {
-            throw new MenuOutException("Enter correct data.");
+            throw new MenuOutException("Enter the correct data.");
         }
     }
 }
