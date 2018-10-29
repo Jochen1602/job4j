@@ -95,12 +95,13 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
+            if (tracker.findAll().length == 0) {
+                System.out.println("Tracker is empty.");
+            }
             System.out.println("------------ All items --------------");
             for (Item i : tracker.findAll()) {
                 if (i != null) {
                     System.out.println("ID: " + i.getId() + ", Name: " + i.getName());
-                } else {
-                    System.out.println("Tracker is empty. Kurwa.");
                 }
             }
         }
@@ -129,6 +130,8 @@ public class MenuTracker {
                 String desc = input.ask("Enter new description: ");
                 Item item = new Item(name, desc);
                 tracker.replace(id, item);
+            } else {
+                System.out.println("No such tasks.");
             }
         }
 

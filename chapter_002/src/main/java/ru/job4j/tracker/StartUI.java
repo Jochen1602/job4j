@@ -5,35 +5,6 @@ import java.util.List;
 
 public class StartUI {
     /**
-     * Константа меню для добавления новой заявки.
-     */
-    private static final String ADD = "0";
-    /**
-     * Константа меню для отображения всех заявок.
-     */
-    private static final String SHOW = "1";
-    /**
-     * Константа меню для редактирования заявки.
-     */
-    private static final String EDIT = "2";
-    /**
-     * Константа меню для удаления заявки.
-     */
-    private static final String DEL = "3";
-    /**
-     * Константа меню для поиска заявки по ID.
-     */
-    private static final String FINDID = "4";
-    /**
-     * Константа меню для поиска заявки по имени.
-     */
-    private static final String FINDNAME = "5";
-    /**
-     * Константа для выхода из цикла.
-     */
-    private static final String EXIT = "6";
-
-    /**
      * Получение данных от пользователя.
      */
     private final Input input;
@@ -43,11 +14,6 @@ public class StartUI {
      */
     private final Tracker tracker;
 
-    /**
-     * Конструтор инициализирующий поля.
-     * @param input ввод данных.
-     * @param tracker хранилище заявок.
-     */
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
@@ -63,10 +29,13 @@ public class StartUI {
         for (int i = 0; i < menu.getActionsLength(); i++) {
             range.add(i);
         }
+        int[] ranges = new int[range.size()];
+        for (int i = 0; i < range.size(); i++) {
+            ranges[i] = range.get(i);
+        }
         do {
             menu.show();
-            int key = Integer.valueOf(input.ask("Select: "));
-            menu.select(key);
+            menu.select(input.ask( "Select: ", ranges));
         } while (!"y".equals(this.input.ask("Exit?(y): ")));
     }
 
@@ -75,6 +44,7 @@ public class StartUI {
      * @param args параметры запуска.
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        Input input = new ValidateInput();
+        new StartUI(input, new Tracker()).init();
     }
 }
