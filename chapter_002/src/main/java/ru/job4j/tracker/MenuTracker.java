@@ -38,6 +38,15 @@ public class MenuTracker {
         return this.actions.size();
     }
 
+
+    public int[] getRanges() {
+        int[] ranges = new int[getActionsLength()];
+        for (int i = 0; i < getActionsLength(); i++) {
+            ranges[i] = i;
+        }
+        return ranges;
+    }
+
     /**
      * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
      * @param key ключ операции
