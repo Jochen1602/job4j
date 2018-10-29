@@ -24,10 +24,9 @@ public class ConsoleInput implements Input {
                 break;
             }
         }
-        if (exist) {
-            return key;
-        } else {
-            throw new MenuOutException("Out of menu.");
+        if (!exist) {
+            throw new MenuOutException("Enter correct data.");
         }
+        return key;
     }
 }
