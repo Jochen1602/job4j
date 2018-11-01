@@ -1,6 +1,5 @@
 package ru.job4j.chess;
 
-import org.junit.Assert;
 import org.junit.Test;
 import ru.job4j.chess.figures.white.BishopWhite;
 import ru.job4j.chess.figures.Cell;
