@@ -26,6 +26,12 @@ public class ConvertList2Array {
         return array;
     }
 
+    /**
+     * Метод, равномерно разбивающий коллекцию в двумерный массив с использованием foreach
+     * @param list коллекция
+     * @param rows сколько строк необходимо
+     * @return искомый двумерный массив, в конце нули если нацело не делится
+     */
     public int[][] toArrayForeach(List<Integer> list, int rows) {
         int i = 0, j = 0;
         int cells = (list.size() + rows - 1) / rows;
