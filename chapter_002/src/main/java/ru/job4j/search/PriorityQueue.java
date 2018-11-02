@@ -16,22 +16,15 @@ public class PriorityQueue {
      * @param task задание, что необходимо вставить.
      */
     public void put(Task task) {
-        int index = 0;
-        if (this.tasks.size() != 0) {
-            if (task.getPriority() <= this.tasks.get(0).getPriority()) {
-                index = 0;
-            }
-            if (task.getPriority() >= this.tasks.getLast().getPriority()) {
-                index = tasks.size();
-            } else {
-                for (int i = 0; i < this.tasks.size() - 1; i++) {
-                    if (task.getPriority() >= this.tasks.get(i).getPriority() && task.getPriority() <= this.tasks.get(i + 1).getPriority()) {
-                        index = i + 1;
-                    }
-                }
+        if (tasks.size() == 0) {
+            tasks.add(task);
+        }
+        for (int i = 0; i < this.tasks.size(); i++) {
+            if (task.getPriority() <= this.tasks.get(i).getPriority()) {
+                tasks.add(i, task);
+                break;
             }
         }
-        tasks.add(index, task);
     }
 
     /**
