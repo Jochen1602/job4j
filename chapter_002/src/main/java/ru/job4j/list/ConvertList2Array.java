@@ -1,5 +1,6 @@
 package ru.job4j.list;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**class ConvertList2Array Решение задачи 3. Конвертация ArrayList в двухмерный массив
@@ -47,5 +48,20 @@ public class ConvertList2Array {
             array[i][j++] = item;
         }
         return array;
+    }
+
+    /**
+     * Метод добавляет все элементы всех массивов, поступающих на вход, в один список
+     * @param list список массивов
+     * @return список, содержащий все элементы массивов
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+        for (int[] i : list) {
+            for (int j : i) {
+                result.add(j);
+            }
+        }
+        return result;
     }
 }
