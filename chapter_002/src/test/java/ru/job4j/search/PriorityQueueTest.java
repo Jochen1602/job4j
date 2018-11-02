@@ -20,6 +20,16 @@ public class PriorityQueueTest {
     }
 
     @Test
+    public void whenTheLastIsLowest() {
+        PriorityQueue queue = new PriorityQueue();
+        queue.put(new Task("middle", 3));
+        queue.put(new Task("urgent", 1));
+        queue.put(new Task("low", 5));
+        Task result = queue.take();
+        assertThat(result.getDesc(), is("urgent"));
+    }
+
+    @Test
     public void wheLowerPriority() {
         PriorityQueue queue = new PriorityQueue();
         queue.put(new Task("urgent", 1));
