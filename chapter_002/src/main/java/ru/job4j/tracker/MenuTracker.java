@@ -38,11 +38,14 @@ public class MenuTracker {
         return this.actions.size();
     }
 
-
-    public int[] getRanges() {
-        int[] ranges = new int[getActionsLength()];
+    /**
+     * Метод, возвращающий массив пунктов меню
+     * @return
+     */
+    public List<Integer> getRanges() {
+        List<Integer> ranges = new ArrayList<>();
         for (int i = 0; i < getActionsLength(); i++) {
-            ranges[i] = i;
+            ranges.add(i);
         }
         return ranges;
     }
@@ -97,7 +100,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker tracker) {
-            if (tracker.findAll().length == 0) {
+            if (tracker.findAll().size() == 0) {
                 System.out.println("Tracker is empty.");
                 return;
             }
@@ -187,8 +190,8 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------ Find the item by name --------------");
             String name = input.ask("Enter the name: ");
-            Item[] item = tracker.findByName(name);
-            if (item.length != 0) {
+            List<Item> item = tracker.findByName(name);
+            if (item.size() != 0) {
                 for (Item i : item) {
                     System.out.println("ID: " + i.getId() + ", Name: " + i.getName());
                 }

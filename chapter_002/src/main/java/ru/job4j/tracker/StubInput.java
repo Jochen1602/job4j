@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**class ConsoleInput Решение задачи 1. Используя класс ConsoleInput в классе StartUI обеспечить полноценную работу всего приложения.
  *@author antontokarev
  *@since 25.10.2018
@@ -40,7 +42,7 @@ public class StubInput implements Input {
         return this.value[this.position++];
     }
 
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         int key = Integer.valueOf(this.ask(question));
         boolean exist = false;
         for (int value : range) {

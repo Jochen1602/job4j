@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -33,7 +35,9 @@ public class ValidateInputTest {
         ValidateInput input = new ValidateInput(
                 new StubInput(new String[] {"gzegorz", "4"})
         );
-        input.ask("Enter", new int[] {4});
+        List<Integer> list = new ArrayList<>();
+        list.add(4);
+        input.ask("Enter", list);
         assertThat(
                 this.buf.toString(),
                 is(
@@ -47,7 +51,9 @@ public class ValidateInputTest {
         ValidateInput input = new ValidateInput(
                 new StubInput(new String[] {"99", "4"})
         );
-        input.ask("Enter", new int[] {4});
+        List<Integer> list = new ArrayList<>();
+        list.add(4);
+        input.ask("Enter", list);
         assertThat(
                 this.buf.toString(),
                 is(
