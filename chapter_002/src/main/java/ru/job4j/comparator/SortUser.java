@@ -10,7 +10,7 @@ import java.util.TreeSet;
  *@since 04.11.2018
  */
 public class SortUser {
-    public Set<User> sort (List<User> list) {
+    public Set<User> sort(List<User> list) {
         return new TreeSet<>(list);
     }
 }
