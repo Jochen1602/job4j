@@ -40,7 +40,7 @@ public class MenuTracker {
 
     /**
      * Метод, возвращающий массив пунктов меню
-     * @return
+     * @return массив пунктов меню
      */
     public List<Integer> getRanges() {
         List<Integer> ranges = new ArrayList<>();

@@ -33,7 +33,7 @@ public class ValidateInputTest {
     @Test
     public void whenWeHaveInvalidInput() {
         ValidateInput input = new ValidateInput(
-                new StubInput(new String[] {"gzegorz", "4"})
+                new StubInput(new String[] {"Georg", "4"})
         );
         List<Integer> list = new ArrayList<>();
         list.add(4);
