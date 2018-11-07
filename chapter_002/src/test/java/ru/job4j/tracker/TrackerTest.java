@@ -34,10 +34,10 @@ public class TrackerTest {
     public void whenDeleteItemThenTrackerHasNotThisItem() {
         Tracker tracker = new Tracker();
         Item first = new Item("test1", "testDescription", 123L);
-        tracker.add(first);
         Item second = new Item("test2", "testDescription2", 1234L);
-        tracker.add(second);
         Item third = new Item("test3", "testDescription3", 12345L);
+        tracker.add(first);
+        tracker.add(second);
         tracker.add(third);
         String id = tracker.findByName("test2").get(0).getId();
         tracker.delete(id);
