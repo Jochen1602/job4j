@@ -76,18 +76,16 @@ public class Bank {
     }
 
     /**
-     * Метод изменения счёта (снять с него value, если это возможно) пользователя по его реквизитам.
-     * @param list список счетов пользователя.
-     * @param requisite реквизиты искомого счёта.
-     * @param value на сколько уменьшить счёт.
-     * @return true если операция прошла успешно, false если операция не прошла.
+     * Метод, возвращающий счёт по паспорту пользователя и реквизитам счёта.
+     * @param passport номер паспорта пользователя.
+     * @param requisite реквизиты счёта.
+     * @return искомый счёт.
      */
-    private boolean setValueInAccountByRequisite(List<Account> list, String requisite, double value) {
-        boolean result = false;
-        for (Account account : list) {
-            if (account.getRequisites().equals(requisite) && account.getValue() - value >= 0) {
-                account.setValue(account.getValue() - value);
-                result = true;
+    private Account getAccountByRequisiteAndPassport(String passport, String requisite) {
+        Account result = new Account();
+        for (Account account : getUserAccounts(passport)) {
+            if (account.getRequisites().equals(requisite)) {
+                result = account;
             }
         }
         return result;
@@ -103,6 +101,6 @@ public class Bank {
      * @return true если перевод проведён успешно, false если перевод не прошёл.
      */
     public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
-        return setValueInAccountByRequisite(usersAccounts.get(getUserByPassport(srcPassport)), srcRequisite, amount) && setValueInAccountByRequisite(usersAccounts.get(getUserByPassport(destPassport)), dstRequisite, -amount);
+        return getAccountByRequisiteAndPassport(srcPassport, srcRequisite).moneyTransfer(amount) && getAccountByRequisiteAndPassport(destPassport, dstRequisite).moneyTransfer(-amount);
     }
 }
