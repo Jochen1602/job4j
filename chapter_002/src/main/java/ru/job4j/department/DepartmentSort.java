@@ -25,13 +25,32 @@ public class DepartmentSort {
     }
 
     /**
-     * Метод сортировки подразделений по убыванию. Использует метод sortUp.
+     * Метод сортировки подразделений по убыванию.
      * @param list список подразделений.
      * @return отсортированный по убыванию список подразделений.
      */
     public List<Department> sortDown(List<Department> list) {
-        List<Department> result = sortUp(list);
+        Set<Department> buf = new TreeSet<>(list);
+        Set<Department> mainDepartments = new TreeSet<>();
+        list.forEach(value -> mainDepartments.add(new Department(value.getName().split("\\\\")[0])));
+        buf.removeAll(mainDepartments);
+        List<Department> result = new ArrayList<>();
+        List<Department> md = new ArrayList<>();
+        md.addAll(mainDepartments);
+        result.addAll(buf);
         Collections.reverse(result);
+        Collections.reverse(md);
+        int j = 0;
+        for (int i = 0; i < result.size() + j; i++) {
+            if (result.get(i).getName().split("\\\\")[0].equals(md.get(j).getName())) {
+                result.add(i, md.get(j));
+                if (j == md.size() - 1) {
+                    j = 0;
+                } else {
+                    j++;
+                }
+            }
+        }
         return result;
     }
 }

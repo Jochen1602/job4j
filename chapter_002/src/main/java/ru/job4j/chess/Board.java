@@ -3,6 +3,9 @@ package ru.job4j.chess;
 import ru.job4j.chess.figures.Cell;
 import ru.job4j.chess.figures.Figure;
 
+import java.util.Arrays;
+import java.util.function.Predicate;
+
 /**class BishopWhite Решение задачи Каркас шахматной доски
  *@author antontokarev
  *@since 01.11.2018
@@ -32,7 +35,9 @@ public class Board {
      * @return -1 если не стоит, номер ячейки, если стоит
      */
     public int getIndex(Cell cell) {
+        Predicate<Cell> predicate = is -> is.getX() == cell.getX() && is.getY() == cell.getY();
         int index = -1;
+        //Arrays.stream(figures).;
         for (int i = 0; i < this.position + 1; i++) {
             if (figures[i] != null && this.figures[i].position.getX() == cell.getX() && this.figures[i].position.getY() == cell.getY()) {
                 index = i;

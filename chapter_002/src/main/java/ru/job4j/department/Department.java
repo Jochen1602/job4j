@@ -39,4 +39,9 @@ public class Department implements Comparable<Department> {
     public int compareTo(Department o) {
         return this.getName().compareTo(o.getName());
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

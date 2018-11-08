@@ -98,15 +98,15 @@ public class DepartmentTest {
         list.add(element7);
         List<Department> result = listOfDepartments.sortDown(list);
         List<Department> expected = new ArrayList<>();
-        expected.add(element6);
         expected.add(element8);
+        expected.add(element6);
+        expected.add(element7);
         expected.add(element5);
         expected.add(element2);
-        expected.add(element7);
+        expected.add(element9);
         expected.add(element3);
         expected.add(element1);
         expected.add(element4);
-        expected.add(element9);
         assertThat(result, is(expected));
     }
 }
