@@ -2,6 +2,8 @@ package ru.job4j.bank;
 
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -72,7 +74,7 @@ public class BankTest {
         bank.addAccountToUser(second.getPassport(), secondAccount);
         assertThat(bank.transferMoney("9406123456", "123456", "5544332211", "qwerty", 10000.00), is(true));
     }
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void whenTransferIfFalseBecauseTheDataIsIncorrect() {
         Bank bank = new Bank();
         User first = new User("Anton", "9406123456");
