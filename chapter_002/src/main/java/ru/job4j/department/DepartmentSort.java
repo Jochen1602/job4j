@@ -34,9 +34,6 @@ public class DepartmentSort {
     public List<Department> sortDown(List<Department> list) {
         List<Department> result = sortUp(list);
         Collections.reverse(result);
-        for (Department d : result) {
-            System.out.println(d.getName());
-        }
         return result;
     }
 }

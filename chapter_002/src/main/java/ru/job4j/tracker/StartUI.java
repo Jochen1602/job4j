@@ -2,7 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.List;
 
-public class StartUI {
+public class  StartUI {
     /**
      * Получение данных от пользователя.
      */
@@ -26,9 +26,17 @@ public class StartUI {
         menu.fillActions();
         List<Integer> range = menu.getRanges();
         do {
-            menu.show();
+            menu.show(StartUI::print);
             menu.select(input.ask("Select: ", range));
         } while (!"y".equals(this.input.ask("Exit?(y): ")));
+    }
+
+    /**
+     * Метод печати списка действий пользователя при помощи лямбда-функции.
+     * @param list список действий пользователя.
+     */
+    private static void print(List<UserAction> list) {
+        list.forEach((a) -> System.out.println(a.info()));
     }
 
     /**

@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class MenuTracker {
     private Input input;
@@ -59,14 +60,12 @@ public class MenuTracker {
     }
 
     /**
-     * Метод выводит на экран меню.
+     * Метод выводит на экран меню при помощи консьюмера.
+     * (применяет операцию консьюмера к actions)
+     * @param consumer консьюмер.
      */
-    public void show() {
-        for (UserAction action : this.actions) {
-            if (action != null) {
-                System.out.println(action.info());
-            }
-        }
+    public void show(Consumer<List<UserAction>> consumer) {
+       consumer.accept(actions);
     }
 
     /**
