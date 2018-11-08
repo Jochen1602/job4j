@@ -2,6 +2,8 @@ package ru.job4j.calc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -10,48 +12,11 @@ import java.util.function.Function;
  *@since 07.11.2018
  */
 public class Calculator {
-    /**
-     * Наша универсальная вычислительная функция для диапазона.
-     * @param start начало диапазона.
-     * @param end конец диапазона.
-     * @param func функция, которую необходимо применить.
-     * @return список значений.
-     */
-    private List<Double> diapason(int start, int end, Function<Double, Double> func) {
+    public List<Double> diapasonFunction(int start, int end, Function<Integer, Double> op) {
         List<Double> result = new ArrayList<>();
-        for (int i = start; i <= end; i++) {
-            result.add(func.apply((double) i));
+        for (int index = start; index != end; index++) {
+            result.add(op.apply(index));
         }
         return result;
-    }
-
-    /**
-     * Линейная функция для диапазона.
-     * @param start начало диапазона.
-     * @param end конец диапазона.
-     * @return список значений.
-     */
-    List<Double> linear(int start, int end) {
-        return diapason(start, end, (n) -> n);
-    }
-
-    /**
-     * Квадратичная функция для диапазона.
-     * @param start начало диапазона.
-     * @param end конец диапазона.
-     * @return список значений.
-     */
-    List<Double> quadratic(int start, int end) {
-        return diapason(start, end, (n) -> Math.pow(n, 2));
-    }
-
-    /**
-     * Логарифмическая функция для диапазона.
-     * @param start начало диапазона.
-     * @param end конец диапазона.
-     * @return список значений.
-     */
-    List<Double> logarithmic(int start, int end) {
-        return diapason(start, end, Math::log);
     }
 }

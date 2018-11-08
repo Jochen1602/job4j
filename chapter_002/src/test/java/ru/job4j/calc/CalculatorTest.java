@@ -1,7 +1,6 @@
 package ru.job4j.calc;
 
 import org.junit.Test;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,38 +15,23 @@ import static org.junit.Assert.assertThat;
 public class CalculatorTest {
     @Test
     public void linearTest() {
-        List<Double> result = new Calculator().linear(1, 5);
-        List<Double> expected = new ArrayList<>(Arrays.asList(1d, 2d, 3d, 4d, 5d));
-        assertThat(result, is(expected));
-    }
-    @Test
-    public void linearTest2() {
-        List<Double> result = new Calculator().linear(7, 8);
-        List<Double> expected = new ArrayList<>(Arrays.asList(7d, 8d));
-        assertThat(result, is(expected));
+        Calculator calculator = new Calculator();
+        List<Double> result = calculator.diapasonFunction(1, 4, i -> i * 1.0);
+        List<Double> expected = Arrays.asList(1.0, 2.0, 3.0);
+        assertThat(expected, is(result));
     }
     @Test
     public void quadraticTest() {
-        List<Double> result = new Calculator().quadratic(1, 5);
-        List<Double> expected = new ArrayList<>(Arrays.asList(1d, 4d, 9d, 16d, 25d));
-        assertThat(result, is(expected));
-    }
-    @Test
-    public void quadraticTest2() {
-        List<Double> result = new Calculator().quadratic(7, 8);
-        List<Double> expected = new ArrayList<>(Arrays.asList(49d, 64d));
-        assertThat(result, is(expected));
+        Calculator calculator = new Calculator();
+        List<Double> result = calculator.diapasonFunction(1, 4, i -> Math.pow(i, 2));
+        List<Double> expected = Arrays.asList(1.0, 4.0, 9.0);
+        assertThat(expected, is(result));
     }
     @Test
     public void logarithmicTest() {
-        List<Double> result = new Calculator().logarithmic(1, 3);
-        List<Double> expected = new ArrayList<>(Arrays.asList(Math.log(1.0), Math.log(2.0), Math.log(3.0)));
-        assertThat(result, is(expected));
-    }
-    @Test
-    public void logarithmicTest2() {
-        List<Double> result = new Calculator().logarithmic(7, 8);
-        List<Double> expected = new ArrayList<>(Arrays.asList(Math.log(7.0), Math.log(8.0)));
-        assertThat(result, is(expected));
+        Calculator calculator = new Calculator();
+        List<Double> result = calculator.diapasonFunction(1, 4, Math::log);
+        List<Double> expected = Arrays.asList(Math.log(1), Math.log(2), Math.log(3));
+        assertThat(expected, is(result));
     }
 }
