@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**class Tracker Решение задачи 2. Реализовать класс Tracker.
  *@author antontokarev
@@ -33,7 +34,7 @@ public class Tracker {
     public boolean replace(String id, Item item) {
         boolean result = false;
         for (int i = 0; i < this.items.size(); i++) {
-            if (this.items.get(i).getId().equals(id)) {
+            if (findById(id).equals(this.items.get(i))) {
                 item.setId(id);
                 this.items.set(i, item);
                 result = true;
@@ -49,7 +50,7 @@ public class Tracker {
     public boolean delete(String id) {
         boolean result = false;
         for (int i = 0; i < this.items.size(); i++) {
-            if (this.items.get(i).getId().equals(id)) {
+            if (findById(id).equals(this.items.get(i))) {
                 this.items.remove(i);
                 result = true;
                 break;
@@ -72,9 +73,10 @@ public class Tracker {
      * @return список найденных заявок
      */
     public List<Item> findByName(String key) {
+        Predicate<String> predicate = p -> p.equals(key);
         List<Item> found = new ArrayList<>();
         for (Item i : this.items) {
-            if (i.getName().equals(key)) {
+            if (predicate.test(i.getName())) {
                 found.add(i);
             }
         }
@@ -87,9 +89,10 @@ public class Tracker {
      * @return заявка по данному ключу
      */
     public Item findById(String id) {
+        Predicate<String> predicate = p -> p.equals(id);
         Item result = null;
         for (Item i : this.items) {
-            if (i.getId().equals(id)) {
+            if (predicate.test(i.getId())) {
                 result = i;
                 break;
             }
