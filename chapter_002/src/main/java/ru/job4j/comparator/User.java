@@ -15,11 +15,19 @@ public class User implements Comparable<User> {
     }
 
     public int getAge() {
-        return age;
+        return this.age;
     }
 
     public String getName() {
-        return name;
+        return this.name;
+    }
+
+    /**
+     * Метод возвращает длину имени юзера.
+     * @return длина имени.
+     */
+    public int getNameLenght() {
+        return this.name.length();
     }
 
     @Override

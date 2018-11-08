@@ -1,6 +1,7 @@
 package ru.job4j.search;
 
 import java.util.LinkedList;
+import java.util.stream.IntStream;
 
 /**class PriorityQueue Решение задачи 2. Очередь с приоритетом на LinkedList
  *@author antontokarev
@@ -16,18 +17,11 @@ public class PriorityQueue {
      * @param task задание, что необходимо вставить.
      */
     public void put(Task task) {
-        int index = this.tasks.size();
         if (tasks.size() == 0) {
             tasks.add(task);
             return;
         }
-        for (int i = 0; i < this.tasks.size(); i++) {
-            if (task.getPriority() <= this.tasks.get(i).getPriority()) {
-                index = i;
-                break;
-            }
-        }
-        tasks.add(index, task);
+        IntStream.range(0, tasks.size()).filter(i -> task.getPriority() <= this.tasks.get(i).getPriority()).findFirst().ifPresent(i -> tasks.add(i, task));
     }
 
     /**

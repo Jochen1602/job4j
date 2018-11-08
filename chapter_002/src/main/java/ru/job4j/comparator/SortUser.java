@@ -15,31 +15,23 @@ public class SortUser {
         return new TreeSet<>(list);
     }
 
+    /**
+     * Метод сортировки по длине имени.
+     * @param list список юзеров.
+     * @return отсортированный по длине имени список юзеров.
+     */
     public List<User> sortNameLength(List<User> list) {
-        list.sort(
-                new Comparator<User>() {
-                    @Override
-                    public int compare(User o1, User o2) {
-                        return o1.getName().length() - o2.getName().length();
-                    }
-                }
-        );
+        list.sort(Comparator.comparing(User::getNameLenght));
         return list;
     }
 
+    /**
+     * Метод сортировки юзеров по обоим полям - снача по имени, потом по возрасту.
+     * @param list список юзеров.
+     * @return отсортированный список юзеров.
+     */
     public List<User> sortByAllFields(List<User> list) {
-        list.sort(
-                new Comparator<User>() {
-                    @Override
-                    public int compare(User o1, User o2) {
-                        int result = o1.getName().compareTo(o2.getName());
-                        if (result == 0) {
-                            result = o1.getAge() - o2.getAge();
-                        }
-                        return result;
-                    }
-                }
-        );
+        list.sort(Comparator.comparing(User::getName).thenComparing(User::getAge));
         return list;
     }
 }

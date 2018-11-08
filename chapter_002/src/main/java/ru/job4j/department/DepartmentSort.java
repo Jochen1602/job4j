@@ -17,9 +17,7 @@ public class DepartmentSort {
     public List<Department> sortUp(List<Department> list) {
         Set<Department> buf = new TreeSet<>(list);
         Set<Department> mainDepartments = new TreeSet<>();
-        for (Department d : buf) {
-            mainDepartments.add(new Department(d.getName().split("\\\\")[0]));
-        }
+        list.forEach(value -> mainDepartments.add(new Department(value.getName().split("\\\\")[0])));
         buf.addAll(mainDepartments);
         List<Department> result = new ArrayList<>();
         result.addAll(buf);

@@ -2,6 +2,7 @@ package ru.job4j.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**class PhoneDictionary Решение задачи 1. Телефонный справочник на базе ArrayList
  *@author antontokarev
@@ -27,12 +28,6 @@ public class PhoneDictionary {
      * @return список из результатов поиска
      */
     public List<Person> find(String key) {
-        List<Person> result = new ArrayList<>();
-        for (Person p : this.persons) {
-            if (p.getName().contains(key) || p.getSurname().contains(key) || p.getPhone().contains(key) || p.getAddress().contains(key)) {
-                result.add(p);
-            }
-        }
-        return result;
+        return persons.stream().filter(i -> (i.getName().contains(key) || i.getSurname().contains(key) || i.getPhone().contains(key) || i.getAddress().contains(key))).collect(Collectors.toList());
     }
 }

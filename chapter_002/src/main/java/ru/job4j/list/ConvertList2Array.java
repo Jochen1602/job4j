@@ -1,7 +1,9 @@
 package ru.job4j.list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**class ConvertList2Array Решение задачи 3. Конвертация ArrayList в двухмерный массив
  *@author antontokarev
@@ -9,26 +11,8 @@ import java.util.List;
  */
 public class ConvertList2Array {
     /**
-     * Метод, равномерно разбивающий коллекцию в двумерный массив
-     * @param list коллекция
-     * @param rows сколько строк необходимо
-     * @return искомый двумерный массив, в конце нули если нацело не делится
-     */
-    public int[][] toArray(List<Integer> list, int rows) {
-        int cells = (list.size() + rows - 1) / rows;
-        int[][] array = new int[rows][cells];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cells; j++) {
-                if (i * cells + j < list.size()) {
-                    array[i][j] = list.get(i * cells + j);
-                }
-            }
-        }
-        return array;
-    }
-
-    /**
      * Метод, равномерно разбивающий коллекцию в двумерный массив с использованием foreach
+     * upd: как я понимаю, этот метод на Stream API не перевести
      * @param list коллекция
      * @param rows сколько строк необходимо
      * @return искомый двумерный массив, в конце нули если нацело не делится
@@ -56,12 +40,6 @@ public class ConvertList2Array {
      * @return список, содержащий все элементы массивов
      */
     public List<Integer> convert(List<int[]> list) {
-        List<Integer> result = new ArrayList<>();
-        for (int[] i : list) {
-            for (int j : i) {
-                result.add(j);
-            }
-        }
-        return result;
+        return list.stream().flatMapToInt(Arrays::stream).boxed().collect(Collectors.toList());
     }
 }
