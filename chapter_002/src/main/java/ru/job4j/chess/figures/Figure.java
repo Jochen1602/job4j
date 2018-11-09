@@ -2,6 +2,8 @@ package ru.job4j.chess.figures;
 
 import ru.job4j.chess.ImpossibleMoveException;
 
+import java.util.Arrays;
+
 /**class Figure Решение задачи Каркас шахматной доски
  *@author antontokarev
  *@since 01.11.2018
@@ -24,13 +26,6 @@ public abstract class Figure {
      * @return клетка
      */
     protected Cell findCell(int x, int y) {
-        Cell result = Cell.H8;
-        for (Cell c : Cell.values()) {
-            if (c.getX() == x && c.getY() == y) {
-                result = c;
-                break;
-            }
-        }
-        return result;
+        return Arrays.stream(Cell.values()).filter(i -> i.getY() == y && i.getX() == x).findFirst().orElse(Cell.H8);
     }
 }

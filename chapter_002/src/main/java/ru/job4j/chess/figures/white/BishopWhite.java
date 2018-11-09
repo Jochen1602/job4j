@@ -29,7 +29,7 @@ public class BishopWhite extends Figure {
         int dx = Math.abs(source.getX() - dest.getX());
         int dy = Math.abs(source.getY() - dest.getY());
         if (dx != dy) {
-            throw new ImpossibleMoveException("Bishop walk only by diagonals.");
+            throw new ImpossibleMoveException("Bishop walks only by diagonals.");
         }
         Cell[] temp = new Cell[dx + 1];
         for (int i = 0; i <= dx; i++) {
