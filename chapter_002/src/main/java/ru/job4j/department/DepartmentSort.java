@@ -30,27 +30,19 @@ public class DepartmentSort {
      * @return отсортированный по убыванию список подразделений.
      */
     public List<Department> sortDown(List<Department> list) {
-        Set<Department> buf = new TreeSet<>(list);
-        Set<Department> mainDepartments = new TreeSet<>();
-        list.forEach(value -> mainDepartments.add(new Department(value.getName().split("\\\\")[0])));
-        buf.removeAll(mainDepartments);
         List<Department> result = new ArrayList<>();
-        List<Department> md = new ArrayList<>();
-        md.addAll(mainDepartments);
-        result.addAll(buf);
-        Collections.reverse(result);
-        Collections.reverse(md);
-        int j = 0;
-        for (int i = 0; i < result.size() + j; i++) {
-            if (result.get(i).getName().split("\\\\")[0].equals(md.get(j).getName())) {
-                result.add(i, md.get(j));
-                if (j == md.size() - 1) {
-                    j = 0;
-                } else {
-                    j++;
-                }
+        Set<Department> set = new TreeSet<>(list);
+        list.forEach(value -> set.add(new Department(value.getName().split("\\\\")[0])));
+        Set<Department> descendingData = new TreeSet<>((o1, o2) -> {
+            int minLen = Math.min(o1.getName().length(), o2.getName().length());
+            int res = -o1.getName().substring(0, minLen).compareTo(o2.getName().substring(0, minLen));
+            if (res == 0) {
+                res = Integer.compare(o1.getName().length(), o2.getName().length());
             }
-        }
+            return res;
+        });
+        descendingData.addAll(set);
+        result.addAll(descendingData);
         return result;
     }
 }

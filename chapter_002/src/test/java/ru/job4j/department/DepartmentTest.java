@@ -105,8 +105,8 @@ public class DepartmentTest {
         expected.add(element2);
         expected.add(element9);
         expected.add(element3);
-        expected.add(element1);
         expected.add(element4);
+        expected.add(element1);
         assertThat(result, is(expected));
     }
 }
