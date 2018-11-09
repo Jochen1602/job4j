@@ -16,7 +16,7 @@ public class JaggedArrayIterator implements Iterator {
 
     private int getArrayLength() {
         int result = 0;
-        for (int[] row : array) {
+        for (int[] row : this.array) {
             for (int i : row) {
                 result++;
             }
@@ -43,7 +43,5 @@ public class JaggedArrayIterator implements Iterator {
     }
 
     @Override
-    public void forEachRemaining(Consumer action) {
-
-    }
+    public void forEachRemaining(Consumer action) { }
 }

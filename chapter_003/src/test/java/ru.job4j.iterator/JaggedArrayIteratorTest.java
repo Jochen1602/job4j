@@ -8,7 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class JaggedArrayIteratorTest {
     @Test
     public void findFifthElement() {
-        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new int[][]{{1}, {2, 3, 4, 5,}, {6, 7}, {8, 9, 10, 11, 12, 13, 14}});
+        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new int[][]{{1}, {2, 3, 4, 5}, {6, 7}, {8, 9, 10, 11, 12, 13, 14}});
         jaggedArrayIterator.next();
         jaggedArrayIterator.next();
         jaggedArrayIterator.next();
@@ -19,7 +19,7 @@ public class JaggedArrayIteratorTest {
 
     @Test
     public void findFirstAndTenthElement() {
-        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new int[][]{{1}, {2, 3, 4, 5,}, {6, 7}, {8, 9, 10, 11, 12, 13, 14}});
+        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new int[][]{{1}, {2, 3, 4, 5}, {6, 7}, {8, 9, 10, 11, 12, 13, 14}});
         int result = (Integer) jaggedArrayIterator.next();
         assertThat(result, is(1));
         jaggedArrayIterator.next();
@@ -35,7 +35,7 @@ public class JaggedArrayIteratorTest {
 
     @Test
     public void hasNextOfFourthElementButNoNextForFifthElement() {
-        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new int[][]{{1}, {2, 3, 4, 5,}});
+        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new int[][]{{1}, {2, 3, 4, 5}});
         jaggedArrayIterator.next();
         jaggedArrayIterator.next();
         jaggedArrayIterator.next();
