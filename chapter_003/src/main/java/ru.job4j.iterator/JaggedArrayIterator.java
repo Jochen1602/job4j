@@ -1,14 +1,18 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
-import java.util.function.Consumer;
+import java.util.NoSuchElementException;
 
+/**
+ *class JaggedArrayIterator Решение задачи 5.1.1. Итератор для двухмерного массива int[][]
+ *@author antontokarev
+ *@since 09.11.2018
+ */
 public class JaggedArrayIterator implements Iterator {
     private final int[][] array;
     private int index = 0;
     private int row = 0;
     private int cell = -1;
-    private final int arrayLength = getArrayLength();
 
     public JaggedArrayIterator(int[][] array) {
         this.array = array;
@@ -16,8 +20,8 @@ public class JaggedArrayIterator implements Iterator {
 
     private int getArrayLength() {
         int result = 0;
-        for (int[] row : this.array) {
-            for (int i : row) {
+        for (int i = 0; i < this.array.length; i++) {
+            for (int j = 0; j < this.array[i].length; j++) {
                 result++;
             }
         }
@@ -26,22 +30,23 @@ public class JaggedArrayIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        return index < arrayLength;
+        return index < getArrayLength();
     }
 
     @Override
     public Object next() {
         int result;
-        if (cell < this.array[this.row].length - 1) {
-            result = this.array[this.row][++this.cell];
+        if (index == getArrayLength()) {
+            throw new NoSuchElementException();
         } else {
-            result = this.array[++this.row][0];
-            this.cell = 0;
+            if (cell < this.array[this.row].length - 1) {
+                result = this.array[this.row][++this.cell];
+            } else {
+                result = this.array[++this.row][0];
+                this.cell = 0;
+            }
+            this.index++;
         }
-        this.index++;
         return result;
     }
-
-    @Override
-    public void forEachRemaining(Consumer action) { }
 }

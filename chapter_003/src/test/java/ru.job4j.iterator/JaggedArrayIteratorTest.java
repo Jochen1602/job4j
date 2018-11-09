@@ -2,9 +2,16 @@ package ru.job4j.iterator;
 
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ *class JaggedArrayIteratorTest Тестирование задачи 5.1.1. Итератор для двухмерного массива int[][]
+ *@author antontokarev
+ *@since 09.11.2018
+ */
 public class JaggedArrayIteratorTest {
     @Test
     public void findFifthElement() {
@@ -31,6 +38,19 @@ public class JaggedArrayIteratorTest {
         jaggedArrayIterator.next();
         jaggedArrayIterator.next();
         assertThat(jaggedArrayIterator.next(), is(10));
+    }
+    @Test(expected = NoSuchElementException.class)
+    public void noSuchElement() {
+        JaggedArrayIterator jaggedArrayIterator = new JaggedArrayIterator(new int[][]{{1}, {2, 3, 4, 5}, {6, 7}});
+        int result = (Integer) jaggedArrayIterator.next();
+        assertThat(result, is(1));
+        jaggedArrayIterator.next();
+        jaggedArrayIterator.next();
+        jaggedArrayIterator.next();
+        jaggedArrayIterator.next();
+        jaggedArrayIterator.next();
+        jaggedArrayIterator.next();
+        jaggedArrayIterator.next();
     }
 
     @Test
