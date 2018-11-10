@@ -9,43 +9,35 @@ import java.util.NoSuchElementException;
  *@since 09.11.2018
  */
 public class JaggedArrayIterator implements Iterator {
-    private final int[][] array;
-    private int index = 0;
+    private final int[][] values;
     private int row = 0;
     private int cell = -1;
 
-    public JaggedArrayIterator(int[][] array) {
-        this.array = array;
+    public JaggedArrayIterator(int[][] values) {
+        this.values = values;
     }
 
-    private int getArrayLength() {
-        int result = 0;
-        for (int i = 0; i < this.array.length; i++) {
-            for (int j = 0; j < this.array[i].length; j++) {
-                result++;
-            }
+    @Override
+    public boolean hasNext() {
+        boolean result = true;
+        if (this.row == this.values.length - 1 && this.cell == this.values[this.values.length - 1].length - 1) {
+            result = false;
         }
         return result;
     }
 
     @Override
-    public boolean hasNext() {
-        return index < getArrayLength();
-    }
-
-    @Override
     public Object next() {
         int result;
-        if (index == getArrayLength()) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         } else {
-            if (cell < this.array[this.row].length - 1) {
-                result = this.array[this.row][++this.cell];
+            if (cell < this.values[this.row].length - 1) {
+                result = this.values[this.row][++this.cell];
             } else {
-                result = this.array[++this.row][0];
+                result = this.values[++this.row][0];
                 this.cell = 0;
             }
-            this.index++;
         }
         return result;
     }
