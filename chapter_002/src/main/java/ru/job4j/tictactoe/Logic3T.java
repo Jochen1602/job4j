@@ -18,19 +18,31 @@ public class Logic3T {
      * @param dy вектор смещения по оси y.
      * @return true если все элементы по направлению равны между собой и false если это не так.
      */
-    public boolean check(Predicate<Figure3T> predicate, int x, int y, int dx, int dy) {
+    public boolean check(Predicate<Figure3T> predicate, int x, int y, int dx, int dy, boolean isX) {
         boolean result = true;
         for (int i = 0; i < this.table.length; i++) {
             Figure3T point = this.table[x][y];
             x += dx;
             y += dy;
-            if (!predicate.test(point)) {
+            if (predicate.test(point) != isX) {
                 result = false;
                 break;
             }
         }
         return result;
+    }
 
+    public boolean isWinner(boolean isX) {
+        boolean result = false;
+        for (int i = 0; i < this.table.length; i++) {
+            if (this.check(Figure3T::hasMarkX, 0, i, 1, 0, isX) || this.check(Figure3T::hasMarkX, i, 0, 0, 1, isX)) {
+                result = true;
+            }
+        }
+        if (this.check(Figure3T::hasMarkX, 0, 0, 1, 1, isX) || this.check(Figure3T::hasMarkX, this.table.length - 1, 0, -1, 1, isX)) {
+            result = true;
+        }
+        return result;
     }
 
     /**
@@ -38,16 +50,7 @@ public class Logic3T {
      * @return true если есть, false если нет.
      */
     public boolean isWinnerX() {
-        boolean result = false;
-        for (int i = 0; i < this.table.length; i++) {
-            if (this.check(Figure3T::hasMarkX, 0, i, 1, 0) || this.check(Figure3T::hasMarkX, i, 0, 0, 1)) {
-                result = true;
-            }
-        }
-        if (this.check(Figure3T::hasMarkX, 0, 0, 1, 1) || this.check(Figure3T::hasMarkX, this.table.length - 1, 0, -1, 1)) {
-            result = true;
-        }
-        return result;
+        return isWinner(true);
     }
 
     /**
@@ -55,16 +58,7 @@ public class Logic3T {
      * @return true если есть, false если нет.
      */
     public boolean isWinnerO() {
-        boolean result = false;
-        for (int i = 0; i < this.table.length; i++) {
-            if (this.check(Figure3T::hasMarkO, 0, i, 1, 0) || this.check(Figure3T::hasMarkO, i, 0, 0, 1)) {
-                result = true;
-            }
-        }
-        if (this.check(Figure3T::hasMarkO, 0, 0, 1, 1) || this.check(Figure3T::hasMarkO, this.table.length - 1, 0, -1, 1)) {
-            result = true;
-        }
-        return result;
+        return isWinner(false);
     }
 
     /**
