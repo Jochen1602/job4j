@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
  *class SimpleArray Решение задачи 5.2.1. Реализовать SimpleArray<T>[#84114]
  *Класс-упаковка простого массива с реализацией итератора.
  *@author antontokarev
- *@since 12.11.2018
+ *@since 11.11.2018
  */
 public class SimpleArray<T> implements Iterable<T> {
     private Object[] values;
@@ -30,12 +30,21 @@ public class SimpleArray<T> implements Iterable<T> {
         this.values[index] = model;
     }
 
-    public void delete(int index) {
-        this.values[index] = null;
+    public boolean delete(int index) {
+        boolean result = false;
+        if (index < this.index && index >= 0) {
+            this.values[index] = null;
+            result = true;
+        }
+        return result;
     }
 
     public T get(int index) {
         return (T) this.values[index];
+    }
+
+    public int getSize() {
+        return values.length;
     }
 
     @Override
