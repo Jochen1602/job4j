@@ -2,9 +2,12 @@ package ru.job4j.tracker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**class Tracker Решение задачи 2. Реализовать класс Tracker.
  *@author antontokarev
@@ -73,14 +76,8 @@ public class Tracker {
      * @return список найденных заявок
      */
     public List<Item> findByName(String key) {
-        Predicate<String> predicate = p -> p.equals(key);
-        List<Item> found = new ArrayList<>();
-        for (Item i : this.items) {
-            if (predicate.test(i.getName())) {
-                found.add(i);
-            }
-        }
-        return found;
+        Predicate<Item> predicate = p -> p.getName().equals(key);
+        return this.items.stream().filter(predicate).collect(Collectors.toList());
     }
 
     /**
@@ -89,15 +86,8 @@ public class Tracker {
      * @return заявка по данному ключу
      */
     public Item findById(String id) {
-        Predicate<String> predicate = p -> p.equals(id);
-        Item result = null;
-        for (Item i : this.items) {
-            if (predicate.test(i.getId())) {
-                result = i;
-                break;
-            }
-        }
-        return result;
+        Predicate<Item> predicate = p -> p.getId().equals(id);
+        return this.items.stream().filter(predicate).findFirst().orElse(null);
     }
 
     /**
