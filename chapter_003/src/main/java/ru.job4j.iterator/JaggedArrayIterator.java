@@ -19,11 +19,7 @@ public class JaggedArrayIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        boolean result = true;
-        if (this.row == this.values.length - 1 && this.cell == this.values[this.values.length - 1].length - 1) {
-            result = false;
-        }
-        return result;
+        return this.row != this.values.length - 1 || this.cell != this.values[this.values.length - 1].length - 1;
     }
 
     @Override
