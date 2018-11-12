@@ -34,8 +34,8 @@ public class SimpleArrayListTest {
 
     @Test
     public void whenAddThreeElementsThenDeleteTwoOfThem() {
-        assertThat((Integer) list.delete(), is(3));
-        assertThat((Integer) list.delete(), is(2));
+        assertThat(list.delete(), is(3));
+        assertThat(list.delete(), is(2));
         assertThat(list.getSize(), is(1));
     }
 }
