@@ -36,7 +36,7 @@ public class MyLinkedList<E> implements Iterable<E> {
     }
 
     /**
-     * Метод добавления элемента.
+     * Метод добавления первого элемента.
      * @param value значение, что нужно добавить.
      */
     public void addFirst(E value) {
@@ -45,6 +45,10 @@ public class MyLinkedList<E> implements Iterable<E> {
         last = newby;
     }
 
+    /**
+     * Метод добавления элемента в конец контейнера.
+     * @param value значение, что нужно добавить.
+     */
     public void addLast(E value) {
         Node<E> f = last;
         Node<E> newby = new Node<>(f, value, null);
@@ -53,6 +57,10 @@ public class MyLinkedList<E> implements Iterable<E> {
         last.prev = f;
     }
 
+    /**
+     * Общий метод обавления элементов в контейнер.
+     * @param value значение, что нужно добавить.
+     */
     public void add(E value) {
         if (size == 0) {
             addFirst(value);
@@ -61,6 +69,24 @@ public class MyLinkedList<E> implements Iterable<E> {
         }
         size++;
         this.modCount++;
+    }
+
+    /**
+     * Метод удаления элемента из конца списка.
+     * Метод нужен для решения последующих задач.
+     * @return удалённый элемент.
+     */
+    public E deleteLast() {
+        Node<E> buf = last;
+        if (size > 1) {
+            this.last.prev.next = null;
+            this.last = this.last.prev;
+        } else {
+            this.first = null;
+            this.last = null;
+        }
+        this.size--;
+        return buf.item;
     }
 
     /**
@@ -84,9 +110,13 @@ public class MyLinkedList<E> implements Iterable<E> {
         return this.size;
     }
 
+    /**
+     * Метод проверяет, были ли модификации контейнера во время работы итератора.
+     */
     final void checkForComodification() {
-        if (modCount != expectedModCount)
+        if (modCount != expectedModCount) {
             throw new ConcurrentModificationException();
+        }
     }
 
 
