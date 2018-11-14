@@ -30,5 +30,6 @@ public class SimpleQueueTest {
         assertThat(list.poll(), is("45"));
         list.push("67");
         assertThat(list.poll(), is("56"));
+        assertThat(list.poll(), is("67"));
     }
 }

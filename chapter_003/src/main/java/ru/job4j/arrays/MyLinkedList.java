@@ -68,7 +68,6 @@ public class MyLinkedList<E> implements Iterable<E> {
             addLast(value);
         }
         size++;
-        System.out.println("size is " + size + "    added " + value);
         this.modCount++;
     }
 
@@ -87,7 +86,9 @@ public class MyLinkedList<E> implements Iterable<E> {
             this.last = null;
         }
         this.size--;
-
+        if (buf == null) {
+            this.size = 0;
+        }
         return buf == null ? null : buf.item;
     }
 

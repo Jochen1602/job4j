@@ -9,27 +9,29 @@ public class SimpleQueue<E> {
     SimpleStack<E> firstStack = new SimpleStack<>();
     SimpleStack<E> secondStack = new SimpleStack<>();
 
+    /**
+     * Метод выводит последний элемент очереди и затем удаляет его.
+     * @return последний элемент.
+     */
     public E poll() {
         E result;
-
         if (secondStack.isEmpty()) {
             E element;
-            System.out.println("second stack is empty");
             element = firstStack.poll();
             while (element != null) {
                 secondStack.push(element);
-                System.out.println("added in second stack " + element);
                 element = firstStack.poll();
-                System.out.println("" + element);
             }
         }
         result = secondStack.poll();
-        System.out.println("result is " + result);
         return result;
     }
 
+    /**
+     * Метод вставляет указанный элемент в очередь.
+     * @param value элемент для вставки.
+     */
     public void push(E value) {
         firstStack.push(value);
-        System.out.println("added in first stack " + value);
     }
 }
