@@ -62,12 +62,13 @@ public class MyLinkedList<E> implements Iterable<E> {
      * @param value значение, что нужно добавить.
      */
     public void add(E value) {
-        if (size == 0) {
+        if (last == null) {
             addFirst(value);
         } else {
             addLast(value);
         }
         size++;
+        System.out.println("size is " + size);
         this.modCount++;
     }
 
@@ -86,7 +87,8 @@ public class MyLinkedList<E> implements Iterable<E> {
             this.last = null;
         }
         this.size--;
-        return buf.item;
+
+        return buf == null ? null : buf.item;
     }
 
     /**
