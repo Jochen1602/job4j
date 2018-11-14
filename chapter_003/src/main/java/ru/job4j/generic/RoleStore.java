@@ -6,16 +6,6 @@ public class RoleStore extends AbstractStore<Role> {
     }
 
     @Override
-    public void add(Base model) {
-        super.add(model);
-    }
-
-    @Override
-    public boolean replace(String id, Base model) {
-        return super.replace(id, model);
-    }
-
-    @Override
     public boolean delete(String id) {
         return super.delete(id);
     }

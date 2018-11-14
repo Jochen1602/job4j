@@ -114,13 +114,12 @@ public class DynamicList<E> implements Iterable<E> {
             public E next() {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
-                } else {
-                    if (!hasNext()) {
-                        throw new NoSuchElementException();
-                    } else {
-                        return (E) container[iteration++];
-                    }
                 }
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                    } else {
+                    return (E) container[iteration++];
+                    }
             }
         };
     }

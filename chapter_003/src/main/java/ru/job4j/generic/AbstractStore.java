@@ -7,7 +7,7 @@ import ru.job4j.arrays.SimpleArray;
  *@author antontokarev
  *@since 12.11.2018
  */
-public abstract class AbstractStore<T extends Base> implements Store {
+public abstract class AbstractStore<T extends Base> implements Store<T> {
     private SimpleArray<T> values;
 
     /**
