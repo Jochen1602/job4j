@@ -13,11 +13,11 @@ public class MyLinkedList<E> implements Iterable<E> {
     private Node<E> first;
     private Node<E> last;
     private int size = 0;
-    private transient int modCount = 0;
+    private int modCount = 0;
     private Node<E> lastReturned;
     private Node<E> next;
     private int nextIndex;
-    int expectedModCount = 0;
+    int expectedModCount;
 
     private static class Node<E> {
         Node<E> prev;
@@ -68,7 +68,7 @@ public class MyLinkedList<E> implements Iterable<E> {
             addLast(value);
         }
         size++;
-        System.out.println("size is " + size);
+        System.out.println("size is " + size + "    added " + value);
         this.modCount++;
     }
 
@@ -106,28 +106,17 @@ public class MyLinkedList<E> implements Iterable<E> {
 
     /**
      * Метод возвращает текущий размер контейнера.
-     * @return
+     * @return размер.
      */
     public int getSize() {
         return this.size;
     }
 
-    /**
-     * Метод проверяет, были ли модификации контейнера во время работы итератора.
-     */
-    final void checkForComodification() {
-        if (modCount != expectedModCount) {
-            throw new ConcurrentModificationException();
-        }
-    }
-
-
     @Override
     public Iterator<E> iterator() {
         expectedModCount = modCount;
-        System.out.println(modCount + "     " + expectedModCount);
+        System.out.println("expectedModCount изменился");
         return new Iterator<E>() {
-
 
             @Override
             public boolean hasNext() {
@@ -137,21 +126,22 @@ public class MyLinkedList<E> implements Iterable<E> {
             @Override
             public E next() {
                 System.out.println(modCount + " in next " + expectedModCount);
-                checkForComodification();
+                if (modCount != expectedModCount) {
+                    throw new ConcurrentModificationException();
+                }
                     if (!hasNext()) {
                         throw new NoSuchElementException();
                     } else {
-                        if (nextIndex == 0) {
-                            lastReturned = first;
-                            next = first;
-                        } else {
-                            lastReturned = next;
+                    if (nextIndex == 0) {
+                        lastReturned = first;
+                        next = first;
+                    } else {
+                        lastReturned = next;
                         }
                         next = next.next;
                         nextIndex++;
                         return lastReturned.item;
                     }
-
             }
         };
     }
