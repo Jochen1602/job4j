@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.Before;
 
 import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.Matchers.is;
@@ -41,18 +42,17 @@ public class MyLinkedListTest {
     }
     @Test(expected = ConcurrentModificationException.class)
     public void concurrentModificationException() {
-        assertThat(list.iterator().hasNext(), is(true));
-        list.iterator().next();
-        list.iterator().next();
-        list.add("56");
-        list.iterator().next();
+        Iterator<String> it = list.iterator();
+        assertThat(it.next(), is("12"));
+        list.add("34");
+        assertThat(it.next(), is("12"));
     }
     @Test(expected = NoSuchElementException.class)
     public void noSuchElementException() {
-        assertThat(list.iterator().hasNext(), is(true));
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
+        Iterator<String> it = list.iterator();
+        it.next();
+        it.next();
+        it.next();
+        it.next();
     }
 }

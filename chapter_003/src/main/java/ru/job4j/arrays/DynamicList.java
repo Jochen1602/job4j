@@ -20,7 +20,6 @@ public class DynamicList<E> implements Iterable<E> {
     private Object[] container;
     private int modCount = 0;
     private int index = 0;
-    private int iteration = 0;
 
     /**
      * Дефолтный конструктор. Всегда создаёт массив фиксированного размера.
@@ -35,7 +34,6 @@ public class DynamicList<E> implements Iterable<E> {
      */
     public void add(E value) {
         this.modCount++;
-        System.out.println("after adding " + value + " modCount is " + modCount);
         if (index == this.container.length) {
             newSize(index + (index >> 1));
         }
@@ -101,13 +99,11 @@ public class DynamicList<E> implements Iterable<E> {
         return this.container.length;
     }
 
-
-
     @Override
     public Iterator<E> iterator() {
         final int expectedModCount = modCount;
-        System.out.println(expectedModCount + " and " + modCount);
         return new Iterator<E>() {
+            int iteration = 0;
             @Override
             public boolean hasNext() {
                 return iteration < index;
@@ -115,16 +111,13 @@ public class DynamicList<E> implements Iterable<E> {
 
             @Override
             public E next() {
-
                 if (expectedModCount != modCount) {
-                    System.out.println(expectedModCount + " but was " + modCount);
                     throw new ConcurrentModificationException();
                 }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                    } else {
-                    return (E) container[iteration++];
                     }
+                return (E) container[iteration++];
             }
         };
     }

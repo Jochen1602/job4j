@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.Before;
 
 import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -53,20 +54,22 @@ public class DynamicListTest {
     }
     @Test(expected = ConcurrentModificationException.class)
     public void iteratorTest() {
-        assertThat(list.iterator().next(), is("12"));
-        assertThat(list.iterator().next(), is("23"));
+        Iterator<String> it = list.iterator();
+        assertThat(it.next(), is("12"));
+        assertThat(it.next(), is("23"));
         list.add("34");
-        assertThat(list.iterator().next(), is("12"));
+        assertThat(it.next(), is("12"));
     }
     @Test
     public void hasNextIteratorTest() {
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
-        assertThat(list.iterator().hasNext(), is(true));
-        list.iterator().next();
-        assertThat(list.iterator().hasNext(), is(false));
+        Iterator<String> it = list.iterator();
+        assertThat(it.next(), is("12"));
+        assertThat(it.next(), is("23"));
+        assertThat(it.next(), is("34"));
+        assertThat(it.next(), is("45"));
+        assertThat(it.next(), is("56"));
+        assertThat(it.hasNext(), is(true));
+        it.next();
+        assertThat(it.hasNext(), is(false));
     }
 }

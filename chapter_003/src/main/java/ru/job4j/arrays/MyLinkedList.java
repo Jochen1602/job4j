@@ -17,7 +17,6 @@ public class MyLinkedList<E> implements Iterable<E> {
     private Node<E> lastReturned;
     private Node<E> next;
     private int nextIndex;
-    int expectedModCount;
 
     private static class Node<E> {
         Node<E> prev;
@@ -115,8 +114,7 @@ public class MyLinkedList<E> implements Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        expectedModCount = modCount;
-        System.out.println("expectedModCount изменился");
+        final int expectedModCount = modCount;
         return new Iterator<E>() {
 
             @Override
@@ -126,13 +124,12 @@ public class MyLinkedList<E> implements Iterable<E> {
 
             @Override
             public E next() {
-                System.out.println(modCount + " in next " + expectedModCount);
                 if (modCount != expectedModCount) {
                     throw new ConcurrentModificationException();
                 }
                     if (!hasNext()) {
                         throw new NoSuchElementException();
-                    } else {
+                    }
                     if (nextIndex == 0) {
                         lastReturned = first;
                         next = first;
@@ -143,7 +140,6 @@ public class MyLinkedList<E> implements Iterable<E> {
                         nextIndex++;
                         return lastReturned.item;
                     }
-            }
         };
     }
 }

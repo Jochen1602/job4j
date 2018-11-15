@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -30,19 +31,22 @@ public class SimpleSetTest {
 
     @Test
     public void setStructureTest() {
-        assertThat(set.iterator().next().equals("12"), is(true));
-        assertThat(set.iterator().next().equals("23"), is(true));
-        assertThat(set.iterator().next().equals("34"), is(true));
-        assertThat(set.iterator().next().equals("01"), is(true));
-        assertThat(set.iterator().hasNext(), is(false));
+        Iterator<String> it = set.iterator();
+        assertThat(it.next(), is("12"));
+        assertThat(it.next(), is("23"));
+        assertThat(it.next(), is("34"));
+        assertThat(it.next(), is("01"));
+        assertThat(it.hasNext(), is(false));
     }
 
     @Test(expected = ConcurrentModificationException.class)
     public void concurrentModificationExceptionTest() {
-        assertThat(set.iterator().next().equals("12"), is(true));
-        assertThat(set.iterator().next().equals("23"), is(true));
-        assertThat(set.iterator().next().equals("34"), is(true));
-        set.add("12");
-        assertThat(set.iterator().next().equals("01"), is(true));
+        Iterator<String> it = set.iterator();
+        assertThat(it.next(), is("12"));
+        assertThat(it.next(), is("23"));
+        assertThat(it.next(), is("34"));
+        set.add("00");
+        assertThat(it.next(), is("01"));
+        assertThat(it.hasNext(), is(false));
     }
 }
