@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 public class DynamicList<E> implements Iterable<E> {
     private static final int INIT = 10;
     private Object[] container;
-    private transient int modCount = 0;
+    private int modCount = 0;
     private int index = 0;
     private int iteration = 0;
 
@@ -34,7 +34,8 @@ public class DynamicList<E> implements Iterable<E> {
      * @param value значение, что нужно добавить.
      */
     public void add(E value) {
-        modCount++;
+        this.modCount++;
+        System.out.println("after adding " + value + " modCount is " + modCount);
         if (index == this.container.length) {
             newSize(index + (index >> 1));
         }
@@ -100,10 +101,12 @@ public class DynamicList<E> implements Iterable<E> {
         return this.container.length;
     }
 
-    int expectedModCount = modCount;
+
+
     @Override
     public Iterator<E> iterator() {
-
+        final int expectedModCount = modCount;
+        System.out.println(expectedModCount + " and " + modCount);
         return new Iterator<E>() {
             @Override
             public boolean hasNext() {
@@ -112,7 +115,9 @@ public class DynamicList<E> implements Iterable<E> {
 
             @Override
             public E next() {
+
                 if (expectedModCount != modCount) {
+                    System.out.println(expectedModCount + " but was " + modCount);
                     throw new ConcurrentModificationException();
                 }
                 if (!hasNext()) {

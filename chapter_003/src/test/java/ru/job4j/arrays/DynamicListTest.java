@@ -58,12 +58,8 @@ public class DynamicListTest {
         list.add("34");
         assertThat(list.iterator().next(), is("12"));
     }
-    @Test(expected = ConcurrentModificationException.class)
+    @Test
     public void hasNextIteratorTest() {
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
         list.iterator().next();
         list.iterator().next();
         list.iterator().next();
