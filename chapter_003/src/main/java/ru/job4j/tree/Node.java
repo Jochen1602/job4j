@@ -16,10 +16,6 @@ public class Node<E extends Comparable<E>> {
         this.value = value;
     }
 
-    public List<Node<E>> getChildren() {
-        return children;
-    }
-
     public E getValue() {
         return value;
     }
@@ -34,5 +30,26 @@ public class Node<E extends Comparable<E>> {
 
     public boolean eqValue(E that) {
         return this.value.compareTo(that) == 0;
+    }
+
+    /**
+     * Метод проверяющий, бинарное ли дерево вниз от такущего элемента.
+     * Вызывает сам себя для всех листочков и проверяет, есть ли элемент,
+     * у которого более 2 листиков.
+     * @return true если бинарное, false если нет.
+     */
+    public boolean isBinary() {
+        boolean result = true;
+        if (leaves().size() > 2) {
+            result = false;
+        } else {
+            for (Node<E> leave : leaves()) {
+                if (!leave.isBinary()) {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 }
