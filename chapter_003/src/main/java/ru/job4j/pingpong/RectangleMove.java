@@ -13,7 +13,7 @@ public class RectangleMove implements Runnable {
     public void run() {
         int dx = 5 + (int) (Math.random() * 5);
         int dy = 5 + (int) (Math.random() * 5);
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             this.rect.setX(this.rect.getX() + dx);
             this.rect.setY(this.rect.getY() + dy);
             if (this.rect.getX() <= 2 || this.rect.getX() >= 298) {
@@ -25,7 +25,7 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
