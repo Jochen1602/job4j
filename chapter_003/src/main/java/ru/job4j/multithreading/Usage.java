@@ -34,7 +34,7 @@ public class Usage {
         }
     }
 
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args) throws InterruptedException {
         Counter counterA = new Counter();
         counterA.add(1);
         Counter counterB = new Counter();
@@ -42,8 +42,8 @@ public class Usage {
         Thread threadA = new CounterThread(counterA, counterB);
         Thread threadB = new CounterThread(counterB, counterA);
         threadA.start();
-        threadB.start();
         threadA.join();
+        threadB.start();
         threadB.join();
         System.out.println(counterA.count + "   " + counterB.count);
     }
