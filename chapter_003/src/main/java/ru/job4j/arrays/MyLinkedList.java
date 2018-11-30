@@ -14,9 +14,6 @@ public class MyLinkedList<E> implements Iterable<E> {
     private Node<E> last;
     private int size = 0;
     private int modCount = 0;
-    private Node<E> lastReturned;
-    private Node<E> next;
-    private int nextIndex;
 
     private static class Node<E> {
         Node<E> prev;
@@ -98,8 +95,12 @@ public class MyLinkedList<E> implements Iterable<E> {
      */
     public E get(int index) {
         Node<E> result = this.first;
-        for (int i = 0; i < index; i++) {
-            result = result.next;
+        if (index >= getSize()) {
+            result.item = null;
+        } else {
+            for (int i = 0; i < index; i++) {
+                result = result.next;
+            }
         }
         return result.item;
     }
@@ -115,6 +116,9 @@ public class MyLinkedList<E> implements Iterable<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
+            private Node<E> lastReturned;
+            private Node<E> next;
+            private int nextIndex;
             final int expectedModCount = modCount;
             @Override
             public boolean hasNext() {
@@ -131,12 +135,13 @@ public class MyLinkedList<E> implements Iterable<E> {
                     }
                     if (nextIndex == 0) {
                         lastReturned = first;
-                        next = first;
+                        next = first.next;
+                        nextIndex++;
                     } else {
                         lastReturned = next;
-                        }
                         next = next.next;
                         nextIndex++;
+                        }
                         return lastReturned.item;
                     }
         };

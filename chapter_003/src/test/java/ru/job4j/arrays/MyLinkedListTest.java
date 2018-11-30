@@ -23,22 +23,24 @@ public class MyLinkedListTest {
         list.add("12");
         list.add("23");
         list.add("34");
-
     }
     @Test
     public void justBigTest() {
         assertThat(list.getSize(), is(3));
         assertThat(list.get(1).equals("23"), is(true));
-
+        assertThat(list.get(2).equals("34"), is(true));
+        list.deleteLast();
+        assertThat(list.get(2) == null, is(true));
     }
 
     @Test
     public void justAnotherBigTest() {
         assertThat(list.iterator().hasNext(), is(true));
-        list.iterator().next();
-        list.iterator().next();
-        list.iterator().next();
-        assertThat(list.iterator().hasNext(), is(false));
+        Iterator<String> it = list.iterator();
+        assertThat(it.next(), is("12"));
+        assertThat(it.next(), is("23"));
+        assertThat(it.next(), is("34"));
+        assertThat(it.hasNext(), is(false));
     }
     @Test(expected = ConcurrentModificationException.class)
     public void concurrentModificationException() {
