@@ -14,13 +14,13 @@ public class UserStorageTest {
         private final UserStorage userStorage;
         private final User user;
 
-        public addUserToStorage(UserStorage userStorage, User user) {
+        public addUserToStorage(final UserStorage userStorage, final User user) {
             this.userStorage = userStorage;
             this.user = user;
         }
 
         @Override
-        public void run() {
+        public synchronized void run() {
             userStorage.add(user);
         }
     }
@@ -31,7 +31,7 @@ public class UserStorageTest {
         private final int toId;
         private final int amount;
 
-        public transferFromUserToUser(UserStorage userStorage, int fromId, int toId, int amount) {
+        public transferFromUserToUser(final UserStorage userStorage, final int fromId, final int toId, final int amount) {
             this.userStorage = userStorage;
             this.fromId = fromId;
             this.toId = toId;
@@ -39,7 +39,7 @@ public class UserStorageTest {
         }
 
         @Override
-        public void run() {
+        public synchronized void run() {
             userStorage.transfer(fromId, toId, amount);
         }
     }
@@ -101,6 +101,32 @@ public class UserStorageTest {
         assertThat(store.findUserById(2).getAmount(), is(200));
         assertThat(store.findUserById(3).getAmount(), is(150));
         assertThat(store.findUserById(4).getAmount(), is(250));
+        Thread a1Transfer = new transferFromUserToUser(store, 1, 2, 100);
+        Thread a2Transfer = new transferFromUserToUser(store, 2, 1, 100);
+        Thread a3Transfer = new transferFromUserToUser(store, 1, 2, 100);
+        Thread a4Transfer = new transferFromUserToUser(store, 2, 1, 100);
+        Thread a5Transfer = new transferFromUserToUser(store, 1, 2, 100);
+        Thread a6Transfer = new transferFromUserToUser(store, 2, 1, 100);
+        Thread a7Transfer = new transferFromUserToUser(store, 1, 2, 100);
+        Thread a8Transfer = new transferFromUserToUser(store, 2, 1, 100);
+        a1Transfer.start();
+        a2Transfer.start();
+        a3Transfer.start();
+        a4Transfer.start();
+        a5Transfer.start();
+        a6Transfer.start();
+        a7Transfer.start();
+        a8Transfer.start();
+        a1Transfer.join();
+        a2Transfer.join();
+        a3Transfer.join();
+        a4Transfer.join();
+        a5Transfer.join();
+        a6Transfer.join();
+        a7Transfer.join();
+        a8Transfer.join();
+        assertThat(store.findUserById(1).getAmount(), is(200));
+        assertThat(store.findUserById(2).getAmount(), is(200));
         Thread aTransfer = new transferFromUserToUser(store, 3, 1, 50);
         Thread bTransfer = new transferFromUserToUser(store, 1, 3, 250);
         Thread cTransfer = new transferFromUserToUser(store, 3, 2, 50);
