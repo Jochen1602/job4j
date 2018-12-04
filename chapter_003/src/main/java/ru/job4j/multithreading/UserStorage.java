@@ -89,7 +89,7 @@ public class UserStorage {
      * @param amount сумма перевода.
      * @return true если добавление прошло успешно, false иначе.
      */
-    public boolean transfer(final int fromId, final int toId, final int amount) {
+    public synchronized boolean transfer(final int fromId, final int toId, final int amount) {
             boolean result = false;
             User from = findUserById(fromId);
             User to = findUserById(toId);
