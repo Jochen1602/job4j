@@ -71,8 +71,8 @@ public class SimpleBlockingQueueTest {
         producer.start();
         consumer.join();
         assertThat(polled.get(0), is(10));
-        assertThat(queue.getSize(), is(4));
         Thread.sleep(1000);
+        assertThat(queue.getSize(), is(4));
         Thread newConsumer = new Thread(() -> {
             try {
                 polled.add(queue.poll());
@@ -82,7 +82,7 @@ public class SimpleBlockingQueueTest {
         });
         newConsumer.start();
         newConsumer.join();
-
+        Thread.sleep(5);
         assertThat(queue.getSize(), is(4));
 
         Thread lastConsumer = new Thread(() -> {
