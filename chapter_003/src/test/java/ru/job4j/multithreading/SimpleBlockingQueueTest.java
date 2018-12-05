@@ -19,11 +19,15 @@ public class SimpleBlockingQueueTest {
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         final List<Integer> polled = new ArrayList<>();
         Thread consumer = new Thread(() -> {
-            polled.add(queue.poll());
-            polled.add(queue.poll());
-            polled.add(queue.poll());
-            polled.add(queue.poll());
-            polled.add(queue.poll());
+            try {
+                polled.add(queue.poll());
+                polled.add(queue.poll());
+                polled.add(queue.poll());
+                polled.add(queue.poll());
+                polled.add(queue.poll());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
         consumer.start();
         Thread producer = new Thread(() -> {
@@ -47,7 +51,13 @@ public class SimpleBlockingQueueTest {
     public void secondTest() throws InterruptedException {
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         final List<Integer> polled = new ArrayList<>();
-        Thread consumer = new Thread(() -> polled.add(queue.poll()));
+        Thread consumer = new Thread(() -> {
+            try {
+                polled.add(queue.poll());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         consumer.start();
         Thread producer = new Thread(() -> {
             queue.offer(10);
@@ -62,7 +72,13 @@ public class SimpleBlockingQueueTest {
         assertThat(polled.get(0), is(10));
         assertThat(queue.getSize(), is(4));
         Thread.sleep(1000);
-        Thread newConsumer = new Thread(() -> polled.add(queue.poll()));
+        Thread newConsumer = new Thread(() -> {
+            try {
+                polled.add(queue.poll());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         newConsumer.start();
         newConsumer.join();
         producer.join();

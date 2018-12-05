@@ -14,7 +14,7 @@ import java.util.Queue;
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
     @GuardedBy("this")
-    private Queue<T> queue = new LinkedList<>();
+    private final Queue<T> queue = new LinkedList<>();
     private boolean blocked = false;
     private int size = 0;
     private static final int SIZE = 4;
@@ -61,12 +61,12 @@ public class SimpleBlockingQueue<T> {
      * Метод взять с извлечением элемент из очереди.
      * @return взятый элемент.
      */
-    public synchronized T poll() {
+    public synchronized T poll() throws InterruptedException {
         while (isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new InterruptedException();
             }
         }
         blocked = false;
