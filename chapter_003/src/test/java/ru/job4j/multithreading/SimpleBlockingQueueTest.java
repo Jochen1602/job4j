@@ -3,6 +3,7 @@ package ru.job4j.multithreading;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -81,7 +82,24 @@ public class SimpleBlockingQueueTest {
         });
         newConsumer.start();
         newConsumer.join();
-        producer.join();
+
         assertThat(queue.getSize(), is(4));
+
+        Thread lastConsumer = new Thread(() -> {
+            while (!queue.isEmpty() || !Thread.currentThread().isInterrupted()) {
+                try {
+                    polled.add(queue.poll());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                }
+            }
+
+        });
+        lastConsumer.start();
+        producer.join();
+        lastConsumer.interrupt();
+        lastConsumer.join();
+        assertThat(polled, is(Arrays.asList(10, 20, 40, 80, 160, 320)));
     }
 }

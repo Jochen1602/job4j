@@ -23,7 +23,7 @@ public class SimpleBlockingQueue<T> {
      * Метод проверяет пуста ли очередь.
      * @return true если пуста.
      */
-    private synchronized boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return queue.isEmpty();
     }
 
