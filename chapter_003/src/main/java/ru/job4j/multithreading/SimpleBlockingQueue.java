@@ -64,9 +64,11 @@ public class SimpleBlockingQueue<T> {
     public synchronized T poll() throws InterruptedException {
         while (isEmpty()) {
             try {
+                System.out.println("Waiting");
                 wait();
             } catch (InterruptedException e) {
-                throw new InterruptedException();
+                System.out.println("Poll interrupted");
+                //throw new InterruptedException();
             }
         }
         blocked = false;

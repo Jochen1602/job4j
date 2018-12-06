@@ -17,7 +17,7 @@ public class ParallelSearch {
                             System.out.println(queue.poll());
                         } catch (InterruptedException e) {
                             System.out.println("Consumer stopped");
-                            Thread.currentThread().interrupt();
+                            //Thread.currentThread().interrupt();
                         }
                     }
                 }
@@ -31,7 +31,7 @@ public class ParallelSearch {
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                            Thread.currentThread().interrupt();
+                            //Thread.currentThread().interrupt();
                         }
                     }
                 }
