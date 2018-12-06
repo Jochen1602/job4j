@@ -56,9 +56,9 @@ public class SynchronizedDynamicListTest {
 
         @Override
         public void run() {
-            it.next();
-            it.next();
-            it.next();
+            System.out.println(it.next());
+            System.out.println(it.next());
+            System.out.println(it.next());
         }
     }
 
@@ -105,6 +105,7 @@ public class SynchronizedDynamicListTest {
         list.add("333");
         list.add("444");
         list.add("555");
+        list.add("666");
         Iterator<String> it = list.iterator();
         Thread first = new DynamicListIteratorNext(list, it);
         Thread second = new DynamicListIteratorNext(list, it);
@@ -112,7 +113,6 @@ public class SynchronizedDynamicListTest {
         second.start();
         first.join();
         second.join();
-
     }
 
 }

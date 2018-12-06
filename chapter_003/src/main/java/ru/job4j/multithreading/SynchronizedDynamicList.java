@@ -12,33 +12,32 @@ import net.jcip.annotations.ThreadSafe;
  *@since 04.12.2018
  */
 @ThreadSafe
-public class SynchronizedDynamicList<E> extends DynamicList<E> {
+public class SynchronizedDynamicList<E>  {
     @GuardedBy("this")
     DynamicList<E> array = new DynamicList<>();
 
-    @Override
     public synchronized void add(E value) {
-        super.add(value);
+        this.array.add(value);
     }
 
-    @Override
     public synchronized boolean delete(int index) {
-        return super.delete(index);
+        return this.array.delete(index);
     }
 
-    @Override
     public synchronized E get(int index) {
-        return super.get(index);
+        return this.array.get(index);
     }
 
-    @Override
+    public synchronized boolean set(int index, E value) {
+        return this.array.set(index, value);
+    }
+
     public synchronized Iterator<E> iterator() {
         return copy(this.array).iterator();
     }
 
     public synchronized DynamicList<E> copy(DynamicList<E> data) {
         DynamicList<E> result = new DynamicList<>();
-        System.out.println(data.get(0));
         for (E d : data) {
             result.add(d);
         }
