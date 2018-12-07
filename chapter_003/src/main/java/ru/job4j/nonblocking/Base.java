@@ -11,7 +11,7 @@ public class Base {
         this.version = 0;
     }
 
-    public synchronized int getId() {
+    public int getId() {
         return id;
     }
 
@@ -19,16 +19,16 @@ public class Base {
      * Изменил значение - версия тоже изменилась.
      * @param value новое значение.
      */
-    public synchronized void setValue(int value) {
+    public void setValue(int value) {
         this.value = value;
         this.version++;
     }
 
-    public synchronized int getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public synchronized int getValue() {
+    public int getValue() {
         return value;
     }
 }

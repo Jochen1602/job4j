@@ -12,25 +12,25 @@ public class NonBlockingCashe {
     @GuardedBy("this")
     private volatile ConcurrentHashMap<Integer, Base> map = new ConcurrentHashMap<>();
 
-    protected synchronized Base getValue(int id) {
+    protected Base getValue(int id) {
         return this.map.get(id);
     }
 
-    protected synchronized int getSize() {
+    protected int getSize() {
         return this.map.size();
     }
 
-    protected synchronized void add(Base model) {
+    protected void add(Base model) {
         this.map.putIfAbsent(model.getId(), model);
     }
 
-    protected synchronized void update(int id, int value) {
-        final int ver = map.get(id).getVersion();
+    protected void update(int id, int value) {
         this.map.computeIfPresent(id, new BiFunction<Integer, Base, Base>() {
             @Override
             public Base apply(Integer integer, Base base) {
+                final int ver = map.get(id).getVersion();
                 if (base.getVersion() == ver) {
-                    //System.out.println("ver = " + ver + "    value = " + value);
+                    System.out.println("ver = " + ver + "    value = " + value);
                     base.setValue(value);
                 } else {
                     throw new OptimisticException();
@@ -40,7 +40,7 @@ public class NonBlockingCashe {
         });
     }
 
-    protected synchronized void delete(Base model) {
+    protected void delete(Base model) {
         try {
             this.map.remove(model);
         } catch (NoSuchElementException e) {
