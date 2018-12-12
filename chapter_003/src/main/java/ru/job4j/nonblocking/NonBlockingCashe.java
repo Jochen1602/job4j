@@ -31,6 +31,7 @@ public class NonBlockingCashe {
                 final int ver = map.get(id).getVersion();
                 if (base.getVersion() == ver) {
                     base.setValue(value);
+                    System.out.println("ver = " + ver + "    value = " + value);
                 } else {
                     throw new OptimisticException();
                 }
