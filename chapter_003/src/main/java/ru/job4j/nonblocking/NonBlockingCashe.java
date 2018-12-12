@@ -10,7 +10,7 @@ import net.jcip.annotations.ThreadSafe;
 @ThreadSafe
 public class NonBlockingCashe {
     @GuardedBy("this")
-    private volatile ConcurrentHashMap<Integer, Base> map = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, Base> map = new ConcurrentHashMap<>();
 
     protected Base getValue(int id) {
         return this.map.get(id);
@@ -27,10 +27,9 @@ public class NonBlockingCashe {
     protected void update(int id, int value) {
         this.map.computeIfPresent(id, new BiFunction<Integer, Base, Base>() {
             @Override
-            public Base apply(Integer integer, Base base) {
+            public Base apply(Integer id, Base base) {
                 final int ver = map.get(id).getVersion();
                 if (base.getVersion() == ver) {
-                    System.out.println("ver = " + ver + "    value = " + value);
                     base.setValue(value);
                 } else {
                     throw new OptimisticException();
