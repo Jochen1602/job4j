@@ -6,20 +6,65 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Board {
     private final ReentrantLock[][] board;
+    private static int beast = 0;
     private final int sizeX;
     private final int sizeY;
+    private int moveX = 1;
+    private int moveY = 0;
 
     /**
      * Конструктор. Задаём размеры игровой области, инициализируем хранилище ячеек,
      * создаём бомбермена.
-     * @param sizeX
-     * @param sizeY
+     * @param sizeX размер в высоту.
+     * @param sizeY размер в ширину.
      */
-    public Board(int sizeX, int sizeY) {
+    public Board(int sizeX, int sizeY, int beasts) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.board = new ReentrantLock[sizeX][sizeY];
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                board[i][j] = new ReentrantLock();
+            }
+        }
         Bomberman bomberman = new Bomberman(new Cell(0, 0), this);
+        System.out.println("Bomberman was added in cell x = 0 y = 0");
+        for (int i = 0; i < sizeX / 2; i++) {
+            for (int j = 0; j < sizeY / 2; j++) {
+                new Wall(new Cell(2 * i + 1, 2 * j + 1), this);
+                System.out.printf("The wall was added in cell x = %d y = %d", 2 * i + 1, 2 * j + 1);
+                System.out.println();
+            }
+        }
+        Random random = new Random();
+        for (int i = 0; i < beasts; i++) {
+            while (!addBeasts(new Cell(random.nextInt(sizeX), random.nextInt(sizeY)))) {
+            }
+        }
+    }
+
+    public boolean cellIsFree(Cell cell) {
+        return !this.board[cell.getX()][cell.getY()].isLocked();
+    }
+
+    public int getMoveX() {
+        return moveX;
+    }
+
+    public void setMoveX(int moveX) {
+        this.moveX = moveX;
+    }
+
+    public int getMoveY() {
+        return moveY;
+    }
+
+    public int getSizeX() {
+        return sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
     }
 
     /**
@@ -60,15 +105,33 @@ public class Board {
     }
 
     /**
+     * Метод добавления монстра в заданную ячейку.
+     * Если заданная яечйка не залочена, тогда создаём нового монстра с id
+     * инкрементом счётчика монстров.
+     * @param cell ячейка.
+     * @return true если его удалось добавить.
+     */
+    public boolean addBeasts(Cell cell) {
+        boolean result = false;
+        if (!this.board[cell.getX()][cell.getY()].isLocked()) {
+            new Beast(this, beast++, cell);
+            result = true;
+            System.out.printf("Beast № %d is added in cell x = %d y = %d", beast - 1, cell.getX(), cell.getY());
+            System.out.println();
+        }
+        return result;
+    }
+
+    /**
      * Метод движения бомбермена. Если целевая ячейка в игровом поле и не занята, тогда блокируем
-     * цеелвую ячейку и разблокируем ячейку-источник.
+     * целевую ячейку и разблокируем ячейку-источник.
      * @param source откуда.
      * @param dest куда.
      * @return true если движение туда возможно.
      */
     public boolean move(Cell source, Cell dest) {
         boolean result = false;
-        if (cellIn(dest) && occupy(dest)) {
+        if (cellIn(dest)) {
             result = true;
             try {
                 if (this.board[dest.getX()][dest.getY()].tryLock(500, TimeUnit.MILLISECONDS)) {
@@ -79,6 +142,14 @@ public class Board {
             }
         }
         return result;
+    }
+
+    /**
+     * Метод полной блокировки ячейки стены.
+     * @param cell ячейка стены.
+     */
+    public void wallLock(Cell cell) {
+        board[cell.getX()][cell.getY()].lock();
     }
 
     /**
