@@ -28,6 +28,10 @@ public class Base {
         return version;
     }
 
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
     public int getValue() {
         return value;
     }

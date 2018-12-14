@@ -24,19 +24,21 @@ public class NonBlockingCashe {
         this.map.putIfAbsent(model.getId(), model);
     }
 
-    protected void update(int id, int value) {
-        this.map.computeIfPresent(id, new BiFunction<Integer, Base, Base>() {
-            @Override
-            public Base apply(Integer id, Base base) {
-                final int ver = map.get(id).getVersion();
-                if (base.getVersion() == ver) {
-                    base.setValue(value);
-                    System.out.println("ver = " + ver + "    value = " + value);
-                } else {
-                    throw new OptimisticException();
-                }
-            return base;
+    /**
+     * Если такой элемент есть в мапе, то по его ключу ремапим мапу так, что:
+     * если версия аргумента и найденного в мапе элемента с данным id совпали, то
+     * найденному элементу присваиваем значение аргумента. Если версии не совпали -
+     * кидаем рукописный эксепшен.
+     * @param base аргумент.
+     */
+    protected void update(Base base) {
+        this.map.computeIfPresent(base.getId(), (Integer id, Base base1) -> {
+            if (base1.getVersion() == base.getVersion()) {
+                base1.setValue(base.getValue());
+            } else {
+                throw new OptimisticException();
             }
+        return base1;
         });
     }
 
