@@ -1,5 +1,8 @@
 package ru.job4j.bomberman;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Wall {
     private final Cell position;
     private final Board board;

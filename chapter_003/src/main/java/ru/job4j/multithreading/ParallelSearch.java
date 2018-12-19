@@ -17,7 +17,7 @@ public class ParallelSearch {
                             System.out.println(queue.poll());
                         } catch (InterruptedException e) {
                             System.out.println("Consumer stopped");
-                            //Thread.currentThread().interrupt();
+                            Thread.currentThread().interrupt();
                         }
                     }
                 }
@@ -26,12 +26,13 @@ public class ParallelSearch {
         final Thread producer = new Thread(
                 () -> {
                     for (int index = 0; index != 3; index++) {
-                        queue.offer(index);
+
                         try {
+                            queue.offer(index);
                             Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                            //Thread.currentThread().interrupt();
+                            Thread.currentThread().interrupt();
                         }
                     }
                 }

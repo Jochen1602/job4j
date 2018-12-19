@@ -14,7 +14,7 @@ import net.jcip.annotations.ThreadSafe;
 @ThreadSafe
 public class SynchronizedDynamicList<E>  {
     @GuardedBy("this")
-    DynamicList<E> array = new DynamicList<>();
+    private final DynamicList<E> array = new DynamicList<>();
 
     public synchronized void add(E value) {
         this.array.add(value);
