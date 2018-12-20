@@ -1,8 +1,7 @@
 package ru.job4j.trackersql;
 
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -13,6 +12,7 @@ import java.util.List;
 
 public class TrackerSQL implements ITracker, AutoCloseable {
     private Connection connection;
+    Statement stmt;
 
     public boolean init() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
@@ -32,7 +32,17 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        return null;
+        try {
+            String sql;
+            stmt = connection.createStatement();
+            sql = "INSERT INTO items (id, category, state, user_id, info) VALUES (item.getId, item.getDesc, 0, item.getId, item.getDesc());";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return item;
     }
 
     @Override
@@ -50,6 +60,25 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public List<Item> findAll() {
         List<Item> result = new ArrayList<>();
+        try {
+            String sql;
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery( "SELECT * FROM items;" );
+            while (rs.next() ) {
+                int id = rs.getInt("id");
+                int category  = rs.getInt("category");
+                int state  = rs.getInt("state");
+                int userId  = rs.getInt("user_id");
+                String info = rs.getString("info");
+                result.add(new Item(String.valueOf(id), String.valueOf(category), String.valueOf(state), Long.valueOf(id), new String[]{info}));
+                System.out.println(String.format("ID = %s   CATEGORY = %s   STATE = %s   USER ID = %s   INFO = %s", id, category, state, userId, info));
+            }
+            rs.close();
+            stmt.close();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 

@@ -40,6 +40,14 @@ public class Item {
         this.desc = desc;
     }
 
+    public Item(String id, String name, String desc, long created, String[] comments) {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.created = created;
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         return "id=" + id + ", name=" + name + ", desc=" + desc + ", created=" + created + ", comments=" + Arrays.toString(comments);
