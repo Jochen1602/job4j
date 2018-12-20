@@ -14,6 +14,12 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     private Connection connection;
     Statement stmt;
 
+    /**
+     * Задаём инпутстрим по параметрам из файлика в ресурсах.
+     * Создаём 2 таблицы посредством SQL-запросов.
+     * Закрываем коннект.
+     * @return true если всё прошло успешно.
+     */
     public boolean init() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();
@@ -24,6 +30,21 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                     config.getProperty("username"),
                     config.getProperty("password")
             );
+            String sql;
+            sql = "CREATE TABLE ITEMS "
+                    + "(ID            VARCHAR(18) PRIMARY KEY     NOT NULL,"
+                    + " NAME          VARCHAR(50)    NOT NULL, "
+                    + " DESC          VARCHAR(50)    NOT NULL, "
+                    + " CREATED       INT)";
+            stmt.executeUpdate(sql);
+            sql = "CREATE TABLE COMMENTS "
+                    + "(ID            VARCHAR(30) SERIAL PRIMARY KEY,"
+                    + " ITEM_ID       VARCHAR(30)    NOT NULL, "
+                    + " COMMENT          VARCHAR(50)    NOT NULL)";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.commit();
+            System.out.println("Table created");
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
@@ -35,7 +56,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         try {
             String sql;
             stmt = connection.createStatement();
-            sql = "INSERT INTO items (id, category, state, user_id, info) VALUES (item.getId, item.getDesc, 0, item.getId, item.getDesc());";
+            String id = item.getId();
+            String name = item.getName();
+            String desc = item.getDesc();
+            sql = "INSERT INTO ITEMS (ID, NAME, DESC) VALUES (id, name, desc);";
             stmt.executeUpdate(sql);
             stmt.close();
             connection.commit();
@@ -48,12 +72,32 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public boolean replace(String id, Item item) {
         boolean result = false;
+        try {
+            String sql;
+            stmt = connection.createStatement();
+            String name = item.getName();
+            String desc = item.getDesc();
+            sql = "UPDATE ITEMS SET NAME = name, DESC = desc WHERE ID = id;";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
     @Override
     public boolean delete(String id) {
         boolean result = false;
+        try {
+            stmt = connection.createStatement();
+            stmt.executeUpdate("DELETE FROM ITEMS WHERE ID = id;");
+            stmt.close();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -61,17 +105,22 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public List<Item> findAll() {
         List<Item> result = new ArrayList<>();
         try {
-            String sql;
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery( "SELECT * FROM items;" );
-            while (rs.next() ) {
-                int id = rs.getInt("id");
-                int category  = rs.getInt("category");
-                int state  = rs.getInt("state");
-                int userId  = rs.getInt("user_id");
-                String info = rs.getString("info");
-                result.add(new Item(String.valueOf(id), String.valueOf(category), String.valueOf(state), Long.valueOf(id), new String[]{info}));
-                System.out.println(String.format("ID = %s   CATEGORY = %s   STATE = %s   USER ID = %s   INFO = %s", id, category, state, userId, info));
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ITEMS;");
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String name  = rs.getString("NAME");
+                String desc  = rs.getString("DESC");
+                int created  = rs.getInt("user_id");
+                List<String> comments = new ArrayList<>();
+                ResultSet rsc = stmt.executeQuery("SELECT * FROM COMMENTS WHERE ITEM_ID = id;");
+                while (rsc.next()) {
+                    comments.add(rsc.getString("COMMENT"));
+                }
+                String[] array = new String[comments.size()];
+                comments.toArray(array);
+                result.add(new Item(id, name, desc, created, array));
+                System.out.println(String.format("ID = %s   NAME = %s   DESC = %s   CREATED = %s   INFO = %s", id, name, desc, created, array));
             }
             rs.close();
             stmt.close();
@@ -85,16 +134,71 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public List<Item> findByName(String key) {
         List<Item> result = new ArrayList<>();
+        try {
+            stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ITEMS WHERE NAME LIKE '%%key%%';");
+            while (rs.next()) {
+                String id = rs.getString("ID");
+                String name  = rs.getString("NAME");
+                String desc  = rs.getString("DESC");
+                int created  = rs.getInt("user_id");
+                List<String> comments = new ArrayList<>();
+                ResultSet rsc = stmt.executeQuery("SELECT * FROM COMMENTS WHERE ITEM_ID = id;");
+                while (rsc.next()) {
+                    comments.add(rsc.getString("COMMENT"));
+                }
+                String[] array = new String[comments.size()];
+                comments.toArray(array);
+                result.add(new Item(id, name, desc, created, array));
+                System.out.println(String.format("ID = %s   NAME = %s   DESC = %s   CREATED = %s   INFO = %s", id, name, desc, created, array));
+            }
+            rs.close();
+            stmt.close();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
     @Override
     public Item findById(String id) {
-        return null;
+        Item result = null;
+        try {
+            stmt = connection.createStatement();
+            String sql = "SELECT * FROM ITEMS WHERE ID = id;";
+            ResultSet rs = stmt.executeQuery(sql);
+            String desc  = rs.getString("DESC");
+            String name  = rs.getString("NAME");
+            int created  = rs.getInt("user_id");
+            List<String> comment = new ArrayList<>();
+            ResultSet rsc = stmt.executeQuery("SELECT * FROM COMMENTS WHERE ITEM_ID = id;");
+            while (rsc.next()) {
+                comment.add(rsc.getString("COMMENT"));
+            }
+            String[] arr = new String[comment.size()];
+            comment.toArray(arr);
+            result = new Item(id, name, desc, created, arr);
+            System.out.println(String.format("ID = %s   NAME = %s   DESC = %s   CREATED = %s   INFO = %s", id, name, desc, created, arr));
+            stmt.executeUpdate(sql);
+            stmt.close();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public void close() throws Exception {
+        try {
+            stmt = connection.createStatement();
+            stmt.close();
+            connection.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
 
     }
 }
