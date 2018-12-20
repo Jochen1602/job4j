@@ -39,6 +39,7 @@ public class Board {
         Random random = new Random();
         for (int i = 0; i < beasts; i++) {
             while (!addBeasts(new Cell(random.nextInt(sizeX), random.nextInt(sizeY)))) {
+                System.out.println("Beast №" + i + " was added");
             }
         }
     }
