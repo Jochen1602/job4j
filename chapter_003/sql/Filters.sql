@@ -58,7 +58,8 @@ INSERT INTO product values(31, 'МОРОЖЕНОЕ С РТУТЬЮ', 5, '2020-01
 
 --1. Написать запрос получение всех продуктов с типом "СЫР"
 SELECT * FROM product
-WHERE type_id = 0;
+LEFT JOIN type ON product.type_id = type.id
+WHERE type.id = 0;
 
 --2. Написать запрос получения всех продуктов, у кого в имени есть слово "мороженное"
 SELECT * FROM product
@@ -78,8 +79,9 @@ WHERE product.type_id = type.id
 GROUP BY type.name;
 
 --6. Написать запрос получение всех продуктов с типом "СЫР" и "МОЛОКО"
-SELECT * FROM product
-WHERE type_id in (0, 1);
+SELECT p.id, p.name, p.expired_date, p.price, t.name FROM product AS p
+LEFT JOIN type AS t ON p.type_id = t.id
+WHERE t.id IN (0, 1);
 
 --7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук.
 SELECT type.name, count(product.name) FROM product, type
