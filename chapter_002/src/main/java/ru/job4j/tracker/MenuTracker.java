@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public class MenuTracker {
     private Input input;
-    private Tracker tracker;
+    private ITracker tracker;
     private List<UserAction> actions = new ArrayList<>();
 
     /**
@@ -26,7 +26,7 @@ public class MenuTracker {
      * @param input каким образом реализован интерфейс ввода данных.
      * @param tracker наше хранилище заявок.
      */
-    public MenuTracker(Input input, Tracker tracker) {
+    public MenuTracker(Input input, ITracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
@@ -77,7 +77,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Adding new item --------------");
             String name = input.ask("Please, enter item name:");
             String desc = input.ask("Please, enter item description:");
@@ -98,7 +98,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             if (tracker.findAll().size() == 0) {
                 System.out.println("Tracker is empty.");
                 return;
@@ -121,7 +121,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Edit the item --------------");
             String id = input.ask("Enter the ID: ");
             if (tracker.findById(id) != null) {
@@ -144,7 +144,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Delete the item --------------");
             String id = input.ask("Enter the ID: ");
             if (tracker.findById(id) != null) {
@@ -166,7 +166,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Find the item by ID --------------");
             String id = input.ask("Enter the ID: ");
             Item i = tracker.findById(id);
@@ -186,7 +186,7 @@ public class MenuTracker {
         }
 
         @Override
-        public void execute(Input input, Tracker tracker) {
+        public void execute(Input input, ITracker tracker) {
             System.out.println("------------ Find the item by name --------------");
             String name = input.ask("Enter the name: ");
             List<Item> item = tracker.findByName(name);

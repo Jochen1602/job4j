@@ -12,7 +12,7 @@ public interface UserAction {
      * @param input интерфейс ввода.
      * @param tracker наш трэкер.
      */
-    void execute(Input input, Tracker tracker);
+    void execute(Input input, ITracker tracker);
 
     /**
      *Информативный метод.

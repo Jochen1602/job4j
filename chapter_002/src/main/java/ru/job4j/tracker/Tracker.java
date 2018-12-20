@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *@author antontokarev
  *@since 14.10.2018
  */
-public class Tracker {
+public class Tracker implements ITracker {
     /**
      * Массив для хранение заявок.
      */
