@@ -29,6 +29,14 @@ public class Item {
         return desc;
     }
 
+    public long getCreated() {
+        return created;
+    }
+
+    public String[] getComments() {
+        return comments;
+    }
+
     public Item(String name, String desc, long created) {
         this.name = name;
         this.desc = desc;
