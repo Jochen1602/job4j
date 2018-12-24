@@ -234,13 +234,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                     }
                     result.add(new Item(String.valueOf(id), name, desc, created, arr));
                     System.out.println(String.format("ID = %s   NAME = %s   DESCRIPTION = %s   CREATED = %s   INFO = %s", id, name, desc, created, comm));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                st.close();
             }
-            statement.close();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
         }
         catch (Exception e) {
             throw new IllegalStateException(e);
@@ -283,13 +280,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
                     }
                     result = new Item(id, name, desc, created, arr);
                     System.out.println(String.format("ID = %s   NAME = %s   DESCRIPTION = %s   CREATED = %s   INFO = %s", id, name, desc, created, comm));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                st.close();
             }
-            statement.close();
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
         }
         catch (Exception e) {
             throw new IllegalStateException(e);
