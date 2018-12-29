@@ -16,8 +16,8 @@ public class StoreSQL implements AutoCloseable {
         config = conf;
         connect = DriverManager.getConnection("jdbc:sqlite:C:/sqlite/db/magnit.db");
         connect.setAutoCommit(false);
-        PreparedStatement statement = connect.prepareStatement("CREATE TABLE IF NOT EXISTS entry " +
-                "(field INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL);");
+        PreparedStatement statement = connect.prepareStatement("CREATE TABLE IF NOT EXISTS entry "
+                + "(field INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL);");
         statement.executeUpdate();
         try (PreparedStatement prepStmt = connect.prepareStatement("INSERT INTO entry (field) VALUES (?)")) {
             for (int i = 0; i <= size; i++) {
