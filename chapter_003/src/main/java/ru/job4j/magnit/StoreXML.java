@@ -21,6 +21,7 @@ public class StoreXML {
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.marshal(user, target);
+            System.out.println("File " + target + " was saved.");
         } catch (JAXBException e) {
             System.out.println(e.getMessage());
         }

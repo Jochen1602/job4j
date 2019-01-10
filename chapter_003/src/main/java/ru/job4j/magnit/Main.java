@@ -30,13 +30,10 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws TransformerException {
-        createNewDatabase("magnit.db");
-        Config config = new Config();
-        config.init();
+    public static void logic(Config config) throws TransformerException {
         StoreSQL sql = new StoreSQL(config);
         try {
-            sql.generate(10000, config);
+            sql.generate(100000, config);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,5 +57,12 @@ public class Main {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) throws TransformerException {
+        createNewDatabase("magnit.db");
+        Config config = new Config();
+        config.init();
+        logic(config);
     }
 }

@@ -15,34 +15,30 @@ public class ConvertXSQT {
      * @throws TransformerException ля эксэпсьён манифик.
      */
     public void convert(File source, File dest) throws TransformerException {
-        String xsl = "<?xml version=\"1.0\"?>\n"
-                + "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\n"
-                + "<xsl:template match=\"/\">\n"
-                + "<entries>"
-                + "   <xsl:for-each select=\"user/values\">\n"
-                + "       <entry>"
-                + "           <xsl:attribute name=\"href\">"
-                + "               <xsl:value-of select=\"value\"/>"
-                + "           </xsl:attribute>"
-                + "       </entry>\n"
-                + "   </xsl:for-each>\n"
-                + " </entries>\n"
-                + "</xsl:template>\n"
-                + "</xsl:stylesheet>\n";
+        StringBuilder xsl = new StringBuilder();
+        try (FileInputStream fis = new FileInputStream("C:\\sqlite\\xsl.xml"); BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis))) {
+            String str;
+            while ((str = bufferedReader.readLine()) != null) {
+                xsl.append(str);
+                xsl.append("\n");
+            }
+        } catch (IOException e) {
+            System.out.println("IO Error");
+        }
         StringBuilder xml = new StringBuilder();
-        try {
-            FileInputStream fileInputStream = new FileInputStream(source);
+        try (FileInputStream fileInputStream = new FileInputStream(source)) {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
             String strLine;
             while ((strLine = bufferedReader.readLine()) != null) {
                 xml.append(strLine);
                 xml.append("\n");
             }
+            bufferedReader.close();
         } catch (IOException e) {
             System.out.println("IOError");
         }
         TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer(new StreamSource(new ByteArrayInputStream(xsl.getBytes())));
+        Transformer transformer = factory.newTransformer(new StreamSource(new ByteArrayInputStream(xsl.toString().getBytes())));
         transformer.transform(new StreamSource(new ByteArrayInputStream(xml.toString().getBytes())), new StreamResult(dest));
     }
 }
