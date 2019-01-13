@@ -7,7 +7,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class ConvertXSQT {
+    private static final Logger LOG = LogManager.getLogger(ConvertXSQT.class.getName());
     /**
      * Метод конвертации XML-файла в другой XML-файл посредством XSLT.
      * @param source какой XML-файл считываем.
@@ -23,7 +27,7 @@ public class ConvertXSQT {
                 xsl.append("\n");
             }
         } catch (IOException e) {
-            System.out.println("IO Error");
+            LOG.info("IO Error");
         }
         StringBuilder xml = new StringBuilder();
         try (FileInputStream fileInputStream = new FileInputStream(source)) {
@@ -35,10 +39,11 @@ public class ConvertXSQT {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            System.out.println("IOError");
+            LOG.info("IOError");
         }
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer(new StreamSource(new ByteArrayInputStream(xsl.toString().getBytes())));
         transformer.transform(new StreamSource(new ByteArrayInputStream(xml.toString().getBytes())), new StreamResult(dest));
+        LOG.info("File " + dest + " was saved.");
     }
 }

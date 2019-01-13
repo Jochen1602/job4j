@@ -12,28 +12,34 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class Main {
+    private static final Logger LOG = LogManager.getLogger(Main.class.getName());
     /**
      * Connect to a database
      * @param fileName the database file name
      */
     public static void createNewDatabase(String fileName) {
         String url = "jdbc:sqlite:C:/sqlite/db/" + fileName;
+        if (new File("C:/sqlite/db/magnit.db").delete()) {
+            LOG.info("Old base was deleted.");
+        }
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("A new database has been created with driver name " + meta.getDriverName());
+                LOG.info("A new database has been created with driver name " + meta.getDriverName());
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static void logic(Config config) throws TransformerException {
-        StoreSQL sql = new StoreSQL(config);
+    public static void logic() throws TransformerException {
+        StoreSQL sql = new StoreSQL();
         try {
-            sql.generate(100000, config);
+            sql.generate(1000000);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,7 +59,7 @@ public class Main {
             SAXParser saxParser = saxParserFactory.newSAXParser();
             SAXPars handler = new SAXPars();
             saxParser.parse(new File("C:\\sqlite\\output.xml"), handler);
-            System.out.println("The sum is " + handler.getSum());
+            LOG.info("The sum is " + handler.getSum());
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -63,6 +69,6 @@ public class Main {
         createNewDatabase("magnit.db");
         Config config = new Config();
         config.init();
-        logic(config);
+        logic();
     }
 }

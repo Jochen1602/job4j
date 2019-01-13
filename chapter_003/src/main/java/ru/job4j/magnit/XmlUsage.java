@@ -28,6 +28,9 @@ public class XmlUsage {
     public static class Field {
         private int value;
 
+        public Field() {
+        }
+
         public Field(int value) {
             this.value = value;
         }

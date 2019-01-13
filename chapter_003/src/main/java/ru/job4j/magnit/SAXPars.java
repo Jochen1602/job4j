@@ -4,7 +4,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class SAXPars extends DefaultHandler {
-    private int sum = 0;
+    private long sum = 0;
     @Override
     public void startDocument() {
     }
@@ -20,7 +20,7 @@ public class SAXPars extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) {
     }
 
-    public int getSum() {
+    public long getSum() {
         return sum;
     }
 }

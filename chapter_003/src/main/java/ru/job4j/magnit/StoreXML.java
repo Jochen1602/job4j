@@ -6,7 +6,11 @@ import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class StoreXML {
+    private static final Logger LOG = LogManager.getLogger(StoreXML.class.getName());
     File target;
 
     public StoreXML(File target) {
@@ -21,7 +25,7 @@ public class StoreXML {
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.marshal(user, target);
-            System.out.println("File " + target + " was saved.");
+            LOG.info("File " + target + " was saved.");
         } catch (JAXBException e) {
             System.out.println(e.getMessage());
         }

@@ -5,15 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StoreSQL implements AutoCloseable {
-    private Config config;
     private Connection connect;
 
-    public StoreSQL(Config config) {
-        this.config = config;
-    }
-
-    public void generate(int size, Config conf) throws Exception {
-        config = conf;
+    public void generate(int size) throws Exception {
         connect = DriverManager.getConnection("jdbc:sqlite:C:/sqlite/db/magnit.db");
         connect.setAutoCommit(false);
         PreparedStatement statement = connect.prepareStatement("CREATE TABLE IF NOT EXISTS entry "
