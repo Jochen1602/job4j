@@ -3,9 +3,7 @@ package ru.job4j.sqlru;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobKey;
+import org.quartz.*;
 
 import java.io.IOException;
 import java.util.Date;
@@ -28,7 +26,8 @@ public class CronScan implements Job {
         try {
             Sqlru sqlru = new Sqlru();
             sqlru.parsing(Jsoup.connect(Sqlru.URL).get());
-            Set<Vacancy> allVacancies = new LinkedHashSet<>();
+            SchedulerContext schedulerContext = context.getScheduler().getContext();
+            Set<Vacancy> allVacancies = (Set<Vacancy>) schedulerContext.get("Set");
             newVacancies.addAll(sqlru.data);
             newVacancies.removeAll(allVacancies);
             if (newVacancies.size() > 0) {
@@ -40,7 +39,7 @@ public class CronScan implements Job {
                 LOG.info("Nothing to add");
             }
 
-        } catch (IOException e) {
+        } catch (IOException | SchedulerException e) {
             LOG.error("IOException", e);
         }
     }

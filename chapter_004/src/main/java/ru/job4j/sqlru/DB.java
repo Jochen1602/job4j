@@ -11,24 +11,9 @@ import org.apache.logging.log4j.Logger;
 public class DB {
     private Connection connection;
     private static final Logger LOG = LogManager.getLogger(CronScan.class.getName());
-    PreparedStatement statement = null;
 
     public void init(String properties) {
-        try (InputStream in = DB.class.getClassLoader().getResourceAsStream(properties)) {
-            connecting(in);
-            String sql;
-            sql = "CREATE TABLE IF NOT EXISTS vacancy"
-                    + "(id      SERIAL          PRIMARY KEY,"
-                    + " date    VARCHAR(10)     NOT NULL, "
-                    + " name    TEXT            NOT NULL, "
-                    + " text    TEXT            NOT NULL, "
-                    + " link    TEXT            NOT NULL)";
-            statement = connection.prepareStatement(sql);
-            statement.executeUpdate();
-            System.out.println("Table created");
-        } catch (Exception e) {
-            LOG.error("Message", e);
-        }
+        LOG.info("Database was created with properties " + properties);
     }
 
     public void add(Set<Vacancy> items, String properties) {

@@ -96,7 +96,7 @@ public class Sqlru {
         return TriggerBuilder.newTrigger()
                 .withIdentity("quartz")
                 .startAt(DateBuilder.todayAt(startHr, startMin, startSec))
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 15 * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 16 * * ?"))
                 .build();
     }
 
@@ -121,7 +121,6 @@ public class Sqlru {
      * @throws SchedulerException эксепшен.
      */
     public static void main(String[] args) throws IOException, SchedulerException {
-
         DateFormat dateFormat = new SimpleDateFormat("yy");
         DateFormat dateForm = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
@@ -132,6 +131,7 @@ public class Sqlru {
         sqlru.pages(URL, "app.properties");
         sqlru.cron("app.properties");
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+        scheduler.getContext().put("Set", sqlru.vacancies);
         JobDetail job = JobBuilder.newJob(CronScan.class).build();
         scheduler.start();
         scheduler.scheduleJob(job, fireStarter(Integer.parseInt(time.split(":")[0]), Integer.parseInt(time.split(":")[1]), Integer.parseInt(time.split(":")[2])));
