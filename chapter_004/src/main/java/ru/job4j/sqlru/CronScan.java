@@ -27,7 +27,7 @@ public class CronScan implements Job {
         LOG.info(jobKey + " executing at " + new Date());
         try {
             Sqlru sqlru = new Sqlru();
-            sqlru.parsing(Jsoup.connect(Sqlru.url).get());
+            sqlru.parsing(Jsoup.connect(Sqlru.URL).get());
             Set<Vacancy> allVacancies = new LinkedHashSet<>();
             newVacancies.addAll(sqlru.data);
             newVacancies.removeAll(allVacancies);

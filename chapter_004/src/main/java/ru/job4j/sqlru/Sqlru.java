@@ -19,7 +19,7 @@ public class Sqlru {
     private String year;
     private String cron;
     String properties;
-    static final String url = "http://www.sql.ru/forum/job-offers/";
+    static final String URL = "http://www.sql.ru/forum/job-offers/";
 
     /**
      * Парсинг конкретной страницы форума на тему поиска предложения о Java-работе.
@@ -129,7 +129,7 @@ public class Sqlru {
         Sqlru sqlru = new Sqlru();
         sqlru.properties = "app.properties";
         sqlru.year = String.valueOf(Integer.parseInt(dateFormat.format(date)) - 2);
-        sqlru.pages(url, "app.properties");
+        sqlru.pages(URL, "app.properties");
         sqlru.cron("app.properties");
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
         JobDetail job = JobBuilder.newJob(CronScan.class).build();
