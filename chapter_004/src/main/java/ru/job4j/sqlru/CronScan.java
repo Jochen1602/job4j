@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class CronScan implements Job {
     private Set<Vacancy> newVacancies = new LinkedHashSet<>();
-    private static final Logger LOG = LogManager.getLogger(CronScan.class.getName());
+    private static final Logger LOG = LogManager.getLogger(CronScan.class);
 
     /**
      * Парсим каждый день первую страницу (больше нет необходимости), и из того,
@@ -24,11 +24,11 @@ public class CronScan implements Job {
      */
     public void execute(JobExecutionContext context) {
         JobKey jobKey = context.getJobDetail().getKey();
-        LOG.info("SimpleJob says: " + jobKey + " executing at " + new Date());
+        LOG.info(jobKey + " executing at " + new Date());
         try {
             Sqlru sqlru = new Sqlru();
             sqlru.parsing(Jsoup.connect(Sqlru.url).get());
-            Set<Vacancy> allVacancies = Sqlru.vacancies;
+            Set<Vacancy> allVacancies = new LinkedHashSet<>();
             newVacancies.addAll(sqlru.data);
             newVacancies.removeAll(allVacancies);
             if (newVacancies.size() > 0) {
@@ -41,7 +41,7 @@ public class CronScan implements Job {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("IOException", e);
         }
     }
 }

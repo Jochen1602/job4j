@@ -15,11 +15,11 @@ import java.util.*;
 
 public class Sqlru {
     List<Vacancy> data = new ArrayList<>();
-    static Set<Vacancy> vacancies = new LinkedHashSet<>();
-    private static String year;
-    private static String cron;
-    static String properties;
-    static String url = "http://www.sql.ru/forum/job-offers/";
+    Set<Vacancy> vacancies = new LinkedHashSet<>();
+    private String year;
+    private String cron;
+    String properties;
+    static final String url = "http://www.sql.ru/forum/job-offers/";
 
     /**
      * Парсинг конкретной страницы форума на тему поиска предложения о Java-работе.
@@ -96,7 +96,7 @@ public class Sqlru {
         return TriggerBuilder.newTrigger()
                 .withIdentity("quartz")
                 .startAt(DateBuilder.todayAt(startHr, startMin, startSec))
-                .withSchedule(CronScheduleBuilder.cronSchedule(cron))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 15 * * ?"))
                 .build();
     }
 
@@ -121,15 +121,16 @@ public class Sqlru {
      * @throws SchedulerException эксепшен.
      */
     public static void main(String[] args) throws IOException, SchedulerException {
-        properties = args[0];
+
         DateFormat dateFormat = new SimpleDateFormat("yy");
         DateFormat dateForm = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
         String time = dateForm.format(date);
-        year = String.valueOf(Integer.parseInt(dateFormat.format(date)) - 2);
         Sqlru sqlru = new Sqlru();
-        sqlru.pages(url, args[0]);
-        sqlru.cron(args[0]);
+        sqlru.properties = "app.properties";
+        sqlru.year = String.valueOf(Integer.parseInt(dateFormat.format(date)) - 2);
+        sqlru.pages(url, "app.properties");
+        sqlru.cron("app.properties");
         Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
         JobDetail job = JobBuilder.newJob(CronScan.class).build();
         scheduler.start();
