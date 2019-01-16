@@ -96,7 +96,7 @@ public class Sqlru {
         return TriggerBuilder.newTrigger()
                 .withIdentity("quartz")
                 .startAt(DateBuilder.todayAt(startHr, startMin, startSec))
-                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 16 * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 20 16 * * ?"))
                 .build();
     }
 
