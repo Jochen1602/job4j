@@ -46,5 +46,6 @@ public class UserUpdateServlet extends HttpServlet {
             writer.append("No such user.");
             writer.flush();
         }
+        resp.sendRedirect(String.format("%s/list.jsp", req.getContextPath()));
     }
 }

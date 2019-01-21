@@ -21,7 +21,7 @@ public class UserDeleteServlet extends HttpServlet {
                 + "</head>"
                 + "<body>"
                 + "<tr>User was deleted</tr>"
-                + "<form action='" + req.getContextPath()+ "/list'>"
+                + "<form action='" + req.getContextPath()+ "/list.jsp'>"
                 + "<input type='submit' value='Go back'>"
                 + "</form>"
                 + "</body>"

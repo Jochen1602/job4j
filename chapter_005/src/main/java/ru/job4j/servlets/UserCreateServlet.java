@@ -1,5 +1,7 @@
 package ru.job4j.servlets;
 
+import com.sun.javafx.binding.StringFormatter;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,5 +57,6 @@ public class UserCreateServlet extends HttpServlet {
             writer.append("This user is already in set.");
             writer.flush();
         }
+        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
     }
 }
