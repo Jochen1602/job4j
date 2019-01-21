@@ -16,52 +16,27 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append(logic.findAll().toString());
-        writer.flush();
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        String typeOfRequest = req.getParameter("action");
-        if (typeOfRequest.equals("delete")) {
-            String id = req.getParameter("id");
-            if (!logic.deleteUser(id)) {
-                writer.append("No such user.");
-                writer.flush();
-            }
-        } else {
-            if (typeOfRequest.equals("add")) {
-                User user = null;
-                String name = req.getParameter("name");
-                String login = req.getParameter("login");
-                String email = req.getParameter("email");
-                if (email != null && login != null && name != null) {
-                    user = new User(name, login, email);
-                } else {
-                    if (login != null && name != null) {
-                        user = new User(name, login);
-                    } else {
-                        if (name != null) {
-                            user = new User(name);
-                        }
-                    }
-                }
-                if (!logic.addUser(user)) {
-                    writer.append("This user is already in set.");
-                    writer.flush();
-                }
-            } else {
-                if (typeOfRequest.equals("update")) {
-                    String id = req.getParameter("id");
-                    String name = req.getParameter("name");
-                    if (!logic.updateUser(id, name)) {
-                        writer.append("No such user.");
-                        writer.flush();
-                    }
-                }
-            }
+        StringBuilder sb = new StringBuilder("<table>");
+        for (User user : logic.findAll()) {
+            sb.append("<tr><td>" + user.getName()
+                    + "</td><td>" + user.getLogin()
+                    + "</td><td>" + user.getEmail()
+                    + "</td><td>" + user.getCreateDate()
+                    + "</td><td>" + "<form action='" + req.getContextPath() + "/update' method='get'><input type='hidden' name='id' value='" + user.getId() + "'><input type='submit' value='update'></form>"
+                    + "</td><td>" + "<form action='" + req.getContextPath() + "/delete' method='post'><input type='submit' value='delete'> <input type='hidden' name='id' value='" + user.getId() + "'></form>"
+                    + "</td></tr>" );
         }
+        sb.append("</table>");
+        writer.append("<!DOCTYPE html>"
+                + "<html lang=\"en\">"
+                + "<head>"
+                + "    <meta charset=\"UTF-8\">"
+                + "    <title>List of users</title>"
+                + "</head>"
+                + "<body>"
+                + sb.toString()
+                + "</body>"
+                + "</html>");
+        writer.flush();
     }
 }

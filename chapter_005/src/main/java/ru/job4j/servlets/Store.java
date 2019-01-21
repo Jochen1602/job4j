@@ -4,11 +4,11 @@ import java.util.Set;
 
 public interface Store {
 
-    boolean contains(String name);
+    boolean notContains(String name);
 
     void addUser(User user);
 
-    void updateUser(int id, String name);
+    void fullUpdateUser(int id, User user);
 
     boolean deleteUser(int id);
 

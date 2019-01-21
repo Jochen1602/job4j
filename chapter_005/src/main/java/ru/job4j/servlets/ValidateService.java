@@ -17,43 +17,38 @@ public class ValidateService implements Validate {
         return soloValidateService;
     }
 
-    public boolean deleteUser(String id) {
-        boolean res = false;
-        if (findById(id)) {
-            if (logic.deleteUser(Integer.parseInt(id))) {
-                res = true;
-            }
-        }
-        return res;
+    public void deleteUser(String id) {
+        logic.deleteUser(Integer.parseInt(id));
     }
 
-    public boolean updateUser(String id, String name) {
+    @Override
+    public boolean fullUpdateUser(String id, User user) {
         boolean res = false;
-        if (findById(id)) {
+        if (findById(id) != null) {
             res = true;
-            logic.updateUser(Integer.parseInt(id), name);
+            logic.fullUpdateUser(Integer.parseInt(id), user);
         }
         return res;
     }
 
     public boolean addUser(User user) {
         boolean res = false;
-        if (!logic.contains(user.getName())) {
+        if (logic.notContains(user.getName())) {
             logic.addUser(user);
             res = true;
         }
         return res;
     }
 
-    public boolean findById(String id) {
-        boolean res = true;
+    public User findById(String id) {
+        User res = null;
         try {
             int num = Integer.parseInt(id);
-            if (logic.findById(num) == null) {
-                res = false;
+            if (logic.findById(num) != null) {
+                res =  logic.findById(num);
             }
         } catch (NumberFormatException e) {
-            res = false;
+            e.printStackTrace();
         }
         return res;
     }

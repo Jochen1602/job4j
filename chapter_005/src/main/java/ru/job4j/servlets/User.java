@@ -3,13 +3,14 @@ package ru.job4j.servlets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import static ru.job4j.servlets.MemoryStore.COUNT;
 
 /**
  * Abstraction of users.
  */
 public class User {
-    private static final AtomicInteger COUNT = new AtomicInteger(0);
+
     private int id;
     private String name;
     private String login;
@@ -51,8 +52,28 @@ public class User {
         return name;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

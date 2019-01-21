@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Persistent layout. No interaction to logic layout.
@@ -12,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class MemoryStore implements Store {
     private static volatile MemoryStore soloMemoryStore = new MemoryStore();
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
-    private final Set<String> names = new CopyOnWriteArraySet<>();
+    static final AtomicInteger COUNT = new AtomicInteger(0);
 
     public MemoryStore() {
     }
@@ -21,24 +22,30 @@ public class MemoryStore implements Store {
         return soloMemoryStore;
     }
 
-    public boolean contains(String name) {
-        return this.names.contains(name);
+    public boolean notContains(String name) {
+        CopyOnWriteArraySet names = new CopyOnWriteArraySet();
+        for (User u : users.values()) {
+            names.add(u.getName());
+        }
+        return !names.contains(name);
     }
 
     public boolean deleteUser(int id) {
         return this.users.remove(id) != null;
     }
 
-    public void updateUser(int id, String name) {
+    @Override
+    public void fullUpdateUser(int id, User user) {
         User temp = findById(id);
         this.users.remove(id);
-        temp.setName(name);
+        temp.setName(user.getName());
+        temp.setLogin(user.getLogin());
+        temp.setEmail(user.getEmail());
         this.users.put(id, temp);
     }
 
     public void addUser(User user) {
         this.users.put(user.getId(), user);
-        this.names.add(user.getName());
     }
 
     public Set<User> findAll() {

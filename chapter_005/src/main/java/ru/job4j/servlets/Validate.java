@@ -4,13 +4,13 @@ import java.util.Set;
 
 public interface Validate {
 
-    boolean deleteUser(String id);
+    void deleteUser(String id);
 
-    boolean updateUser(String id, String name);
+    boolean fullUpdateUser(String id, User user);
 
     boolean addUser(User user);
 
-    boolean findById(String id);
+    User findById(String id);
 
     Set<User> findAll();
 }
