@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Persistent layout. No interaction to logic layout.
  */
-public class MemoryStore implements Store {
+public class MemoryStore implements Store<User> {
     private static volatile MemoryStore soloMemoryStore = new MemoryStore();
     private final Map<Integer, User> users = new ConcurrentHashMap<>();
     static final AtomicInteger COUNT = new AtomicInteger(0);
@@ -22,12 +22,38 @@ public class MemoryStore implements Store {
         return soloMemoryStore;
     }
 
-    public boolean notContains(String name) {
-        CopyOnWriteArraySet names = new CopyOnWriteArraySet();
-        for (User u : users.values()) {
-            names.add(u.getName());
+    @Override
+    public Set<Integer> checkName(String name) {
+        CopyOnWriteArraySet<Integer> names = new CopyOnWriteArraySet();
+        for (User u : findAll()) {
+            if (u.getName().equals(name)) {
+                names.add(u.getId());
+            }
         }
-        return !names.contains(name);
+        System.out.println(name + " names " + names.toString());
+        return names;
+    }
+    @Override
+    public Set<Integer> checkLogin(String login) {
+        CopyOnWriteArraySet<Integer> logins = new CopyOnWriteArraySet();
+        for (User u : findAll()) {
+            if (u.getLogin().equals(login)) {
+                logins.add(u.getId());
+            }
+        }
+        System.out.println(login + " logins " + logins.toString());
+        return logins;
+    }
+    @Override
+    public Set<Integer> checkEmail(String email) {
+        CopyOnWriteArraySet<Integer> emails = new CopyOnWriteArraySet();
+        for (User u : findAll()) {
+            if (u.getEmail().equals(email)) {
+                emails.add(u.getId());
+            }
+        }
+        System.out.println(email + " emails " + emails.toString());
+        return emails;
     }
 
     public boolean deleteUser(int id) {

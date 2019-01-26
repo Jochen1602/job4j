@@ -1,7 +1,5 @@
 package ru.job4j.servlets;
 
-import com.sun.javafx.binding.StringFormatter;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,29 +8,6 @@ import java.io.PrintWriter;
 
 public class UserCreateServlet extends HttpServlet {
     private final Validate logic = ValidateService.getInstance();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html");
-        PrintWriter writer = new PrintWriter(resp.getOutputStream());
-        writer.append("<!DOCTYPE html>"
-                + "<html lang=\"en\">"
-                + "<head>"
-                + "    <meta charset=\"UTF-8\">"
-                + "    <title>Creating new user</title>"
-                + "</head>"
-                + "<body>"
-                + "<tr>Enter user's data:</tr>"
-                + "<form action='" + req.getContextPath()+ "/create' method='post'>"
-                + "<tr>Name : <input type='text' name='name'/></tr>"
-                + "<tr>Login : <input type='text' name='login'/></tr>"
-                + "<tr>E-mail : <input type='text' name='email'/></tr>"
-                + "<input type='submit'>"
-                + "</form>"
-                + "</body>"
-                + "</html>");
-        writer.flush();
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -53,10 +28,14 @@ public class UserCreateServlet extends HttpServlet {
                 }
             }
         }
-        if (!logic.addUser(user)) {
-            writer.append("This user is already in set.");
-            writer.flush();
+        if (!(name.equals("") || login.equals("") || email.equals(""))) {
+            if (logic.addUser(user)) {
+                resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+            } else {
+                resp.sendRedirect(String.format("%s/exist.jsp", req.getContextPath()));
+            }
+        } else {
+            resp.sendRedirect(String.format("%s/exist.jsp", req.getContextPath()));
         }
-        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
     }
 }

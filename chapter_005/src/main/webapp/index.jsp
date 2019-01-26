@@ -5,10 +5,13 @@
 </head>
 <body>
 <form action="<%=request.getContextPath()%>/create" method="post">
-    Name : <input type="text" name="name"/><br/>
+    Name :  <input type="text" name="name"/><br/>
     Login : <input type="text" name="login"/><br/>
     Email : <input type="text" name="email"/><br/>
     <input type="submit">
+</form>
+<form action="<%=request.getContextPath()%>/list.jsp">
+    <input type="submit" value="Go to user's list">
 </form>
 </body>
 </html>

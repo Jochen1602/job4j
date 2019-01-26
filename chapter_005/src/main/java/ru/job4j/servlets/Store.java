@@ -2,17 +2,20 @@ package ru.job4j.servlets;
 
 import java.util.Set;
 
-public interface Store {
+public interface Store<T> {
+    Set<Integer> checkName(String name);
 
-    boolean notContains(String name);
+    Set<Integer> checkLogin(String login);
 
-    void addUser(User user);
+    Set<Integer> checkEmail(String email);
 
-    void fullUpdateUser(int id, User user);
+    void addUser(T user);
+
+    void fullUpdateUser(int id, T user);
 
     boolean deleteUser(int id);
 
-    Set<User> findAll();
+    Set<T> findAll();
 
-    User findById(int id);
+    T findById(int id);
 }
