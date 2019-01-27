@@ -8,7 +8,7 @@
 <body>
 <% final Validate logic = ValidateService.getInstance(); %>
 <tr>User was deleted</tr>
-<form action="<%=request.getContextPath()%>/list.jsp">
+<form action="<%=request.getContextPath()%>/WEB-INF/views/list.jsp">
 <input type='submit' value='Go back'>
 </form>
 <%=logic.deleteUser(request.getParameter("id"))%>

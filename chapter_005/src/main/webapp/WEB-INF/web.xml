@@ -5,14 +5,14 @@
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
     <servlet>
-        <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-    <servlet>
         <servlet-name>UserCreateServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.UserCreateServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.UserServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>UserUpdateServlet</servlet-name>
@@ -25,12 +25,12 @@
         <load-on-startup>4</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/list</url-pattern>
+        <servlet-name>UserCreateServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UserCreateServlet</servlet-name>
-        <url-pattern>/create</url-pattern>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/list</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserUpdateServlet</servlet-name>

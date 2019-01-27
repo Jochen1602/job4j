@@ -30,7 +30,7 @@
 </table>
 <br>
 <br>
-<form action="<%=request.getContextPath()%>/index.jsp">
+<form action="<%=request.getContextPath()%>/create.jsp">
     <input type='submit' value='Create new user'>
 </form>
 </body>

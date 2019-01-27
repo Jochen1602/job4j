@@ -8,7 +8,7 @@
 <body>
 <% final Validate logic = ValidateService.getInstance(); %>
 <tr>Such user exists</tr>
-<form action="<%=request.getContextPath()%>/index.jsp">
+<form action="<%=request.getContextPath()%>/create.jsp">
     <input type='submit' value='Try again'>
 </form>
 </body>
