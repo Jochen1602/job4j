@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * Logic layout. No interaction to presentation layout. Interact only with persistent layout.
  */
 public class ValidateService implements Validate {
-    private final Store logic = MemoryStore.getInstance();
+    private final Store logic = DbStore.getInstance();
     private static volatile ValidateService soloValidateService = new ValidateService();
 
     private ValidateService() {

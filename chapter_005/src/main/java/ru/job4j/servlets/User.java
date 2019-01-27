@@ -16,6 +16,14 @@ public class User {
     private String email;
     private String createDate;
 
+    public User(int id, String name, String login, String email, String createDate) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.createDate = createDate;
+    }
+
     public User(String name, String login, String email) {
         this.id = COUNT.incrementAndGet();
         this.name = name;
@@ -73,6 +81,10 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     @Override
