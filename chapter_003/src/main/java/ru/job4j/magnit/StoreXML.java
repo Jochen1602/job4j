@@ -27,7 +27,7 @@ public class StoreXML {
             jaxbMarshaller.marshal(user, target);
             LOG.info("File " + target + " was saved.");
         } catch (JAXBException e) {
-            System.out.println(e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 }

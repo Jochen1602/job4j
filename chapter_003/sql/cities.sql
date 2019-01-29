@@ -25,6 +25,8 @@ CREATE TEMPORARY TABLE temp AS
 DELETE FROM cities
 WHERE cities.id NOT IN (SELECT id FROM temp);
 
+DELETE FROM cities
+WHERE id NOT IN (SELECT MIN(id) FROM cities GROUP BY name HAVING COUNT(id) > 1);
 
 --В системе есть таблица cities. с полями id, name.
 --Система парсит объявления и записывывать города.

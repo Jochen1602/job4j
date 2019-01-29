@@ -33,10 +33,6 @@ public class Item {
         return created;
     }
 
-    public String[] getComments() {
-        return comments;
-    }
-
     public Item(String name, String desc, long created) {
         this.name = name;
         this.desc = desc;

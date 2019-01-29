@@ -1,5 +1,6 @@
 package ru.job4j.trackersql;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
+import ru.job4j.tracker.Item;
 import ru.job4j.tracker.*;
 
 import java.util.List;
@@ -14,6 +16,13 @@ import java.util.List;
 public class TrackerSQL implements ITracker, AutoCloseable {
     private Connection connection;
     PreparedStatement statement = null;
+
+    public TrackerSQL() {
+    }
+
+    public TrackerSQL(Connection connection) {
+        this.connection = connection;
+    }
 
     /**
      * Задаём инпутстрим по параметрам из файлика в ресурсах.
@@ -23,14 +32,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
      */
     public boolean init() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+            connection(in);
             String sql;
             sql = "CREATE TABLE IF NOT EXISTS ITEMS "
                     + "(ID            SERIAL PRIMARY KEY,"
@@ -54,18 +56,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     public Item add(Item item) {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+            connection(in);
             int id = generateId();
             String name = item.getName();
             String description = item.getDesc();
-            int created = (int) (long) item.getCreated();
+            int created = (int) (item.getCreated());
             String sql = "INSERT INTO ITEMS (ID, NAME, DESCRIPTION, CREATED) VALUES (" + id + ", '" + name + "', '" + description + "', " + created + ");";
             System.out.println(sql);
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -80,6 +75,17 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         return item;
     }
 
+    private void connection(InputStream in) throws IOException, ClassNotFoundException, SQLException {
+        Properties config = new Properties();
+        config.load(in);
+        Class.forName(config.getProperty("driver-class-name"));
+        this.connection = DriverManager.getConnection(
+                config.getProperty("url"),
+                config.getProperty("username"),
+                config.getProperty("password")
+        );
+    }
+
     private int generateId() {
         java.util.Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddHHmmss");
@@ -91,14 +97,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public boolean replace(String id, Item item) {
         boolean result = true;
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+            connection(in);
             String name = item.getName();
             String desc = item.getDesc();
             String sql = "UPDATE ITEMS SET NAME = '" + name + "', DESCRIPTION = '" + desc + "' WHERE ID = '" + id + "';";
@@ -119,14 +118,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public boolean delete(String id) {
         boolean result = true;
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+            connection(in);
             String sql = "DELETE FROM ITEMS WHERE ID = \'" + id + "\';";
             System.out.println(sql);
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -145,14 +137,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public List<Item> findAll() {
         List<Item> result = new ArrayList<>();
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+            connection(in);
             String sql = "SELECT * FROM ITEMS";
             System.out.println(sql);
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -202,14 +187,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         List<Item> result = new ArrayList<>();
         List<String> comments = new ArrayList<>();
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+            connection(in);
             String sql = "SELECT * FROM ITEMS WHERE NAME LIKE '%%" + key + "%%';";
             System.out.println(sql);
             statement = connection.prepareStatement(sql);
@@ -249,14 +227,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public Item findById(String id) {
         Item result = null;
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
-            this.connection = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
-            );
+            connection(in);
             String sql = "SELECT * FROM ITEMS WHERE ID = " + id + ";";
             statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
