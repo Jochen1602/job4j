@@ -1,14 +1,14 @@
 <%@ page import="ru.job4j.servlets.Validate" %>
 <%@ page import="ru.job4j.servlets.ValidateService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Such user exists</title>
 </head>
 <body>
-<% final Validate logic = ValidateService.getInstance(); %>
 <tr>Such user exists</tr>
-<form action="<%=request.getContextPath()%>/create.jsp">
+<form action="${pageContext.servletContext.contextPath}/create">
     <input type='submit' value='Try again'>
 </form>
 </body>

@@ -38,10 +38,10 @@ public class UserCreateServlet extends HttpServlet {
             if (logic.addUser(user)) {
                 resp.sendRedirect(String.format("%s/", req.getContextPath()));
             } else {
-                resp.sendRedirect(String.format("%s/exist.jsp", req.getContextPath()));
+                resp.sendRedirect(String.format("%s/exist", req.getContextPath()));
             }
         } else {
-            resp.sendRedirect(String.format("%s/exist.jsp", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/exist", req.getContextPath()));
         }
     }
 }

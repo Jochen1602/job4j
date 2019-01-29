@@ -24,6 +24,16 @@
         <servlet-class>ru.job4j.servlets.UserDeleteServlet</servlet-class>
         <load-on-startup>4</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>DataErrorServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.DataErrorServlet</servlet-class>
+        <load-on-startup>5</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>ExistServlet</servlet-name>
+        <servlet-class>ru.job4j.servlets.ExistServlet</servlet-class>
+        <load-on-startup>6</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
         <url-pattern>/</url-pattern>
@@ -39,5 +49,13 @@
     <servlet-mapping>
         <servlet-name>UserDeleteServlet</servlet-name>
         <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DataErrorServlet</servlet-name>
+        <url-pattern>/dataerror</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExistServlet</servlet-name>
+        <url-pattern>/exist</url-pattern>
     </servlet-mapping>
 </web-app>

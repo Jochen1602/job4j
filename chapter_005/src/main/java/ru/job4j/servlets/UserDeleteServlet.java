@@ -1,5 +1,6 @@
 package ru.job4j.servlets;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,11 @@ import java.io.PrintWriter;
 
 public class UserDeleteServlet extends HttpServlet {
     private final Validate logic = ValidateService.getInstance();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/views/delete.jsp").forward(req, resp);
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -21,7 +27,7 @@ public class UserDeleteServlet extends HttpServlet {
                 + "</head>"
                 + "<body>"
                 + "<tr>User was deleted</tr>"
-                + "<form action='" + req.getContextPath() + "/list.jsp'>"
+                + "<form action='" + req.getContextPath() + "/list'>"
                 + "<input type='submit' value='Go back'>"
                 + "</form>"
                 + "</body>"

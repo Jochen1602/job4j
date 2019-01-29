@@ -1,14 +1,13 @@
-<%@ page import="ru.job4j.servlets.Validate" %>
-<%@ page import="ru.job4j.servlets.ValidateService" %>
 <%@ page import="ru.job4j.servlets.User" %>
+<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>All users</title>
 </head>
 <body>
 <table style="border: 1px slategrey" cellpadding="1" cellspacing="1" border="1">
-    <% final Validate logic = ValidateService.getInstance(); %>
     <tr>
         <th>Name</th>
         <th>Login</th>
@@ -17,20 +16,21 @@
         <th>Update</th>
         <th>Delete</th>
     </tr>
-    <% for (User user : logic.findAll()) { %>
+    <c:forEach items="${users}" var="user">
     <tr>
-        <td><%=user.getName()%></td>
-        <td><%=user.getLogin()%></td>
-        <td><%=user.getEmail()%></td>
-        <td><%=user.getCreateDate()%></td>
-        <td><form action="<%=request.getContextPath()%>/update.jsp" method="get"><input type="hidden" name="id" value="<%=user.getId()%>"><input type="submit" value="update"></form></td>
-        <td><form action="<%=request.getContextPath()%>/delete" method="post"><input type='hidden' name='id' value="<%=user.getId()%>"><input type='submit' value='delete'></form></td>
+        <td><c:out value="${user.name}"></c:out></td>
+        <td><c:out value="${user.login}"></c:out></td>
+        <td><c:out value="${user.email}"></c:out></td>
+        <td><c:out value="${user.createDate}"></c:out></td>
+
+        <td><form action="${pageContext.servletContext.contextPath}/update" method="get"><input type="hidden" name="id" value="${user.id}"><input type="submit" value="update"></form></td>
+        <td><form action="${pageContext.servletContext.contextPath}/delete" method="post"><input type="hidden" name="id" value="${user.id}"><input type="submit" value="delete"></form></td>
     </tr>
-    <% } %>
+    </c:forEach>
 </table>
 <br>
 <br>
-<form action="<%=request.getContextPath()%>/create.jsp">
+<form action="<%=request.getContextPath()%>/create">
     <input type='submit' value='Create new user'>
 </form>
 </body>
