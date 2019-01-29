@@ -1,5 +1,3 @@
-<%@ page import="ru.job4j.servlets.User" %>
-<%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -22,7 +20,6 @@
         <td><c:out value="${user.login}"></c:out></td>
         <td><c:out value="${user.email}"></c:out></td>
         <td><c:out value="${user.createDate}"></c:out></td>
-
         <td><form action="${pageContext.servletContext.contextPath}/update" method="get"><input type="hidden" name="id" value="${user.id}"><input type="submit" value="update"></form></td>
         <td><form action="${pageContext.servletContext.contextPath}/delete" method="post"><input type="hidden" name="id" value="${user.id}"><input type="submit" value="delete"></form></td>
     </tr>
@@ -30,7 +27,7 @@
 </table>
 <br>
 <br>
-<form action="<%=request.getContextPath()%>/create">
+<form action="${pageContext.servletContext.contextPath}/create">
     <input type='submit' value='Create new user'>
 </form>
 </body>
