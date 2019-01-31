@@ -34,14 +34,17 @@ public class DbStore implements Store<User> {
              Statement statement = connection.createStatement()) {
             statement.executeQuery("CREATE TABLE IF NOT EXISTS users("
                     + "id SERIAL PRIMARY KEY, "
-                    + "name VARCHAR(50) NOT NULL, "
-                    + "login VARCHAR(50) NOT NULL, "
-                    + "email VARCHAR(50) NOT NULL, "
+                    + "name VARCHAR(20) NOT NULL, "
+                    + "login VARCHAR(20) NOT NULL, "
+                    + "password VARCHAR(20) NOT NULL, "
+                    + "role VARCHAR(10) NOT NULL, "
+                    + "email VARCHAR(30) NOT NULL, "
                     + "createDate TIMESTAMP NOT NULL DEFAULT NOW()"
                     + ");");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //addUser(new User("root", "root", "root", "admin", "root@ya.ru"));
     }
 
     public static DbStore getInstance() {
@@ -99,12 +102,13 @@ public class DbStore implements Store<User> {
     @Override
     public void addUser(User user) {
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users(name, login, email) VALUES(?, ?, ?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users(name, login, password, role, email) VALUES(?, ?, ?, ?, ?)")) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getLogin());
-            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setString(4, user.getRole());
+            preparedStatement.setString(5, user.getEmail());
             preparedStatement.executeUpdate();
-            System.out.println(preparedStatement.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,13 +117,14 @@ public class DbStore implements Store<User> {
     @Override
     public void fullUpdateUser(int id, User user) {
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET name = ?, login = ?, email = ? WHERE id = ?;")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET name = ?, login = ?, password = ?, role = ?, email = ? WHERE id = ?;")) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getLogin());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setInt(4, id);
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setString(4, user.getRole());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.setInt(6, id);
             preparedStatement.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,7 +136,6 @@ public class DbStore implements Store<User> {
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?;")) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,9 +152,11 @@ public class DbStore implements Store<User> {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String login = resultSet.getString("login");
+                String password = resultSet.getString("password");
+                String role = resultSet.getString("role");
                 String email = resultSet.getString("email");
                 String createDate = resultSet.getString("createDate");
-                res.add(new User(id, name, login, email, createDate));
+                res.add(new User(id, name, login, password, role, email, createDate));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,7 +166,7 @@ public class DbStore implements Store<User> {
 
     @Override
     public User findById(int id) {
-        User user = new User(id, null, null, null, null);
+        User user = new User(id, null, null, null, null, null, null);
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?;")) {
             preparedStatement.setInt(1, id);
@@ -168,12 +174,47 @@ public class DbStore implements Store<User> {
             while (resultSet.next()) {
                 user.setName(resultSet.getString("name"));
                 user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
                 user.setEmail(resultSet.getString("email"));
+                user.setRole(resultSet.getString("role"));
                 user.setCreateDate(resultSet.getString("createDate"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public boolean isCredential(String login, String password) {
+        boolean res = false;
+        for (User u : this.findAll()) {
+            if (u.getPassword().equals(password) && u.getLogin().equals(login)) {
+                res = true;
+                break;
+            }
+        }
+        return res;
+    }
+
+    public String roleByLogin(String login) {
+        String res = null;
+        for (User u : this.findAll()) {
+            if (u.getLogin().equals(login)) {
+                res = u.getRole();
+                break;
+            }
+        }
+        return res;
+    }
+
+    public int idByLogin(String login) {
+        int res = 0;
+        for (User u : this.findAll()) {
+            if (u.getLogin().equals(login)) {
+                res = u.getId();
+                break;
+            }
+        }
+        return res;
     }
 }

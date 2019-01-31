@@ -13,31 +13,48 @@ public class User {
     private int id;
     private String name;
     private String login;
+    private String password;
+    private String role;
     private String email;
     private String createDate;
 
-    public User(int id, String name, String login, String email, String createDate) {
+    public User(int id, String name, String login, String password, String role, String email, String createDate) {
         this.id = id;
         this.name = name;
         this.login = login;
+        this.password = password;
+        this.role = role;
         this.email = email;
         this.createDate = createDate;
     }
 
-    public User(String name, String login, String email) {
+    public User(String name, String login, String password, String role, String email) {
         this.id = COUNT.incrementAndGet();
         this.name = name;
         this.login = login;
         this.email = email;
+        this.password = password;
+        this.role = role;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         this.createDate = dateFormat.format(date);
     }
 
-    public User(String name, String login) {
+    public User(int id, String name, String login, String role, String email, String createDate) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.role = role;
+        this.email = email;
+        this.createDate = createDate;
+    }
+
+    public User(String name, String login, String role, String email) {
         this.id = COUNT.incrementAndGet();
         this.name = name;
         this.login = login;
+        this.role = role;
+        this.email = email;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         this.createDate = dateFormat.format(date);
@@ -63,6 +80,14 @@ public class User {
         return login;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -79,6 +104,14 @@ public class User {
         this.login = login;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -93,6 +126,8 @@ public class User {
                 + "id=" + id
                 + ", name='" + name + '\''
                 + ", login='" + login + '\''
+                + ", password='" + password + '\''
+                + ", role='" + role + '\''
                 + ", email='" + email + '\''
                 + ", createDate=" + createDate
                 + "   ";

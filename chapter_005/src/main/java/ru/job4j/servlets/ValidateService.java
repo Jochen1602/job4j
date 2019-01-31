@@ -30,9 +30,9 @@ public class ValidateService implements Validate {
             ids.addAll(logic.checkName(user.getName()));
             ids.addAll(logic.checkLogin(user.getLogin()));
             ids.addAll(logic.checkEmail(user.getEmail()));
-            System.out.println(ids.toString());
             if ((ids.size() == 1 && ids.contains(Integer.parseInt(id))) || ids.size() == 0) {
                 res = true;
+                System.out.println(user.toString());
                 logic.fullUpdateUser(Integer.parseInt(id), user);
             }
         }

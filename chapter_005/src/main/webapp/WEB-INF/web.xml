@@ -4,6 +4,10 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.job4j.servlets.AuthFilter</filter-class>
+    </filter>
     <servlet>
         <servlet-name>UserCreateServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.UserCreateServlet</servlet-class>
@@ -34,6 +38,20 @@
         <servlet-class>ru.job4j.servlets.ExistServlet</servlet-class>
         <load-on-startup>6</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>Signing</servlet-name>
+        <servlet-class>ru.job4j.servlets.SigningServlet</servlet-class>
+        <load-on-startup>7</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>ru.job4j.servlets.Logout</servlet-class>
+        <load-on-startup>8</load-on-startup>
+    </servlet>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
     <servlet-mapping>
         <servlet-name>UserCreateServlet</servlet-name>
         <url-pattern>/</url-pattern>
@@ -57,5 +75,13 @@
     <servlet-mapping>
         <servlet-name>ExistServlet</servlet-name>
         <url-pattern>/exist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Signing</servlet-name>
+        <url-pattern>/signing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 </web-app>

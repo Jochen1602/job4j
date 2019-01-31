@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
-
 /**
  * Presentation layout. Interact only with logic layout.
  */
@@ -18,6 +17,11 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final Set<User> all = logic.findAll();
         req.setAttribute("users", all);
-        req.getRequestDispatcher("/WEB-INF/views/list.jsp").forward(req, resp);
+        if (req.getSession().getAttribute("role").equals("admin")) {
+            req.getRequestDispatcher("/WEB-INF/views/list.jsp").forward(req, resp);
+        } else {
+            req.getRequestDispatcher("/WEB-INF/views/listLight.jsp").forward(req, resp);
+        }
+
     }
 }
