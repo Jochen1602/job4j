@@ -43,8 +43,7 @@ public class UserUpdateServlet extends HttpServlet {
                 if (req.getSession().getAttribute("role").equals("admin")) {
                     if (!role.equals("admin") && req.getSession().getAttribute("login").equals(login)) {
                         resp.sendRedirect(String.format("%s/logout", req.getContextPath()));
-                    }
-                    else {
+                    } else {
                         resp.sendRedirect(String.format("%s/list", req.getContextPath()));
                     }
                 } else {
