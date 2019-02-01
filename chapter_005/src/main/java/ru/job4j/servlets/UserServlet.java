@@ -22,6 +22,5 @@ public class UserServlet extends HttpServlet {
         } else {
             req.getRequestDispatcher("/WEB-INF/views/listLight.jsp").forward(req, resp);
         }
-
     }
 }

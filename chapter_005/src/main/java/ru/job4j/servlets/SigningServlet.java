@@ -21,8 +21,10 @@ public class SigningServlet extends HttpServlet {
             req.getSession().setAttribute("login", login);
             req.getSession().setAttribute("role", DbStore.getInstance().roleByLogin(login));
             req.getSession().setAttribute("id", DbStore.getInstance().idByLogin(login));
+            System.out.println("2222");
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {
+            System.out.println("1111");
             req.setAttribute("error", "Credential invalid");
             doGet(req, resp);
         }

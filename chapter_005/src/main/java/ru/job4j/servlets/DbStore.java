@@ -32,7 +32,7 @@ public class DbStore implements Store<User> {
         SOURCE.setMaxOpenPreparedStatements(100);
         try (Connection connection = SOURCE.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.executeQuery("CREATE TABLE IF NOT EXISTS users("
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users("
                     + "id SERIAL PRIMARY KEY, "
                     + "name VARCHAR(20) NOT NULL, "
                     + "login VARCHAR(20) NOT NULL, "
@@ -40,6 +40,7 @@ public class DbStore implements Store<User> {
                     + "role VARCHAR(10) NOT NULL, "
                     + "email VARCHAR(30) NOT NULL, "
                     + "createDate TIMESTAMP NOT NULL DEFAULT NOW()"
+                    + "UNIQUE(name, login, email)"
                     + ");");
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,33 +188,46 @@ public class DbStore implements Store<User> {
 
     public boolean isCredential(String login, String password) {
         boolean res = false;
-        for (User u : this.findAll()) {
-            if (u.getPassword().equals(password) && u.getLogin().equals(login)) {
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = ?;")) {
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
                 res = true;
-                break;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return res;
     }
 
     public String roleByLogin(String login) {
         String res = null;
-        for (User u : this.findAll()) {
-            if (u.getLogin().equals(login)) {
-                res = u.getRole();
-                break;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login = ? LIMIT 1;")) {
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                res = resultSet.getString("role");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return res;
     }
 
     public int idByLogin(String login) {
         int res = 0;
-        for (User u : this.findAll()) {
-            if (u.getLogin().equals(login)) {
-                res = u.getId();
-                break;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login = ? LIMIT 1;")) {
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                res = resultSet.getInt("id");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return res;
     }
