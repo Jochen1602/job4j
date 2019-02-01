@@ -3,11 +3,7 @@ package ru.job4j.servlets;
 import java.util.Set;
 
 public interface Store<T> {
-    Set<Integer> checkName(String name);
-
-    Set<Integer> checkLogin(String login);
-
-    Set<Integer> checkEmail(String email);
+    Set<Integer> checkData(String name, String login, String email);
 
     void addUser(T user);
 

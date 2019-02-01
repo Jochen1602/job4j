@@ -6,14 +6,14 @@ public class UserCreateStub implements Validate {
     public final Map<Integer, User> store = new HashMap<>();
     public int ids = 0;
 
-    public static volatile UserCreateStub soloUserCreateStub = new UserCreateStub();
+    public static volatile Validate soloUserCreateStub = new UserCreateStub();
 
     public UserCreateStub() {
 
     }
 
     public static UserCreateStub getInstance() {
-        return soloUserCreateStub;
+        return (UserCreateStub) soloUserCreateStub;
     }
 
     @Override

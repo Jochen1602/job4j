@@ -53,43 +53,13 @@ public class DbStore implements Store<User> {
     }
 
     @Override
-    public Set<Integer> checkName(String name) {
+    public Set<Integer> checkData(String name, String login, String email) {
         Set<Integer> res = new CopyOnWriteArraySet<>();
         try (Connection connection = SOURCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE name = ?;")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE name = ? OR login = ? OR email = ?;")) {
             preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                res.add(resultSet.getInt("id"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    @Override
-    public Set<Integer> checkLogin(String login) {
-        Set<Integer> res = new CopyOnWriteArraySet<>();
-        try (Connection connection = SOURCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login = ?;")) {
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                res.add(resultSet.getInt("id"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    @Override
-    public Set<Integer> checkEmail(String email) {
-        Set<Integer> res = new CopyOnWriteArraySet<>();
-        try (Connection connection = SOURCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE email = ?;")) {
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, login);
+            preparedStatement.setString(3, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 res.add(resultSet.getInt("id"));
@@ -202,29 +172,15 @@ public class DbStore implements Store<User> {
         return res;
     }
 
-    public String roleByLogin(String login) {
-        String res = null;
+    public String[] roleAndIdByLogin(String login) {
+        String[] res = new String[2];
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login = ? LIMIT 1;")) {
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                res = resultSet.getString("role");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    public int idByLogin(String login) {
-        int res = 0;
-        try (Connection connection = SOURCE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login = ? LIMIT 1;")) {
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                res = resultSet.getInt("id");
+                res[0] = resultSet.getString("role");
+                res[1] = resultSet.getString("id");
             }
         } catch (Exception e) {
             e.printStackTrace();

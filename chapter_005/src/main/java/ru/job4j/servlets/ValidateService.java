@@ -8,14 +8,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class ValidateService implements Validate {
     private final Store logic = DbStore.getInstance();
-    private static volatile ValidateService soloValidateService = new ValidateService();
+    private static volatile Validate soloValidateService = new ValidateService();
 
     private ValidateService() {
 
     }
 
     public static ValidateService getInstance() {
-        return soloValidateService;
+        return (ValidateService) soloValidateService;
     }
 
     public void deleteUser(String id) {
@@ -27,9 +27,7 @@ public class ValidateService implements Validate {
         boolean res = false;
         if (findById(id) != null) {
             CopyOnWriteArraySet<Integer> ids = new CopyOnWriteArraySet();
-            ids.addAll(logic.checkName(user.getName()));
-            ids.addAll(logic.checkLogin(user.getLogin()));
-            ids.addAll(logic.checkEmail(user.getEmail()));
+            ids.addAll(logic.checkData(user.getName(), user.getLogin(), user.getEmail()));
             if ((ids.size() == 1 && ids.contains(Integer.parseInt(id))) || ids.size() == 0) {
                 res = true;
                 System.out.println(user.toString());
@@ -42,9 +40,7 @@ public class ValidateService implements Validate {
     public boolean addUser(User user) {
         boolean res = false;
         CopyOnWriteArraySet<Integer> ids = new CopyOnWriteArraySet();
-        ids.addAll(logic.checkName(user.getName()));
-        ids.addAll(logic.checkEmail(user.getEmail()));
-        ids.addAll(logic.checkLogin(user.getLogin()));
+        ids.addAll(logic.checkData(user.getName(), user.getLogin(), user.getEmail()));
         System.out.println(ids.toString());
         if (ids.size() == 0) {
             logic.addUser(user);

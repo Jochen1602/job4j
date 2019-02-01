@@ -23,37 +23,15 @@ public class MemoryStore implements Store<User> {
     }
 
     @Override
-    public Set<Integer> checkName(String name) {
+    public Set<Integer> checkData(String name, String login, String email) {
         CopyOnWriteArraySet<Integer> names = new CopyOnWriteArraySet();
         for (User u : findAll()) {
-            if (u.getName().equals(name)) {
+            if (u.getName().equals(name) || u.getLogin().equals(login) || u.getEmail().equals(email)) {
                 names.add(u.getId());
             }
         }
         System.out.println(name + " names " + names.toString());
         return names;
-    }
-    @Override
-    public Set<Integer> checkLogin(String login) {
-        CopyOnWriteArraySet<Integer> logins = new CopyOnWriteArraySet();
-        for (User u : findAll()) {
-            if (u.getLogin().equals(login)) {
-                logins.add(u.getId());
-            }
-        }
-        System.out.println(login + " logins " + logins.toString());
-        return logins;
-    }
-    @Override
-    public Set<Integer> checkEmail(String email) {
-        CopyOnWriteArraySet<Integer> emails = new CopyOnWriteArraySet();
-        for (User u : findAll()) {
-            if (u.getEmail().equals(email)) {
-                emails.add(u.getId());
-            }
-        }
-        System.out.println(email + " emails " + emails.toString());
-        return emails;
     }
 
     public boolean deleteUser(int id) {
