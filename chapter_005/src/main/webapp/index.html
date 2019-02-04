@@ -4,14 +4,54 @@
     <title>Intro page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            var result = true;
+            var name = $('#name').val();
+            var password = $('#pwd').val();
+            var gender = $('input[type=radio]:checked').length;
+            var description = $('#description').val();
+            var agree = $('#agreement').prop("checked");
+            var fullAlert = '';
+            if (!name) {
+                result = false;
+                fullAlert += "Введите имя\n";
+            }
+            if (!password) {
+                result = false;
+                fullAlert += "Введите пароль\n";
+            }
+            if (!description) {
+                result = false;
+                fullAlert += "Введите описание\n";
+            }
+            if (gender == 0) {
+                result = false;
+                fullAlert += "Введите пол\n";
+            }
+            if(!agree) {
+                result = false;
+                fullAlert += "Подтвердите согласие с условиями";
+            }
+            if(!result) {
+                alert(fullAlert);
+            }
+            return result;
+        }
+    </script>
     <style>
-    div.relative {
-    position: relative;
-    left: 20px;
-    }
+        div.relative {
+            position: relative;
+            left: 20px;
+            width: 400px;
+        }
+        div.container {
+            alignment: left;
+            width: 90%;
+        }
     </style>
 </head>
 <body>
@@ -19,31 +59,48 @@
     <h1>Welcome to machine</h1>
 </div>
 <div class="relative">
-    <form action="/action_page.php" >
+    <form action="/items" method="post" onsubmit="return validate();">
         <div class="form-group">
-            <label for="firstname">Enter first name:</label>
-            <input type="firstname" class="form-control" id="firstname">
+            Name: <input type="text" name="name" id="name">
         </div>
         <div class="form-group">
-            <label for="lastname">Enter last name:</label>
-            <input type="lastname" class="form-control" id="lastname">
+            Password: <input type="password" name="password" id="pwd">
         </div>
         <div class="form-group">
-            <select>
-                <option value="male">male</option>
-                <option value="female">female</option>
-            </select>
+            Gender :
+            <td align="left">
+                <input type="radio" name="gender" value="male" id="male"/>
+                Male
+                <input type="radio" name="gender" value="female" id="female"/>
+                Female
+            </td>
         </div>
         <div class="form-group">
             <label for="description">Enter description:</label>
             <input type="description" class="form-control" id="description">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <div class="form-group">
+        Address : <select name="address">
+            <option value="moscow">Moscow</option>
+            <option value="spb">Saint-Petersburg</option>
+            <option value="glazov">Glazov</option>
+        </select>
+        </div>
+        <div class="form-group">
+            Upload resume :<input type="file" name="resume">
+        </div>
+        Agreement : <input type="checkbox" name="agreement" id="agreement"><br><br>
+        <input type="submit" value="Submit">
     </form>
 </div>
 <br>
 <div class="container">
-    <table class="table table-striped" style="position: absolute; left: 40px">
+    <div class="container" style="position: relative; left: 0px">
+    <table class="table table-bordered table-striped">
+        <col width="20%" valign="top">
+        <col width="20%" valign="top">
+        <col width="10%" valign="top">
+        <col width="50%" valign="top">
         <thead>
         <tr>
             <th>First name</th>
@@ -59,8 +116,13 @@
             <td>male</td>
             <td>The description</td>
         </tr>
+        <tr>
+            <td>Boris</td>
+            <td>The Blade</td>
+            <td>male</td>
+            <td>The description</td>
+        </tr>
         </tbody>
     </table>
-</div>
 </body>
 </html>
