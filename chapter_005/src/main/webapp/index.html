@@ -11,6 +11,7 @@
         function validate() {
             var result = true;
             var name = $('#name').val();
+            var surname = $('#surname').val();
             var password = $('#pwd').val();
             var gender = $('input[type=radio]:checked').length;
             var description = $('#description').val();
@@ -19,6 +20,10 @@
             if (!name) {
                 result = false;
                 fullAlert += "Введите имя\n";
+            }
+            if (!surname) {
+                result = false;
+                fullAlert += "Введите фамилию\n";
             }
             if (!password) {
                 result = false;
@@ -30,7 +35,7 @@
             }
             if (gender == 0) {
                 result = false;
-                fullAlert += "Введите пол\n";
+                fullAlert += "Укажите пол\n";
             }
             if(!agree) {
                 result = false;
@@ -40,6 +45,13 @@
                 alert(fullAlert);
             }
             return result;
+        }
+        function addRow() {
+            var name = $('#name').val();
+            var surname = $('#surname').val();
+            var gender = $('input[type=radio]:checked').val();
+            var description = $('#description').val();
+            $('#table tr:last').after('<tr><td>' + name +'</td> + <td>' + surname + '</td> + <td>' + gender + '</td> + <td>' + description + '</td></tr>');
         }
     </script>
     <style>
@@ -64,6 +76,9 @@
             Name: <input type="text" name="name" id="name">
         </div>
         <div class="form-group">
+            Surname: <input type="text" name="surname" id="surname">
+        </div>
+        <div class="form-group">
             Password: <input type="password" name="password" id="pwd">
         </div>
         <div class="form-group">
@@ -80,7 +95,7 @@
             <input type="description" class="form-control" id="description">
         </div>
         <div class="form-group">
-        Address : <select name="address">
+            Address : <select name="address">
             <option value="moscow">Moscow</option>
             <option value="spb">Saint-Petersburg</option>
             <option value="glazov">Glazov</option>
@@ -91,38 +106,41 @@
         </div>
         Agreement : <input type="checkbox" name="agreement" id="agreement"><br><br>
         <input type="submit" value="Submit">
+        <input type="button" value="send" onclick="addRow()">
     </form>
 </div>
 <br>
 <div class="container">
     <div class="container" style="position: relative; left: 0px">
-    <table class="table table-bordered table-striped">
-        <col width="20%" valign="top">
-        <col width="20%" valign="top">
-        <col width="10%" valign="top">
-        <col width="50%" valign="top">
-        <thead>
-        <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Sex</th>
-            <th>Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Anton</td>
-            <td>Tokarev</td>
-            <td>male</td>
-            <td>The description</td>
-        </tr>
-        <tr>
-            <td>Boris</td>
-            <td>The Blade</td>
-            <td>male</td>
-            <td>The description</td>
-        </tr>
-        </tbody>
-    </table>
+        <table class="table table-bordered table-striped" id="table">
+            <col width="20%" valign="top">
+            <col width="20%" valign="top">
+            <col width="10%" valign="top">
+            <col width="50%" valign="top">
+            <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Sex</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Anton</td>
+                <td>Tokarev</td>
+                <td>male</td>
+                <td>The description</td>
+            </tr>
+            <tr>
+                <td>Boris</td>
+                <td>The Blade</td>
+                <td>male</td>
+                <td>The description</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
