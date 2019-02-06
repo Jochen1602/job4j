@@ -8,6 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
+        $(document).ready(function () {
+            fillUsers();
+        });
         function validate() {
             var result = true;
             var name = $('#name').val();
@@ -95,7 +98,9 @@
                 method: 'post',
                 dataType: 'json',
                 data : {name : $('#name').val(), surname : $('#surname').val(), login : $('#login').val(), email : $('#email').val()},
-                success: fillUsers()
+                success:function (data) {
+                    fillUsers();
+                }
             });
             return false;
         }
