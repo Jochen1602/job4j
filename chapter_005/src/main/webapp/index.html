@@ -67,22 +67,20 @@
                         + "<td>Last name</td>"
                         + "<td>Login</td>"
                         + "<td>Email</td>"
-                        + "<td>Sex</td>"
                         + "<td>Description</td>"
                         + "</tr>";
                     var users = JSON.parse(data.responseText);
                     console.log(users);
                     for (var i = 0; i < users.length; i++) {
                         result += "<tr>"
-                            + "<td> + users[i].name + </td>"
-                            + "<td> + users[i].name + </td>"
-                            + "<td> + users[i].login + </td>"
-                            + "<td> + users[i].email + </td>"
-                            + "<td> + users[i].sex + </td>"
-                            + "<td> + users[i].description + </td>"
+                            + "<td>" + users[i].name.split(" ")[0] + "</td>"
+                            + "<td>" + users[i].name.split(" ")[1] + "</td>"
+                            + "<td>" + users[i].login + "</td>"
+                            + "<td>" + users[i].email + "</td>"
+                            + "<td>" + users[i].description + "</td>"
                             + "</tr>";
                     }
-                    var table = document.getElementsByName("users");
+                    var table = document.getElementsByName("users")[0];
                     table.innerHTML = result;
                 }
             })
@@ -160,27 +158,23 @@
         </div>
         Agreement : <input type="checkbox" name="agreement" id="agreement"><br><br>
         <input type="submit" value="Submit">
-        <input type="button" value="send" onclick="return addUser()" id="submitForm">
+        <input type="button" value="Send" onclick="return addUser()" id="submitForm">
     </form>
 </div>
 <br>
-<div class="container">
     <table id="users" class="table table-bordered table-striped" name="users">
         <col width="10%" valign="top">
-        <col width="12%" valign="top">
-        <col width="10%" valign="top">
+        <col width="15%" valign="top">
+        <col width="15%" valign="top">
         <col width="20%" valign="top">
-        <col width="8%" valign="top">
         <col width="40%" valign="top">
         <tr>
             <th>First name</th>
             <th>Last name</th>
             <th>Login</th>
             <th>Email</th>
-            <th>Sex</th>
             <th>Description</th>
         </tr>
     </table>
-</div>
 </body>
 </html>

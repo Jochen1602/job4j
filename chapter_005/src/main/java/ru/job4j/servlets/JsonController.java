@@ -2,6 +2,7 @@ package ru.job4j.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,7 @@ import java.io.PrintWriter;
 
 public class JsonController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/json");
         PrintWriter out = new PrintWriter(resp.getOutputStream());
         ObjectMapper mapper = new ObjectMapper();
@@ -31,7 +32,7 @@ public class JsonController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         User user = new User(req.getParameter("name") + " " + req.getParameter("surname"), req.getParameter("login"), req.getParameter("password"), "user", req.getParameter("email"));
 //        BufferedReader reader = req.getReader();
 //        StringBuilder sb = new StringBuilder();
