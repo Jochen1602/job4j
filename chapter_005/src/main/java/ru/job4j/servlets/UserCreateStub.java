@@ -6,14 +6,16 @@ public class UserCreateStub implements Validate {
     public final Map<Integer, User> store = new HashMap<>();
     public int ids = 0;
 
-    public static volatile Validate soloUserCreateStub = new UserCreateStub();
-
-    public UserCreateStub() {
+    private UserCreateStub() {
 
     }
 
-    public static UserCreateStub getInstance() {
-        return (UserCreateStub) soloUserCreateStub;
+    private static class ValidateHolder {
+        private static final Validate INSTANCE = new UserCreateStub();
+    }
+
+    public static Validate getInstance() {
+        return ValidateHolder.INSTANCE;
     }
 
     @Override

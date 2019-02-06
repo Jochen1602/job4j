@@ -9,7 +9,7 @@ import static ru.job4j.servlets.MemoryStore.COUNT;
 /**
  * Abstraction of users.
  */
-public class User {
+public class User implements Comparable<User> {
     private int id;
     private String name;
     private String login;
@@ -135,5 +135,10 @@ public class User {
                 + ", email='" + email + '\''
                 + ", createDate=" + createDate
                 + "   ";
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return this.getId()-o.getId();
     }
 }

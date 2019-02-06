@@ -12,6 +12,8 @@
             var result = true;
             var name = $('#name').val();
             var surname = $('#surname').val();
+            var login = $('#login').val();
+            var email = $('#email').val();
             var password = $('#pwd').val();
             var gender = $('input[type=radio]:checked').length;
             var description = $('#description').val();
@@ -24,6 +26,14 @@
             if (!surname) {
                 result = false;
                 fullAlert += "Введите фамилию\n";
+            }
+            if (!login) {
+                result = false;
+                fullAlert += "Введите логин\n";
+            }
+            if (!email) {
+                result = false;
+                fullAlert += "Введите электронную почту\n";
             }
             if (!password) {
                 result = false;
@@ -46,12 +56,50 @@
             }
             return result;
         }
-        function addRow() {
-            var name = $('#name').val();
-            var surname = $('#surname').val();
-            var gender = $('input[type=radio]:checked').val();
-            var description = $('#description').val();
-            $('#table tr:last').after('<tr><td>' + name +'</td> + <td>' + surname + '</td> + <td>' + gender + '</td> + <td>' + description + '</td></tr>');
+
+        function fillUsers() {
+            $.ajax({
+                url: 'http://localhost:8080/chapter_005/json',
+                method: 'get',
+                complete: function (data) {
+                    var result = "<tr>"
+                        + "<td>First name</td>"
+                        + "<td>Last name</td>"
+                        + "<td>Login</td>"
+                        + "<td>Email</td>"
+                        + "<td>Sex</td>"
+                        + "<td>Description</td>"
+                        + "</tr>";
+                    var users = JSON.parse(data.responseText);
+                    console.log(users);
+                    for (var i = 0; i < users.length; i++) {
+                        result += "<tr>"
+                            + "<td> + users[i].name + </td>"
+                            + "<td> + users[i].name + </td>"
+                            + "<td> + users[i].login + </td>"
+                            + "<td> + users[i].email + </td>"
+                            + "<td> + users[i].sex + </td>"
+                            + "<td> + users[i].description + </td>"
+                            + "</tr>";
+                    }
+                    var table = document.getElementsByName("users");
+                    table.innerHTML = result;
+                }
+            })
+        }
+
+        $(fillUsers());
+
+        function addUser() {
+            $.ajax({
+                url: 'http://localhost:8080/chapter_005/json',
+                type: 'post',
+                method: 'post',
+                dataType: 'json',
+                data : {name : $('#name').val(), surname : $('#surname').val(), login : $('#login').val(), email : $('#email').val()},
+                success: fillUsers()
+            });
+            return false;
         }
     </script>
     <style>
@@ -71,7 +119,7 @@
     <h1>Welcome to machine</h1>
 </div>
 <div class="relative">
-    <form action="/items" method="post" onsubmit="return validate();">
+    <form action="/items" method="post" onsubmit="return validate();" name="form" id="form">
         <div class="form-group">
             Name: <input type="text" name="name" id="name">
         </div>
@@ -79,7 +127,13 @@
             Surname: <input type="text" name="surname" id="surname">
         </div>
         <div class="form-group">
+            Login: <input type="text" name="login" id="login">
+        </div>
+        <div class="form-group">
             Password: <input type="password" name="password" id="pwd">
+        </div>
+        <div class="form-group">
+            Email: <input type="text" name="email" id="email">
         </div>
         <div class="form-group">
             Gender :
@@ -92,7 +146,7 @@
         </div>
         <div class="form-group">
             <label for="description">Enter description:</label>
-            <input type="description" class="form-control" id="description">
+            <input type="text" class="form-control" id="description">
         </div>
         <div class="form-group">
             Address : <select name="address">
@@ -106,41 +160,27 @@
         </div>
         Agreement : <input type="checkbox" name="agreement" id="agreement"><br><br>
         <input type="submit" value="Submit">
-        <input type="button" value="send" onclick="addRow()">
+        <input type="button" value="send" onclick="return addUser()" id="submitForm">
     </form>
 </div>
 <br>
 <div class="container">
-    <div class="container" style="position: relative; left: 0px">
-        <table class="table table-bordered table-striped" id="table">
-            <col width="20%" valign="top">
-            <col width="20%" valign="top">
-            <col width="10%" valign="top">
-            <col width="50%" valign="top">
-            <thead>
-            <tr>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Sex</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Anton</td>
-                <td>Tokarev</td>
-                <td>male</td>
-                <td>The description</td>
-            </tr>
-            <tr>
-                <td>Boris</td>
-                <td>The Blade</td>
-                <td>male</td>
-                <td>The description</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <table id="users" class="table table-bordered table-striped" name="users">
+        <col width="10%" valign="top">
+        <col width="12%" valign="top">
+        <col width="10%" valign="top">
+        <col width="20%" valign="top">
+        <col width="8%" valign="top">
+        <col width="40%" valign="top">
+        <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Sex</th>
+            <th>Description</th>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

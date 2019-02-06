@@ -8,14 +8,17 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class ValidateService implements Validate {
     private final Store logic = DbStore.getInstance();
-    private static volatile Validate soloValidateService = new ValidateService();
 
     private ValidateService() {
 
     }
 
-    public static ValidateService getInstance() {
-        return (ValidateService) soloValidateService;
+    private static class ValidateHolder {
+        private static final Validate INSTANCE = new ValidateService();
+    }
+
+    public static Validate getInstance() {
+        return ValidateHolder.INSTANCE;
     }
 
     public void deleteUser(String id) {

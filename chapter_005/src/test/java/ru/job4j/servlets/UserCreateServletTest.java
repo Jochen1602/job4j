@@ -1,9 +1,9 @@
 package ru.job4j.servlets;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -20,20 +20,50 @@ import static org.mockito.Mockito.when;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ValidateService.class)
 public class UserCreateServletTest {
-    @Ignore
+    private Validate validate;
+
+    @Before
+    public void createMocks() {
+        this.validate = UserCreateStub.getInstance();
+        PowerMockito.mockStatic(ValidateService.class);
+        when(ValidateService.getInstance()).thenReturn(this.validate);
+    }
+
     @Test
     public void whenAddUserThenStoreIt() throws IOException {
-        Validate validate = new UserCreateStub();
-        PowerMockito.mockStatic(ValidateService.class);
-        //Mockito.when(ValidateService.getInstance()).thenReturn(validate);
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
         when(req.getParameter("name")).thenReturn("g1");
         when(req.getParameter("login")).thenReturn("g2");
         when(req.getParameter("password")).thenReturn("g3");
-        when(req.getParameter("role")).thenReturn("g4");
+        when(req.getParameter("role")).thenReturn("user");
         when(req.getParameter("email")).thenReturn("g5");
         new UserCreateServlet().doPost(req, resp);
         assertThat(validate.findAll().iterator().next().getName(), is("g1"));
+    }
+
+    @Test
+    public void whenUpdateUser() throws IOException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        when(req.getParameter("name")).thenReturn("g1");
+        when(req.getParameter("login")).thenReturn("g2");
+        when(req.getParameter("password")).thenReturn("g3");
+        when(req.getParameter("role")).thenReturn("user");
+        when(req.getParameter("email")).thenReturn("g5");
+        new UserCreateServlet().doPost(req, resp);
+        assertThat(validate.findAll().iterator().next().getName(), is("g1"));
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("name")).thenReturn("d2");
+        when(request.getParameter("login")).thenReturn("d3");
+        when(request.getParameter("password")).thenReturn("d4");
+        when(request.getParameter("role")).thenReturn("user");
+        when(request.getParameter("email")).thenReturn("d6");
+        when(request.getSession().getAttribute("role")).thenReturn("admin");
+        new UserUpdateServlet().doPost(request, response);
+        assertThat(validate.findAll().iterator().next().getEmail(), is("d6"));
     }
 }
