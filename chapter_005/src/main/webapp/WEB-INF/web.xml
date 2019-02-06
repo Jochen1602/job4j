@@ -8,11 +8,11 @@
         <!--<filter-name>AuthFilter</filter-name>-->
         <!--<filter-class>ru.job4j.servlets.AuthFilter</filter-class>-->
     <!--</filter>-->
-    <servlet>
-        <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.job4j.servlets.UserCreateServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <!--<servlet>-->
+        <!--<servlet-name>UserCreateServlet</servlet-name>-->
+        <!--<servlet-class>ru.job4j.servlets.UserCreateServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
     <servlet>
         <servlet-name>UserServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.UserServlet</servlet-class>
@@ -57,10 +57,10 @@
         <!--<filter-name>AuthFilter</filter-name>-->
         <!--<url-pattern>*</url-pattern>-->
     <!--</filter-mapping>-->
-    <servlet-mapping>
-        <servlet-name>UserCreateServlet</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>UserCreateServlet</servlet-name>-->
+        <!--<url-pattern>/</url-pattern>-->
+    <!--</servlet-mapping>-->
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
         <url-pattern>/list</url-pattern>

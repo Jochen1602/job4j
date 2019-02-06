@@ -59,7 +59,7 @@
 
         function fillUsers() {
             $.ajax({
-                url: 'http://localhost:8080/chapter_005/json',
+                url: './json',
                 method: 'get',
                 complete: function (data) {
                     var result = "<tr>"
@@ -92,7 +92,7 @@
 
         function addUser() {
             $.ajax({
-                url: 'http://localhost:8080/chapter_005/json',
+                url: './json',
                 type: 'post',
                 method: 'post',
                 dataType: 'json',
