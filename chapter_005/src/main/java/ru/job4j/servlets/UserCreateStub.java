@@ -4,7 +4,7 @@ import java.util.*;
 
 public class UserCreateStub implements Validate {
     public final Map<Integer, User> store = new HashMap<>();
-    public int ids = 0;
+    public int ids = 1;
 
     private UserCreateStub() {
 
@@ -20,12 +20,13 @@ public class UserCreateStub implements Validate {
 
     @Override
     public void deleteUser(String id) {
-        this.store.remove(id);
+        this.store.remove(Integer.parseInt(id));
+
     }
 
     @Override
     public boolean fullUpdateUser(String id, User user) {
-        this.store.remove(id);
+        this.store.remove(Integer.parseInt(id));
         this.store.put(Integer.parseInt(id), user);
         return true;
     }

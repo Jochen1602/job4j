@@ -1,15 +1,17 @@
 package ru.job4j.servlets;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
@@ -46,13 +48,13 @@ public class UserCreateServletTest {
     public void whenUpdateUser() throws IOException {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
         when(req.getParameter("name")).thenReturn("g1");
         when(req.getParameter("login")).thenReturn("g2");
         when(req.getParameter("password")).thenReturn("g3");
-        when(req.getParameter("role")).thenReturn("user");
+        when(req.getParameter("role")).thenReturn("admin");
         when(req.getParameter("email")).thenReturn("g5");
         new UserCreateServlet().doPost(req, resp);
-        assertThat(validate.findAll().iterator().next().getName(), is("g1"));
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -60,10 +62,34 @@ public class UserCreateServletTest {
         when(request.getParameter("name")).thenReturn("d2");
         when(request.getParameter("login")).thenReturn("d3");
         when(request.getParameter("password")).thenReturn("d4");
-        when(request.getParameter("role")).thenReturn("user");
+        when(request.getParameter("role")).thenReturn("admin");
         when(request.getParameter("email")).thenReturn("d6");
+        when(request.getSession()).thenReturn(session);
+        session.setAttribute("role", "admin");
+        session.setAttribute("login", "g2");
         when(request.getSession().getAttribute("role")).thenReturn("admin");
+        when(request.getSession().getAttribute("login")).thenReturn("g2");
         new UserUpdateServlet().doPost(request, response);
         assertThat(validate.findAll().iterator().next().getEmail(), is("d6"));
+    }
+
+    @Test
+    public void whenDeleteUser() throws IOException {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        ServletOutputStream outputStream = mock(ServletOutputStream.class);
+        when(req.getParameter("name")).thenReturn("g1");
+        when(req.getParameter("login")).thenReturn("g2");
+        when(req.getParameter("password")).thenReturn("g3");
+        when(req.getParameter("role")).thenReturn("admin");
+        when(req.getParameter("email")).thenReturn("g5");
+        new UserCreateServlet().doPost(req, resp);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(response.getOutputStream()).thenReturn(outputStream);
+        when(request.getParameter("id")).thenReturn("1");
+        new UserDeleteServlet().doPost(request, response);
+        assertThat(validate.findAll().size(), is(0));
     }
 }
