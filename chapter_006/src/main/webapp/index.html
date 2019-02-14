@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Welcome to item-store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            fillItems();
+        });
+        function validate() {
+            var result = true;
+            var description = $('#description').val();
+            if (!description) {
+                result = false;
+                alert("Введите описание заявки");
+            }
+            if (result) {
+                addItem();
+            }
+            return result;
+        }
+
+        function fillItems() {
+            $.ajax({
+                url: './item',
+                method: 'get',
+                complete: function (data) {
+                    var result = "<tr>"
+                        + "<td>ID</td>"
+                        + "<td>Description</td>"
+                        + "<td>Create date</td>"
+                        + "<td>Done</td>"
+                        + "</tr>";
+                    var items = JSON.parse(data.responseText);
+                    var done = $('#check').prop("checked");
+                    console.log(items);
+                    for (var i = 0; i < items.length; i++) {
+                        if (!done) {
+                            result += "<tr>"
+                                + "<td>" + items[i].id + "</td>"
+                                + "<td>" + items[i].description + "</td>"
+                                + "<td>" + items[i].created + "</td>"
+                                + "<td>" + items[i].done + "</td>"
+                                + "</tr>";
+                        } else {
+                            if (items[i].done == false) {
+                                result += "<tr>"
+                                    + "<td>" + items[i].id + "</td>"
+                                    + "<td>" + items[i].description + "</td>"
+                                    + "<td>" + items[i].created + "</td>"
+                                    + "<td>" + items[i].done + "</td>"
+                                    + "</tr>";
+                            }
+                        }
+                    }
+                    var table = document.getElementsByName("items")[0];
+                    table.innerHTML = result;
+                }
+            })
+        }
+
+        $(fillItems());
+
+        function addItem() {
+            $.ajax({
+                url: './item',
+                type: 'post',
+                method: 'post',
+                dataType: 'json',
+                data : {description : $('#description').val()},
+                success:function (data) {
+                    fillItems();
+                }
+            });
+            return false;
+        }
+    </script>
+    <style>
+        div.relative {
+            position: relative;
+            left: 20px;
+            width: 400px;
+        }
+        div.container {
+            alignment: left;
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <h1>Welcome to item-store</h1>
+</div>
+<div class="relative">
+    <form action="/" method="post" onsubmit="return addItem();" name="form" id="form">
+        <div class="form-group">
+            Enter the description : <input type="text" name="description" id="description">
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+<br>
+Show only items in work : <input type="checkbox" name="check" id="check" onclick="fillItems()">
+<br>
+<table id="items" class="table table-bordered table-striped" name="items">
+    <col width="10%" valign="top">
+    <col width="70%" valign="top">
+    <col width="15%" valign="top">
+    <col width="5%" valign="top">
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Created</th>
+        <th>Done</th>
+    </tr>
+</table>
+</body>
+</html>
